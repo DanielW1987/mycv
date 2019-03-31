@@ -16,9 +16,13 @@ public class StubFactory {
   }
 
   public static Certification testCertificationEntity() {
+    return testCertificationEntity("Very cool vertification", LocalDate.of(2018, 1, 1));
+  }
+
+  public static Certification testCertificationEntity(String name, LocalDate dateOfAchievement) {
     Certification certification = new Certification();
-    certification.setName("Very cool certification");
-    certification.setDateOfAchievement(LocalDate.of(2018, 1, 1));
+    certification.setName(name);
+    certification.setDateOfAchievement(dateOfAchievement);
     certification.setCertificate("certificate file");
     certification.setUserId(UUID.randomUUID().toString());
 
@@ -26,9 +30,13 @@ public class StubFactory {
   }
 
   public static CertificationRequestDto testCertificationRequestDto() {
+    return testCertificationRequestDto("Very cool certification", LocalDate.of(2018, 1, 1));
+  }
+
+  public static CertificationRequestDto testCertificationRequestDto(String name, LocalDate dateOfAchievement) {
     CertificationRequestDto requestDto = new CertificationRequestDto();
-    requestDto.setName("Very cool certification");
-    requestDto.setDateOfAchievement(LocalDate.of(2018, 1, 1));
+    requestDto.setName(name);
+    requestDto.setDateOfAchievement(dateOfAchievement);
     requestDto.setCertificate("certificate file");
     requestDto.setUserId(UUID.randomUUID().toString());
 
@@ -36,10 +44,14 @@ public class StubFactory {
   }
 
   public static CertificationDto testCertificationDto() {
+    return testCertificationDto("Very cool certification", "2018-01-01");
+  }
+
+  public static CertificationDto testCertificationDto(String name, String dateOfAchievement) {
     CertificationDto certificationDto = new CertificationDto();
     certificationDto.setId(1);
-    certificationDto.setName("Very cool certification");
-    certificationDto.setDateOfAchievement("2018-01-01");
+    certificationDto.setName(name);
+    certificationDto.setDateOfAchievement(dateOfAchievement);
     certificationDto.setCertificate("certificate file");
     certificationDto.setUserId(UUID.randomUUID().toString());
     certificationDto.setCreatedBy("Administrator");

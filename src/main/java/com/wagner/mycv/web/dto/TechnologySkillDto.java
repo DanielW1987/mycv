@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class TechnologySkillDto extends AbstractDto {
+public class TechnologySkillDto extends AbstractEntityDto {
 
   private long         id;
   private String       category;

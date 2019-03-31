@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class WorkingExperienceDto extends AbstractDto {
+public class WorkingExperienceDto extends AbstractEntityDto {
 
   private long         id;
   private String       company;

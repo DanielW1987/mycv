@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LanguageDto extends AbstractDto {
+public class LanguageDto extends AbstractEntityDto {
 
   private long   id;
   private String name;

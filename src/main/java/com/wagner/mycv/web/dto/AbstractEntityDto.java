@@ -3,12 +3,11 @@ package com.wagner.mycv.web.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
 @Setter
-public class AbstractDto {
+public class AbstractEntityDto {
 
   protected String createdDate;
   protected String createdBy;
@@ -20,16 +19,12 @@ public class AbstractDto {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    AbstractDto that = (AbstractDto) o;
-    return createdDate.equals(that.createdDate) &&
-            createdBy.equals(that.createdBy) &&
-            Objects.equals(lastModifiedDate, that.lastModifiedDate) &&
-            Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
-            userId.equals(that.userId);
+    AbstractEntityDto that = (AbstractEntityDto) o;
+    return userId.equals(that.userId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(createdDate, createdBy, lastModifiedDate, lastModifiedBy, userId);
+    return Objects.hash(userId);
   }
 }

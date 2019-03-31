@@ -66,7 +66,7 @@ public class CertificationServiceImpl implements CertificationService {
 
   @Override
   public Optional<CertificationDto> update(long id, CertificationRequestDto request) {
-    Optional<Certification> certificationOptional  = certificationRepository.findById(id);
+    Optional<Certification> certificationOptional = certificationRepository.findById(id);
     CertificationDto certificationResponse        = null;
 
     if (certificationOptional.isPresent()) {

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class EducationDto extends AbstractDto {
+public class EducationDto extends AbstractEntityDto {
 
   private long      id;
   private String    facility;

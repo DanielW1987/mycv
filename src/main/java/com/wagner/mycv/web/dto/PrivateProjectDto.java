@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PrivateProjectDto extends AbstractDto {
+public class PrivateProjectDto extends AbstractEntityDto {
 
   private long         id;
   private String       name;

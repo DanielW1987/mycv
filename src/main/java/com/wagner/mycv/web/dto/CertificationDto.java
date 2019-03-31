@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class CertificationDto extends AbstractDto {
+public class CertificationDto extends AbstractEntityDto {
 
   private long      id;
   private String    name;
