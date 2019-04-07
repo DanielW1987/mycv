@@ -5,6 +5,7 @@ import com.wagner.mycv.model.repository.EducationRepository;
 import com.wagner.mycv.service.EducationService;
 import com.wagner.mycv.web.dto.request.EducationRequestDto;
 import com.wagner.mycv.web.dto.EducationDto;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -27,6 +28,7 @@ public class EducationServiceImpl implements EducationService {
     this.modelMapper         = new ModelMapper();
   }
 
+  @NotNull
   @Override
   public List<EducationDto> findAll() {
     Sort sort = new Sort(Sort.Direction.DESC, "end");
@@ -37,6 +39,7 @@ public class EducationServiceImpl implements EducationService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
   public Optional<EducationDto> find(long id) {
     Optional<Education> education = educationRepository.findById(id);
@@ -44,16 +47,18 @@ public class EducationServiceImpl implements EducationService {
     return education.map(value -> modelMapper.map(value, EducationDto.class));
   }
 
+  @NotNull
   @Override
-  public EducationDto create(EducationRequestDto request) {
+  public EducationDto create(@NotNull EducationRequestDto request) {
     Education education = modelMapper.map(request, Education.class);
     educationRepository.save(education);
 
     return modelMapper.map(education, EducationDto.class);
   }
 
+  @NotNull
   @Override
-  public List<EducationDto> createAll(Iterable<EducationRequestDto> request) {
+  public List<EducationDto> createAll(@NotNull Iterable<EducationRequestDto> request) {
     List<Education> educations = new ArrayList<>();
     request.forEach(educationRequestDto -> educations.add(modelMapper.map(educationRequestDto, Education.class)));
 
@@ -64,8 +69,9 @@ public class EducationServiceImpl implements EducationService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
-  public Optional<EducationDto> update(long id, EducationRequestDto request) {
+  public Optional<EducationDto> update(long id, @NotNull EducationRequestDto request) {
     Optional<Education> educationOptional = educationRepository.findById(id);
     EducationDto educationResponse        = null;
 

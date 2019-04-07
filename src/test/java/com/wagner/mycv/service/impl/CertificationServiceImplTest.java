@@ -2,7 +2,7 @@ package com.wagner.mycv.service.impl;
 
 import com.wagner.mycv.model.entity.Certification;
 import com.wagner.mycv.model.repository.CertificationRepository;
-import com.wagner.mycv.testutil.StubFactory;
+import com.wagner.mycv.testutil.CertificationTestUtil;
 import com.wagner.mycv.web.dto.CertificationDto;
 import com.wagner.mycv.web.dto.request.CertificationRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,11 +41,11 @@ class CertificationServiceImplTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.initMocks(this);
-    ocaCertificationEntity     = StubFactory.testCertificationEntity("OCA Certification", LocalDate.of(2017, 7, 1));
-    ocpCertificationEntity     = StubFactory.testCertificationEntity("OCP Certification", LocalDate.of(2018, 3, 7));
-    mtaCertificationEntity     = StubFactory.testCertificationEntity("MTA Certification", LocalDate.of(2016, 7, 7));
-    ocaCertificationRequestDto = StubFactory.testCertificationRequestDto("OCA Certification", LocalDate.of(2017, 7, 1));
-    ocpCertificationRequestDto = StubFactory.testCertificationRequestDto("OCP Certification", LocalDate.of(2018, 3, 7));
+    ocaCertificationEntity     = CertificationTestUtil.createTestCertificationEntity("OCA Certification", LocalDate.of(2017, 7, 1));
+    ocpCertificationEntity     = CertificationTestUtil.createTestCertificationEntity("OCP Certification", LocalDate.of(2018, 3, 7));
+    mtaCertificationEntity     = CertificationTestUtil.createTestCertificationEntity("MTA Certification", LocalDate.of(2016, 7, 7));
+    ocaCertificationRequestDto = CertificationTestUtil.createOcaCertificationRequestDto();
+    ocpCertificationRequestDto = CertificationTestUtil.createOcpCertificationRequestDto();
   }
 
   @Test
@@ -54,10 +54,10 @@ class CertificationServiceImplTest {
     List<Certification> certifications = Arrays.asList(ocpCertificationEntity, ocaCertificationEntity, mtaCertificationEntity);
     when(certificationRepository.findAll(any(Sort.class))).thenReturn(certifications);
 
-    // act
+    // when
     List<CertificationDto> actualCertificationList = certificationService.findAll();
 
-    // assert
+    // then
     assertEquals(3, actualCertificationList.size());
     verify(certificationRepository, times(1)).findAll(any(Sort.class));
 
@@ -75,10 +75,10 @@ class CertificationServiceImplTest {
     // given
     when(certificationRepository.findById(anyLong())).thenReturn(Optional.of(ocaCertificationEntity));
 
-    // act
+    // when
     Optional<CertificationDto> certificationDto = certificationService.find(1);
 
-    // assert
+    // then
     assertTrue(certificationDto.isPresent());
     assertThatDtoAndEntityAreEqual(ocaCertificationEntity, certificationDto.get());
     verify(certificationRepository, times(1)).findById(anyLong());
@@ -89,10 +89,10 @@ class CertificationServiceImplTest {
     // given
     when(certificationRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-    // act
+    // when
     Optional<CertificationDto> certificationDto = certificationService.find(1);
 
-    // assert
+    // then
     assertFalse(certificationDto.isPresent());
     verify(certificationRepository, times(1)).findById(anyLong());
   }
@@ -102,10 +102,10 @@ class CertificationServiceImplTest {
     // given
     when(certificationRepository.save(any(Certification.class))).thenReturn(ocaCertificationEntity);
 
-    // act
+    // when
     CertificationDto certificationDto = certificationService.create(ocaCertificationRequestDto);
 
-    // assert
+    // then
     assertNotNull(certificationDto);
     assertThatRequestDtoAndDtoAreEqual(ocaCertificationRequestDto, certificationDto);
     verify(certificationRepository, times(1)).save(any(Certification.class));
@@ -116,11 +116,11 @@ class CertificationServiceImplTest {
     // given
     when(certificationRepository.saveAll(any())).thenReturn(Arrays.asList(ocpCertificationEntity, ocaCertificationEntity));
 
-    // act
+    // when
     List<CertificationRequestDto> certificationRequestDtos = Arrays.asList(ocaCertificationRequestDto, ocpCertificationRequestDto);
     List<CertificationDto> certificationDto = certificationService.createAll(certificationRequestDtos);
 
-    // assert
+    // then
     assertEquals(2, certificationDto.size());
     verify(certificationRepository, times(1)).saveAll(any());
 
@@ -131,14 +131,14 @@ class CertificationServiceImplTest {
 
   @Test
   void test_update() {
-    // when
+    // given
     when(certificationRepository.save(any(Certification.class))).thenReturn(ocaCertificationEntity);
     when(certificationRepository.findById(1L)).thenReturn(Optional.of(ocaCertificationEntity));
 
-    // act
+    // when
     Optional<CertificationDto> certificationDto = certificationService.update(1, ocaCertificationRequestDto);
 
-    // assert
+    // then
     assertNotNull(certificationDto);
     assertTrue(certificationDto.isPresent());
     assertThatRequestDtoAndDtoAreEqual(ocaCertificationRequestDto, certificationDto.get());
@@ -146,39 +146,39 @@ class CertificationServiceImplTest {
 
   @Test
   void test_update_not_existing_entity() {
-    // when
+    // given
     when(certificationRepository.save(any(Certification.class))).thenReturn(ocaCertificationEntity);
     when(certificationRepository.findById(1L)).thenReturn(Optional.empty());
 
-    // act
+    // when
     Optional<CertificationDto> certificationDto = certificationService.update(1, ocaCertificationRequestDto);
 
-    // assert
+    // then
     assertNotNull(certificationDto);
     assertFalse(certificationDto.isPresent());
   }
 
   @Test
   void test_delete_existing() {
-    // when
+    // given
     when(certificationRepository.existsById(1L)).thenReturn(true);
 
-    // act
+    // when
     boolean actual = certificationService.delete(1L);
 
-    // assert
+    // then
     assertTrue(actual);
   }
 
   @Test
   void test_delete_not_existing() {
-    // when
+    // given
     when(certificationRepository.existsById(1L)).thenReturn(false);
 
-    // act
+    // when
     boolean actual = certificationService.delete(1L);
 
-    // assert
+    // then
     assertFalse(actual);
   }
 

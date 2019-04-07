@@ -5,6 +5,7 @@ import com.wagner.mycv.model.repository.PrivateProjectRepository;
 import com.wagner.mycv.service.PrivateProjectService;
 import com.wagner.mycv.web.dto.request.PrivateProjectRequestDto;
 import com.wagner.mycv.web.dto.PrivateProjectDto;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class PrivateProjectServiceImpl implements PrivateProjectService {
     this.modelMapper              = new ModelMapper();
   }
 
+  @NotNull
   @Override
   public List<PrivateProjectDto> findAll() {
     return privateProjectRepository.findAll()
@@ -34,6 +36,7 @@ public class PrivateProjectServiceImpl implements PrivateProjectService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
   public Optional<PrivateProjectDto> find(long id) {
     Optional<PrivateProject> privateProject = privateProjectRepository.findById(id);
@@ -41,8 +44,9 @@ public class PrivateProjectServiceImpl implements PrivateProjectService {
     return privateProject.map(value -> modelMapper.map(value, PrivateProjectDto.class));
   }
 
+  @NotNull
   @Override
-  public PrivateProjectDto create(PrivateProjectRequestDto request) {
+  public PrivateProjectDto create(@NotNull PrivateProjectRequestDto request) {
     PrivateProject privateProject = modelMapper.map(request, PrivateProject.class);
 
     privateProjectRepository.save(privateProject);
@@ -50,8 +54,9 @@ public class PrivateProjectServiceImpl implements PrivateProjectService {
     return modelMapper.map(privateProject, PrivateProjectDto.class);
   }
 
+  @NotNull
   @Override
-  public List<PrivateProjectDto> createAll(Iterable<PrivateProjectRequestDto> request) {
+  public List<PrivateProjectDto> createAll(@NotNull Iterable<PrivateProjectRequestDto> request) {
     List<PrivateProject> privateProjects = new ArrayList<>();
     request.forEach(privateProjectRequestDto -> privateProjects.add(modelMapper.map(privateProjectRequestDto, PrivateProject.class)));
 
@@ -62,8 +67,9 @@ public class PrivateProjectServiceImpl implements PrivateProjectService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
-  public Optional<PrivateProjectDto> update(long id, PrivateProjectRequestDto request) {
+  public Optional<PrivateProjectDto> update(long id, @NotNull PrivateProjectRequestDto request) {
     Optional<PrivateProject> privateProjectOptional = privateProjectRepository.findById(id);
     PrivateProjectDto privateProjectResponse        = null;
 

@@ -2,7 +2,7 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.model.exception.RestRequestValidationException;
 import com.wagner.mycv.service.CertificationService;
-import com.wagner.mycv.testutil.StubFactory;
+import com.wagner.mycv.testutil.CertificationTestUtil;
 import com.wagner.mycv.web.dto.CertificationDto;
 import com.wagner.mycv.web.dto.request.CertificationRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +40,9 @@ class CertificationRestControllerTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.initMocks(this);
-    ocaCertificationDto     = StubFactory.testCertificationDto("OCA Certification","2017-07-01");
-    ocpCertificationDto     = StubFactory.testCertificationDto("OCP Certification","2018-03-08");
-    certificationRequestDto = StubFactory.testCertificationRequestDto("OCA certification", LocalDate.of(2019, 1, 1));
+    ocaCertificationDto     = CertificationTestUtil.testCertificationDto("OCA Certification","2017-07-01");
+    ocpCertificationDto     = CertificationTestUtil.testCertificationDto("OCP Certification","2018-03-08");
+    certificationRequestDto = CertificationTestUtil.createOcaCertificationRequestDto();
   }
 
   @Test
@@ -51,10 +50,10 @@ class CertificationRestControllerTest {
     // given
     when(certificationService.find(anyLong())).thenReturn(Optional.of(ocaCertificationDto));
 
-    // act
+    // when
     ResponseEntity<CertificationDto> responseEntity = certificationRestController.get(1);
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertNotNull(responseEntity.getBody());
     assertEquals(ocaCertificationDto, responseEntity.getBody());
@@ -66,10 +65,10 @@ class CertificationRestControllerTest {
     // given
     when(certificationService.find(anyLong())).thenReturn(Optional.empty());
 
-    // act
+    // when
     ResponseEntity<CertificationDto> responseEntity = certificationRestController.get(1);
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertNull(responseEntity.getBody());
     assertEquals(404, responseEntity.getStatusCodeValue());
@@ -80,10 +79,10 @@ class CertificationRestControllerTest {
     // given
     when(certificationService.findAll()).thenReturn(Arrays.asList(ocaCertificationDto, ocpCertificationDto));
 
-    // act
+    // when
     ResponseEntity<List<CertificationDto>> responseEntity = certificationRestController.getAll();
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertEquals(200, responseEntity.getStatusCodeValue());
     assertNotNull(responseEntity.getBody());
@@ -96,10 +95,10 @@ class CertificationRestControllerTest {
     when(certificationService.create(any(CertificationRequestDto.class))).thenReturn(ocaCertificationDto);
     when(bindingResult.hasErrors()).thenReturn(false);
 
-    // act
+    // when
     ResponseEntity<CertificationDto> responseEntity = certificationRestController.create(certificationRequestDto, bindingResult);
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertEquals(201, responseEntity.getStatusCodeValue());
     assertNotNull(responseEntity.getBody());
@@ -112,7 +111,7 @@ class CertificationRestControllerTest {
     when(certificationService.create(any(CertificationRequestDto.class))).thenReturn(ocaCertificationDto);
     when(bindingResult.hasErrors()).thenReturn(true);
 
-    // act
+    // then
     assertThrows(RestRequestValidationException.class, () -> certificationRestController.create(certificationRequestDto, bindingResult));
   }
 
@@ -122,10 +121,10 @@ class CertificationRestControllerTest {
     when(certificationService.update(anyLong(), any(CertificationRequestDto.class))).thenReturn(Optional.of(ocaCertificationDto));
     when(bindingResult.hasErrors()).thenReturn(false);
 
-    // act
+    // when
     ResponseEntity<CertificationDto> responseEntity = certificationRestController.update(1L, certificationRequestDto, bindingResult);
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertEquals(200, responseEntity.getStatusCodeValue());
     assertNotNull(responseEntity.getBody());
@@ -138,7 +137,7 @@ class CertificationRestControllerTest {
     when(certificationService.update(anyLong(), any(CertificationRequestDto.class))).thenReturn(Optional.of(ocaCertificationDto));
     when(bindingResult.hasErrors()).thenReturn(true);
 
-    // act
+    // then
     assertThrows(RestRequestValidationException.class, () -> certificationRestController.update(1L, certificationRequestDto, bindingResult));
   }
 
@@ -148,10 +147,10 @@ class CertificationRestControllerTest {
     when(certificationService.update(anyLong(), any(CertificationRequestDto.class))).thenReturn(Optional.empty());
     when(bindingResult.hasErrors()).thenReturn(false);
 
-    // act
+    // when
     ResponseEntity<CertificationDto> responseEntity = certificationRestController.update(1L, certificationRequestDto, bindingResult);
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertEquals(404, responseEntity.getStatusCodeValue());
     assertNull(responseEntity.getBody());
@@ -159,26 +158,26 @@ class CertificationRestControllerTest {
 
   @Test
   void test_delete_existing_resource() {
-    // when
+    // given
     when(certificationService.delete(anyLong())).thenReturn(true);
 
-    // act
+    // when
     ResponseEntity<Void> responseEntity = certificationRestController.delete(1L);
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertEquals(200, responseEntity.getStatusCodeValue());
   }
 
   @Test
   void test_delete_not_existing_resource() {
-    // when
+    // given
     when(certificationService.delete(anyLong())).thenReturn(false);
 
-    // act
+    // when
     ResponseEntity<Void> responseEntity = certificationRestController.delete(1L);
 
-    // assert
+    // then
     assertNotNull(responseEntity);
     assertEquals(404, responseEntity.getStatusCodeValue());
   }

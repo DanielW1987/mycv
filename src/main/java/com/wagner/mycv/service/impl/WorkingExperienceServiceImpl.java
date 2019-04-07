@@ -5,6 +5,7 @@ import com.wagner.mycv.model.repository.WorkingExperienceRepository;
 import com.wagner.mycv.service.WorkingExperienceService;
 import com.wagner.mycv.web.dto.request.WorkingExperienceRequestDto;
 import com.wagner.mycv.web.dto.WorkingExperienceDto;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -27,6 +28,7 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
     this.modelMapper                 = new ModelMapper();
   }
 
+  @NotNull
   @Override
   public List<WorkingExperienceDto> findAll() {
     Sort sort = new Sort(Sort.Direction.DESC, "end");
@@ -37,6 +39,7 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
   public Optional<WorkingExperienceDto> find(long id) {
     Optional<WorkingExperience> workingExperience = workingExperienceRepository.findById(id);
@@ -44,8 +47,9 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
     return workingExperience.map(value -> modelMapper.map(value, WorkingExperienceDto.class));
   }
 
+  @NotNull
   @Override
-  public WorkingExperienceDto create(WorkingExperienceRequestDto request) {
+  public WorkingExperienceDto create(@NotNull WorkingExperienceRequestDto request) {
     WorkingExperience workingExperience = modelMapper.map(request, WorkingExperience.class);
     workingExperience.setFocalPoints(request.getFocalPoints());
 
@@ -53,8 +57,9 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
     return modelMapper.map(workingExperience, WorkingExperienceDto.class);
   }
 
+  @NotNull
   @Override
-  public List<WorkingExperienceDto> createAll(Iterable<WorkingExperienceRequestDto> request) {
+  public List<WorkingExperienceDto> createAll(@NotNull Iterable<WorkingExperienceRequestDto> request) {
     List<WorkingExperience> workingExperiences = new ArrayList<>();
     request.forEach(workingExperienceRequestDto -> workingExperiences.add(modelMapper.map(workingExperienceRequestDto, WorkingExperience.class)));
 
@@ -65,8 +70,9 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
-  public Optional<WorkingExperienceDto> update(long id, WorkingExperienceRequestDto request) {
+  public Optional<WorkingExperienceDto> update(long id, @NotNull WorkingExperienceRequestDto request) {
     Optional<WorkingExperience> workingExperienceOptional = workingExperienceRepository.findById(id);
     WorkingExperienceDto workingExperienceResponse        = null;
 

@@ -1,5 +1,6 @@
 package com.wagner.mycv.web.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.Map;
 
 @Getter
 @Setter
+@Builder
 public class CertificationRequestDto {
 
   @NotNull
@@ -25,6 +27,7 @@ public class CertificationRequestDto {
   @NotNull
   @NotBlank
   private String userId;
+  // ToDo: Beim Update sollte die UserId nicht aktualisiert werden können, Eine Zertifizierung gehört zu einem User. Das kann nachträglich nicht verändert werden.
 
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();

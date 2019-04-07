@@ -5,6 +5,7 @@ import com.wagner.mycv.model.repository.CertificationRepository;
 import com.wagner.mycv.service.CertificationService;
 import com.wagner.mycv.web.dto.request.CertificationRequestDto;
 import com.wagner.mycv.web.dto.CertificationDto;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -27,6 +28,7 @@ public class CertificationServiceImpl implements CertificationService {
     this.modelMapper             = new ModelMapper();
   }
 
+  @NotNull
   @Override
   public List<CertificationDto> findAll() {
     Sort sort = new Sort(Sort.Direction.DESC, "dateOfAchievement");
@@ -37,6 +39,7 @@ public class CertificationServiceImpl implements CertificationService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
   public Optional<CertificationDto> find(long id) {
     Optional<Certification> certification = certificationRepository.findById(id);
@@ -44,16 +47,18 @@ public class CertificationServiceImpl implements CertificationService {
     return certification.map(value -> modelMapper.map(value, CertificationDto.class));
   }
 
+  @NotNull
   @Override
-  public CertificationDto create(CertificationRequestDto request) {
+  public CertificationDto create(@NotNull CertificationRequestDto request) {
     Certification certification = modelMapper.map(request, Certification.class);
     certificationRepository.save(certification);
 
     return modelMapper.map(certification, CertificationDto.class);
   }
 
+  @NotNull
   @Override
-  public List<CertificationDto> createAll(Iterable<CertificationRequestDto> request) {
+  public List<CertificationDto> createAll(@NotNull Iterable<CertificationRequestDto> request) {
     List<Certification> certifications = new ArrayList<>();
     request.forEach(certificationRequestDto -> certifications.add(modelMapper.map(certificationRequestDto, Certification.class)));
 
@@ -64,8 +69,9 @@ public class CertificationServiceImpl implements CertificationService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
-  public Optional<CertificationDto> update(long id, CertificationRequestDto request) {
+  public Optional<CertificationDto> update(long id, @NotNull CertificationRequestDto request) {
     Optional<Certification> certificationOptional = certificationRepository.findById(id);
     CertificationDto certificationResponse        = null;
 

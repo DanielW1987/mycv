@@ -5,6 +5,7 @@ import com.wagner.mycv.model.repository.TechnologySkillRepository;
 import com.wagner.mycv.service.TechnologySkillService;
 import com.wagner.mycv.web.dto.request.TechnologySkillRequestDto;
 import com.wagner.mycv.web.dto.TechnologySkillDto;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -27,6 +28,7 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
     this.modelMapper               = new ModelMapper();
   }
 
+  @NotNull
   @Override
   public List<TechnologySkillDto> findAll() {
     Sort sort = new Sort(Sort.Direction.DESC, "end");
@@ -37,6 +39,7 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
   public Optional<TechnologySkillDto> find(long id) {
     Optional<TechnologySkill> technologySkill = technologySkillRepository.findById(id);
@@ -44,16 +47,18 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
     return technologySkill.map(value -> modelMapper.map(value, TechnologySkillDto.class));
   }
 
+  @NotNull
   @Override
-  public TechnologySkillDto create(TechnologySkillRequestDto request) {
+  public TechnologySkillDto create(@NotNull TechnologySkillRequestDto request) {
     TechnologySkill technologySkill = modelMapper.map(request, TechnologySkill.class);
     technologySkillRepository.save(technologySkill);
 
     return modelMapper.map(technologySkill, TechnologySkillDto.class);
   }
 
+  @NotNull
   @Override
-  public List<TechnologySkillDto> createAll(Iterable<TechnologySkillRequestDto> request) {
+  public List<TechnologySkillDto> createAll(@NotNull Iterable<TechnologySkillRequestDto> request) {
     List<TechnologySkill> technologySkills = new ArrayList<>();
     request.forEach(technologySkillRequestDto -> technologySkills.add(modelMapper.map(technologySkillRequestDto, TechnologySkill.class)));
 
@@ -64,8 +69,9 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
-  public Optional<TechnologySkillDto> update(long id, TechnologySkillRequestDto request) {
+  public Optional<TechnologySkillDto> update(long id, @NotNull TechnologySkillRequestDto request) {
     Optional<TechnologySkill> technologySkillOptional = technologySkillRepository.findById(id);
     TechnologySkillDto technologySkillResponse        = null;
 

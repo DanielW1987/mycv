@@ -10,10 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.UUID;
 
 @Component
-@Profile("dev")
+@Profile({"dev", "integration-test"})
 public class DevelopmentDbInitializer implements ApplicationRunner {
 
   private final UserService              userService;
@@ -54,7 +53,7 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
 
   private String createTestUser() {
     UserRequestDto requestDto = new UserRequestDto();
-    String publicUserId       = UUID.randomUUID().toString();
+    String publicUserId       = "ebbddc3e-8414-4555-97ca-c247cc785cef"; // static UUID value; is OK for dev and integration tests purpose
 
     requestDto.setUserId(publicUserId);
     userService.create(requestDto);
@@ -63,23 +62,26 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
   }
 
   private void createTestCertifications(String userId) {
-    CertificationRequestDto mta = new CertificationRequestDto();
-    mta.setName("Microsoft Technology Associate: Database Fundamentals");
-    mta.setDateOfAchievement(LocalDate.of(2014, 10, 1));
-    mta.setCertificate("certificate file");
-    mta.setUserId(userId);
+    CertificationRequestDto mta = CertificationRequestDto.builder()
+            .name("Microsoft Technology Associate: Database Fundamentals")
+            .dateOfAchievement(LocalDate.of(2014, 10, 1))
+            .certificate("certification file")
+            .userId(userId)
+            .build();
 
-    CertificationRequestDto oca = new CertificationRequestDto();
-    oca.setName("Oracle Certified Associate, Java SE 8 Programmer I");
-    oca.setDateOfAchievement(LocalDate.of(2017, 7, 1));
-    oca.setCertificate("certificate file");
-    oca.setUserId(userId);
+    CertificationRequestDto oca = CertificationRequestDto.builder()
+            .name("Oracle Certified Associate, Java SE 8 Programmer I")
+            .dateOfAchievement(LocalDate.of(2017, 7, 1))
+            .certificate("certification file")
+            .userId(userId)
+            .build();
 
-    CertificationRequestDto ocp = new CertificationRequestDto();
-    ocp.setName("Oracle Certified Professional, Java SE 8 Programmer II");
-    ocp.setDateOfAchievement(LocalDate.of(2018, 3, 1));
-    ocp.setCertificate("certificate file");
-    ocp.setUserId(userId);
+    CertificationRequestDto ocp = CertificationRequestDto.builder()
+            .name("Oracle Certified Professional, Java SE 8 Programmer II")
+            .dateOfAchievement(LocalDate.of(2018, 3, 1))
+            .certificate("certification file")
+            .userId(userId)
+            .build();
 
     certificationService.createAll(Arrays.asList(mta, oca, ocp));
   }

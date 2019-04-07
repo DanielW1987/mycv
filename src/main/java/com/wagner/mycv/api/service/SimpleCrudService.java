@@ -1,5 +1,7 @@
 package com.wagner.mycv.api.service;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -10,15 +12,20 @@ import java.util.Optional;
  */
 public interface SimpleCrudService<T, U> {
 
+  @NotNull
   List<U> findAll();
 
+  @NotNull
   Optional<U> find(long id);
 
-  U create(T request);
+  @NotNull
+  U create(@NotNull T request);
 
-  List<U> createAll(Iterable<T> request);
+  @NotNull
+  List<U> createAll(@NotNull Iterable<T> request);
 
-  Optional<U> update(long id, T request);
+  @NotNull
+  Optional<U> update(long id, @NotNull T request);
 
   boolean delete(long id);
 

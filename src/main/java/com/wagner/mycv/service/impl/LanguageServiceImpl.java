@@ -5,6 +5,7 @@ import com.wagner.mycv.model.repository.LanguageRepository;
 import com.wagner.mycv.service.LanguageService;
 import com.wagner.mycv.web.dto.request.LanguageRequestDto;
 import com.wagner.mycv.web.dto.LanguageDto;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class LanguageServiceImpl implements LanguageService {
     this.modelMapper        = new ModelMapper();
   }
 
+  @NotNull
   @Override
   public List<LanguageDto> findAll() {
     return languageRepository.findAll()
@@ -34,6 +36,7 @@ public class LanguageServiceImpl implements LanguageService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
   public Optional<LanguageDto> find(long id) {
     Optional<Language> language = languageRepository.findById(id);
@@ -41,16 +44,18 @@ public class LanguageServiceImpl implements LanguageService {
     return language.map(value -> modelMapper.map(value, LanguageDto.class));
   }
 
+  @NotNull
   @Override
-  public LanguageDto create(LanguageRequestDto request) {
+  public LanguageDto create(@NotNull LanguageRequestDto request) {
     Language language = modelMapper.map(request, Language.class);
     languageRepository.save(language);
 
     return modelMapper.map(language, LanguageDto.class);
   }
 
+  @NotNull
   @Override
-  public List<LanguageDto> createAll(Iterable<LanguageRequestDto> request) {
+  public List<LanguageDto> createAll(@NotNull Iterable<LanguageRequestDto> request) {
     List<Language> languages = new ArrayList<>();
     request.forEach(languageRequestDto -> languages.add(modelMapper.map(languageRequestDto, Language.class)));
 
@@ -61,8 +66,9 @@ public class LanguageServiceImpl implements LanguageService {
             .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
-  public Optional<LanguageDto> update(long id, LanguageRequestDto request) {
+  public Optional<LanguageDto> update(long id, @NotNull LanguageRequestDto request) {
     Optional<Language> languageOptional = languageRepository.findById(id);
     LanguageDto languageResponse        = null;
 
