@@ -23,7 +23,6 @@
     </parent>
     <groupId>com.wagner</groupId>
     <artifactId>mycv</artifactId>
-    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>My beautiful CV</name>
     <description>ReST-Backend for 'My beautiful CV'</description>
