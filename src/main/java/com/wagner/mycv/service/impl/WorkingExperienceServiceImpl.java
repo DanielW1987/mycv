@@ -61,7 +61,8 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
   @Override
   public List<WorkingExperienceDto> createAll(@NotNull Iterable<WorkingExperienceRequestDto> request) {
     List<WorkingExperience> workingExperiences = new ArrayList<>();
-    request.forEach(workingExperienceRequestDto -> workingExperiences.add(modelMapper.map(workingExperienceRequestDto, WorkingExperience.class)));
+    request.forEach(workingExperienceRequestDto ->
+            workingExperiences.add(modelMapper.map(workingExperienceRequestDto, WorkingExperience.class)));
 
     workingExperienceRepository.saveAll(workingExperiences);
 

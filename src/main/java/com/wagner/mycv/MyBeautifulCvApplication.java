@@ -18,6 +18,7 @@ public class MyBeautifulCvApplication {
 
 // ToDo: Wenn im Request ein Datum nicht zu LocalDate geparst werden kann, werden dem Client noch Fehlermeldungen mit Stacktrace gesendet.
 // Hier muss noch eine grundsätzliche Lösung gefunden werden, wie der Client auch bei nicht explizit behandelten Fehlern keinen Stacktrace
-// zu Gesicht bekommt. Mögliche Lösung: Überall nur primitive Datentypen oder Strings verwenden und eigene Validator und Converter schreiben.
+// zu Gesicht bekommt.
+// Mögliche Lösung: Überall nur primitive Datentypen oder Strings verwenden und eigene Validator und Converter schreiben.
 
 // ToDo: @NotNull und @Nullable Annotations hinzufügen und Parameter und Rückgabewerte annotieren

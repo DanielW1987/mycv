@@ -135,14 +135,14 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
     myBeautifulCV.setName("My Beautiful CurriculumVitae");
     myBeautifulCV.setDescription("Lorem ipsum...");
     myBeautifulCV.setTechnologiesUsed(Arrays.asList("Spring Boot", "Angular"));
-    myBeautifulCV.setVcsURL("https://www.bitbucket.com/foobar");
+    myBeautifulCV.setVcsUrl("https://www.bitbucket.com/foobar");
     myBeautifulCV.setUserId(userId);
 
     PrivateProjectRequestDto examedy = new PrivateProjectRequestDto();
     examedy.setName("Examedy");
     examedy.setDescription("Lorem ipsum...");
     examedy.setTechnologiesUsed(Arrays.asList("Spring Boot", "Angular"));
-    examedy.setVcsURL("https://www.github.com/foobar");
+    examedy.setVcsUrl("https://www.github.com/foobar");
     examedy.setUserId(userId);
 
     privateProjectService.createAll(Arrays.asList(myBeautifulCV, examedy));
@@ -204,7 +204,8 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
     freelancer.setBegin(LocalDate.of(2011, 1, 1));
     freelancer.setEnd(LocalDate.of(2013, 9, 30));
     freelancer.setPlaceOfWork("Berlin");
-    freelancer.setFocalPoints(Arrays.asList("Realisierung von Internetauftritten und OnlineShops sowie Online-Marketing",
+    freelancer.setFocalPoints(Arrays.asList(
+            "Realisierung von Internetauftritten und OnlineShops sowie Online-Marketing",
             "verschiedene Entwicklungsprojekte u. a. mit PHP, Zend Framework 2, HTML, CSS, JavaScript",
             "Dozententätigkeit (SQL Server 2010, Excel VBA)"));
     freelancer.setUserId(userId);
@@ -215,7 +216,8 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
     etlDeveloper.setBegin(LocalDate.of(2013, 10, 1));
     etlDeveloper.setEnd(LocalDate.of(2015, 12, 31));
     etlDeveloper.setPlaceOfWork("Berlin");
-    etlDeveloper.setFocalPoints(Arrays.asList("Schnittstellenentwicklung zwischen einer Vielzahl von ERP-Systemen und dem LucaNet DWH mittels Java und SQL",
+    etlDeveloper.setFocalPoints(Arrays.asList(
+            "Schnittstellenentwicklung zwischen einer Vielzahl von ERP-Systemen und dem LucaNet DWH mittels Java und SQL",
             "Qualitätssicherung, Dokumentation und Einführung der Schnittstellen beim Kunden",
             "Konzeption und Weiterentwicklung von DWH-Lösungen sowie deren Integration in die LucaNet-Software"));
     etlDeveloper.setUserId(userId);
@@ -226,7 +228,8 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
     javaConsultant.setBegin(LocalDate.of(2016, 1, 1));
     javaConsultant.setEnd(LocalDate.of(2017, 2, 28));
     javaConsultant.setPlaceOfWork("Berlin");
-    javaConsultant.setFocalPoints(Arrays.asList("Aufbau eines agilen Entwicklungsteams am Standort Mönchengladbach",
+    javaConsultant.setFocalPoints(Arrays.asList(
+            "Aufbau eines agilen Entwicklungsteams am Standort Mönchengladbach",
             "Einführung qualitätssichernder Standards (Coding Conventions, Code Reviews, Regressionstests)",
             "Kundenindividuelle Java-Projekte"));
     javaConsultant.setUserId(userId);
@@ -236,7 +239,8 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
     javaDeveloper.setJobTitle("Java Developer");
     javaDeveloper.setBegin(LocalDate.of(2017, 3, 1));
     javaDeveloper.setPlaceOfWork("Berlin");
-    javaDeveloper.setFocalPoints(Arrays.asList("davon 1,5 Jahre Teamleiter eines 5-köpfigen Teams",
+    javaDeveloper.setFocalPoints(Arrays.asList(
+            "davon 1,5 Jahre Teamleiter eines 5-köpfigen Teams",
             "Entwicklung von Anwendungen zur automatisierten Erstellung von Konzernabschlüssen (REST-Backend, Java Swing)",
             "Software-Security (Authentifizierung, Autorisierung, Verschlüsselung, Transparenz)",
             "Leitung von Kooperationsprojekten mit dem Masterstudiengang Wirtschaftsinformatik der HTW Berlin"));

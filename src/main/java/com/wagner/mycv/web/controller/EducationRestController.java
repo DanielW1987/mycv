@@ -60,7 +60,9 @@ public class EducationRestController implements SimpleCrudRestController<Educati
   @PutMapping(path = "/{id}",
               produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
               consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-  public ResponseEntity<EducationDto> update(@PathVariable long id, @Valid @RequestBody EducationRequestDto request, BindingResult bindingResult) {
+  public ResponseEntity<EducationDto> update(@PathVariable long id,
+                                             @Valid @RequestBody EducationRequestDto request,
+                                             BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       throw new RestRequestValidationException(ErrorMessages.VALIDATION_ERROR.toDisplayString(), bindingResult.getFieldErrors());
     }
@@ -74,6 +76,6 @@ public class EducationRestController implements SimpleCrudRestController<Educati
   public ResponseEntity<Void> delete(@PathVariable long id) {
     boolean success = educationService.delete(id);
 
-    return success? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    return success ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
   }
 }

@@ -16,14 +16,21 @@ public class CertificationDto extends AbstractEntityDto {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    if (!super.equals(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+
     CertificationDto that = (CertificationDto) o;
-    return id == that.id &&
-            name.equals(that.name) &&
-            Objects.equals(dateOfAchievement, that.dateOfAchievement) &&
-            Objects.equals(certificate, that.certificate);
+    return     id == that.id
+            && name.equals(that.name)
+            && Objects.equals(dateOfAchievement, that.dateOfAchievement)
+            && Objects.equals(certificate, that.certificate);
   }
 
   @Override

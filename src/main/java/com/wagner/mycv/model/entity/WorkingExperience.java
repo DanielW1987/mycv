@@ -2,12 +2,13 @@ package com.wagner.mycv.model.entity;
 
 import com.wagner.mycv.api.entity.AbstractEntity;
 import com.wagner.mycv.utils.CollectionUtil;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

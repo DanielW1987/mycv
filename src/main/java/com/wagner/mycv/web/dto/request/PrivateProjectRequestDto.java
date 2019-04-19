@@ -19,7 +19,7 @@ public class PrivateProjectRequestDto {
   @NotNull
   private List<String> technologiesUsed;
 
-  private String vcsURL;
+  private String vcsUrl;
 
   @NotNull
   @NotBlank

@@ -27,7 +27,8 @@ public class CertificationRequestDto {
   @NotNull
   @NotBlank
   private String userId;
-  // ToDo: Beim Update sollte die UserId nicht aktualisiert werden können, Eine Zertifizierung gehört zu einem User. Das kann nachträglich nicht verändert werden.
+  // ToDo: Beim Update sollte die UserId nicht aktualisiert werden können, Eine Zertifizierung gehört zu einem User.
+  //  Das kann nachträglich nicht verändert werden.
 
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();

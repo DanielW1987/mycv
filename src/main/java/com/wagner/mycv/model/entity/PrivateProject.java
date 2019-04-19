@@ -19,7 +19,7 @@ public class PrivateProject extends AbstractEntity {
   @Column(nullable = false)
   private String technologiesUsed;
 
-  private String vcsURL;
+  private String vcsUrl;
   private String description;
 
   @Column(nullable = false)

@@ -13,6 +13,6 @@ public class PrivateProjectDto extends AbstractEntityDto {
   private String       name;
   private String       description;
   private List<String> technologiesUsed;
-  private String       vcsURL;
+  private String       vcsUrl;
 
 }

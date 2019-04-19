@@ -97,10 +97,4 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
     return false;
   }
 
-//  private TechnologySkill mapRequestDto(TechnologySkillRequestDto request) {
-//    TechnologySkill technologySkill = modelMapper.map(request, TechnologySkill.class);
-//    technologySkill.setSkillNames(String.join(", ", request.getSkillNames()));
-//
-//    return technologySkill;
-//  }
 }

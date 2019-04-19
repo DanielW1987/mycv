@@ -17,8 +17,12 @@ public class AbstractEntityDto {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     AbstractEntityDto that = (AbstractEntityDto) o;
     return userId.equals(that.userId);
   }

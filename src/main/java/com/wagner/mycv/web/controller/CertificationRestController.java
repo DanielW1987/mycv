@@ -29,7 +29,7 @@ public class CertificationRestController implements SimpleCrudRestController<Cer
   }
 
   @Override
-  @GetMapping(path="/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<CertificationDto> get(@PathVariable long id) {
     Optional<CertificationDto> certification = certificationService.find(id);
 
@@ -57,9 +57,11 @@ public class CertificationRestController implements SimpleCrudRestController<Cer
   }
 
   @Override
-  @PutMapping(path="/{id}", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+  @PutMapping(path = "/{id}", consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
                             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-  public ResponseEntity<CertificationDto> update(@PathVariable long id, @Valid @RequestBody CertificationRequestDto request, BindingResult bindingResult) {
+  public ResponseEntity<CertificationDto> update(@PathVariable long id,
+                                                 @Valid @RequestBody CertificationRequestDto request,
+                                                 BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       throw new RestRequestValidationException(ErrorMessages.VALIDATION_ERROR.toDisplayString(), bindingResult.getFieldErrors());
     }
@@ -69,10 +71,10 @@ public class CertificationRestController implements SimpleCrudRestController<Cer
   }
 
   @Override
-  @DeleteMapping(path="/{id}")
+  @DeleteMapping(path = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable long id) {
     boolean success = certificationService.delete(id);
 
-    return success? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    return success ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
   }
 }

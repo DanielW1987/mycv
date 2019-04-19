@@ -50,7 +50,7 @@ public abstract class AbstractEntity implements Entity, Serializable {
 
   @Override
   public LocalDate getCreatedDate() {
-    return createdDate != null? createdDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+    return createdDate != null ? createdDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
   }
 
   @Override
@@ -60,7 +60,7 @@ public abstract class AbstractEntity implements Entity, Serializable {
 
   @Override
   public LocalDate getLastModifiedDate() {
-    return lastModifiedDate != null? lastModifiedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(): null;
+    return lastModifiedDate != null ? lastModifiedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
   }
 
   @Override
@@ -70,8 +70,12 @@ public abstract class AbstractEntity implements Entity, Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof AbstractEntity)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof AbstractEntity)) {
+      return false;
+    }
     AbstractEntity that = (AbstractEntity) o;
     return id == that.id;
   }

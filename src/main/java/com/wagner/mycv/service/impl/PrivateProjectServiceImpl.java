@@ -95,10 +95,4 @@ public class PrivateProjectServiceImpl implements PrivateProjectService {
     return false;
   }
 
-//  private PrivateProject mapRequestDto(PrivateProjectRequestDto request) {
-//    PrivateProject privateProject = modelMapper.map(request, PrivateProject.class);
-//    privateProject.setTechnologiesUsed(String.join(", ", request.getTechnologiesUsed()));
-//
-//    return privateProject;
-//  }
 }
