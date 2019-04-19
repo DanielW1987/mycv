@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/working-experiences")
@@ -26,7 +27,9 @@ public class WorkingExperienceRestController implements SimpleCrudRestController
 
   @Override
   public ResponseEntity<WorkingExperienceDto> get(long id) {
-    return null;
+    Optional<WorkingExperienceDto> certification = workingExperienceService.find(id);
+
+    return ResponseEntity.of(certification);
   }
 
   @Override
