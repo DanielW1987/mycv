@@ -5,13 +5,15 @@ import com.wagner.mycv.service.TechnologySkillService;
 import com.wagner.mycv.web.dto.TechnologySkillDto;
 import com.wagner.mycv.web.dto.request.TechnologySkillRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/technology-skills")
@@ -25,27 +27,49 @@ public class TechnologySkillRestController implements SimpleCrudRestController<T
   }
 
   @Override
-  public ResponseEntity<TechnologySkillDto> get(long id) {
-    return null;
+  @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<TechnologySkillDto> get(@PathVariable long id) {
+    Optional<TechnologySkillDto> technologySkillDto = technologySkillService.find(id);
+
+    return ResponseEntity.of(technologySkillDto);
   }
 
   @Override
+  @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<List<TechnologySkillDto>> getAll() {
-    return null;
+    List<TechnologySkillDto> technologySkillDtos = technologySkillService.findAll();
+
+    return ResponseEntity.ok(technologySkillDtos);
   }
 
   @Override
-  public ResponseEntity<TechnologySkillDto> create(@Valid TechnologySkillRequestDto request, BindingResult bindingResult) {
-    return null;
+  @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+               consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<TechnologySkillDto> create(@Valid @RequestBody TechnologySkillRequestDto request, BindingResult bindingResult) {
+    validateRequest(bindingResult);
+
+    TechnologySkillDto technologySkillDto = technologySkillService.create(request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(technologySkillDto);
   }
 
   @Override
-  public ResponseEntity<TechnologySkillDto> update(long id, @Valid TechnologySkillRequestDto request, BindingResult bindingResult) {
-    return null;
+  @PutMapping(path = "/{id}",
+              produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+              consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<TechnologySkillDto> update(@PathVariable long id,
+                                                   @Valid @RequestBody TechnologySkillRequestDto request,
+                                                   BindingResult bindingResult) {
+    validateRequest(bindingResult);
+
+    Optional<TechnologySkillDto> technologySkillDto = technologySkillService.update(id, request);
+    return ResponseEntity.of(technologySkillDto);
   }
 
   @Override
-  public ResponseEntity<Void> delete(long id) {
-    return null;
+  @DeleteMapping(path = "/{id}")
+  public ResponseEntity<Void> delete(@PathVariable long id) {
+    boolean success = technologySkillService.delete(id);
+
+    return success ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
   }
 }

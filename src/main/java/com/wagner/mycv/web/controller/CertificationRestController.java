@@ -31,26 +31,24 @@ public class CertificationRestController implements SimpleCrudRestController<Cer
   @Override
   @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<CertificationDto> get(@PathVariable long id) {
-    Optional<CertificationDto> certification = certificationService.find(id);
+    Optional<CertificationDto> certificationDto = certificationService.find(id);
 
-    return ResponseEntity.of(certification);
+    return ResponseEntity.of(certificationDto);
   }
 
   @Override
   @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<List<CertificationDto>> getAll() {
-    List<CertificationDto> certifications = certificationService.findAll();
+    List<CertificationDto> certificationDtos = certificationService.findAll();
 
-    return ResponseEntity.ok(certifications);
+    return ResponseEntity.ok(certificationDtos);
   }
 
   @Override
   @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
                consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<CertificationDto> create(@Valid @RequestBody CertificationRequestDto request, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      throw new RestRequestValidationException(ErrorMessages.VALIDATION_ERROR.toDisplayString(), bindingResult.getFieldErrors());
-    }
+    validateRequest(bindingResult);
 
     CertificationDto certification = certificationService.create(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(certification);
@@ -62,9 +60,7 @@ public class CertificationRestController implements SimpleCrudRestController<Cer
   public ResponseEntity<CertificationDto> update(@PathVariable long id,
                                                  @Valid @RequestBody CertificationRequestDto request,
                                                  BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      throw new RestRequestValidationException(ErrorMessages.VALIDATION_ERROR.toDisplayString(), bindingResult.getFieldErrors());
-    }
+    validateRequest(bindingResult);
 
     Optional<CertificationDto> certification = certificationService.update(id, request);
     return ResponseEntity.of(certification);

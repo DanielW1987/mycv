@@ -5,13 +5,15 @@ import com.wagner.mycv.service.LanguageService;
 import com.wagner.mycv.web.dto.LanguageDto;
 import com.wagner.mycv.web.dto.request.LanguageRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/languages")
@@ -25,27 +27,50 @@ public class LanguageRestController implements SimpleCrudRestController<Language
   }
 
   @Override
-  public ResponseEntity<LanguageDto> get(long id) {
-    return null;
+  @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<LanguageDto> get(@PathVariable long id) {
+    Optional<LanguageDto> languageDto = languageService.find(id);
+
+    return ResponseEntity.of(languageDto);
   }
 
   @Override
+  @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<List<LanguageDto>> getAll() {
-    return null;
+    List<LanguageDto> languages = languageService.findAll();
+
+    return ResponseEntity.ok(languages);
   }
 
   @Override
-  public ResponseEntity<LanguageDto> create(@Valid LanguageRequestDto request, BindingResult bindingResult) {
-    return null;
+  @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+               consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<LanguageDto> create(@Valid @RequestBody LanguageRequestDto request, BindingResult bindingResult) {
+    validateRequest(bindingResult);
+
+    LanguageDto languageDto = languageService.create(request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(languageDto);
   }
 
   @Override
-  public ResponseEntity<LanguageDto> update(long id, @Valid LanguageRequestDto request, BindingResult bindingResult) {
-    return null;
+  @PutMapping(path = "/{id}",
+              produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+              consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  public ResponseEntity<LanguageDto> update(@PathVariable long id,
+                                            @Valid @RequestBody LanguageRequestDto request,
+                                            BindingResult bindingResult) {
+    validateRequest(bindingResult);
+
+    Optional<LanguageDto> languageDto = languageService.update(id, request);
+    return ResponseEntity.of(languageDto);
   }
 
   @Override
-  public ResponseEntity<Void> delete(long id) {
-    return null;
+  @DeleteMapping(path = "/{id}")
+  public ResponseEntity<Void> delete(@PathVariable long id) {
+    boolean success = languageService.delete(id);
+
+    return success ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
   }
+
 }

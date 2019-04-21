@@ -48,9 +48,7 @@ public class EducationRestController implements SimpleCrudRestController<Educati
   @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
                consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<EducationDto> create(@Valid @RequestBody EducationRequestDto request, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      throw new RestRequestValidationException(ErrorMessages.VALIDATION_ERROR.toDisplayString(), bindingResult.getFieldErrors());
-    }
+    validateRequest(bindingResult);
 
     EducationDto educationDto = educationService.create(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(educationDto);
@@ -63,9 +61,7 @@ public class EducationRestController implements SimpleCrudRestController<Educati
   public ResponseEntity<EducationDto> update(@PathVariable long id,
                                              @Valid @RequestBody EducationRequestDto request,
                                              BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      throw new RestRequestValidationException(ErrorMessages.VALIDATION_ERROR.toDisplayString(), bindingResult.getFieldErrors());
-    }
+    validateRequest(bindingResult);
 
     Optional<EducationDto> educationDto = educationService.update(id, request);
     return ResponseEntity.of(educationDto);

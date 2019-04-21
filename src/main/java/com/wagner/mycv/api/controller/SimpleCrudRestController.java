@@ -1,5 +1,7 @@
 package com.wagner.mycv.api.controller;
 
+import com.wagner.mycv.model.exception.ErrorMessages;
+import com.wagner.mycv.model.exception.RestRequestValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
@@ -24,5 +26,11 @@ public interface SimpleCrudRestController<T, U> {
   ResponseEntity<U> update(long id, @Valid T request, BindingResult bindingResult);
 
   ResponseEntity<Void> delete(long id);
+
+  default void validateRequest(BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      throw new RestRequestValidationException(ErrorMessages.VALIDATION_ERROR.toDisplayString(), bindingResult.getFieldErrors());
+    }
+  }
 
 }
