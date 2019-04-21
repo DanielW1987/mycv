@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-class CertificationRestControllerTest {
+class CertificationsRestControllerTest {
 
   @Mock
   private CertificationService certificationService;
@@ -31,7 +31,7 @@ class CertificationRestControllerTest {
   private BindingResult bindingResult;
 
   @InjectMocks
-  private CertificationRestController certificationRestController;
+  private CertificationsRestController certificationsRestController;
 
   private CertificationDto ocaCertificationDto;
   private CertificationDto ocpCertificationDto;
@@ -51,7 +51,7 @@ class CertificationRestControllerTest {
     when(certificationService.find(anyLong())).thenReturn(Optional.of(ocaCertificationDto));
 
     // when
-    ResponseEntity<CertificationDto> responseEntity = certificationRestController.get(1);
+    ResponseEntity<CertificationDto> responseEntity = certificationsRestController.get(1);
 
     // then
     assertNotNull(responseEntity);
@@ -66,7 +66,7 @@ class CertificationRestControllerTest {
     when(certificationService.find(anyLong())).thenReturn(Optional.empty());
 
     // when
-    ResponseEntity<CertificationDto> responseEntity = certificationRestController.get(1);
+    ResponseEntity<CertificationDto> responseEntity = certificationsRestController.get(1);
 
     // then
     assertNotNull(responseEntity);
@@ -80,7 +80,7 @@ class CertificationRestControllerTest {
     when(certificationService.findAll()).thenReturn(Arrays.asList(ocaCertificationDto, ocpCertificationDto));
 
     // when
-    ResponseEntity<List<CertificationDto>> responseEntity = certificationRestController.getAll();
+    ResponseEntity<List<CertificationDto>> responseEntity = certificationsRestController.getAll();
 
     // then
     assertNotNull(responseEntity);
@@ -96,7 +96,7 @@ class CertificationRestControllerTest {
     when(bindingResult.hasErrors()).thenReturn(false);
 
     // when
-    ResponseEntity<CertificationDto> responseEntity = certificationRestController.create(certificationRequestDto, bindingResult);
+    ResponseEntity<CertificationDto> responseEntity = certificationsRestController.create(certificationRequestDto, bindingResult);
 
     // then
     assertNotNull(responseEntity);
@@ -112,7 +112,7 @@ class CertificationRestControllerTest {
     when(bindingResult.hasErrors()).thenReturn(true);
 
     // then
-    assertThrows(RestRequestValidationException.class, () -> certificationRestController.create(certificationRequestDto, bindingResult));
+    assertThrows(RestRequestValidationException.class, () -> certificationsRestController.create(certificationRequestDto, bindingResult));
   }
 
   @Test
@@ -122,7 +122,7 @@ class CertificationRestControllerTest {
     when(bindingResult.hasErrors()).thenReturn(false);
 
     // when
-    ResponseEntity<CertificationDto> responseEntity = certificationRestController.update(1L, certificationRequestDto, bindingResult);
+    ResponseEntity<CertificationDto> responseEntity = certificationsRestController.update(1L, certificationRequestDto, bindingResult);
 
     // then
     assertNotNull(responseEntity);
@@ -138,7 +138,7 @@ class CertificationRestControllerTest {
     when(bindingResult.hasErrors()).thenReturn(true);
 
     // then
-    assertThrows(RestRequestValidationException.class, () -> certificationRestController.update(1L, certificationRequestDto, bindingResult));
+    assertThrows(RestRequestValidationException.class, () -> certificationsRestController.update(1L, certificationRequestDto, bindingResult));
   }
 
   @Test
@@ -148,7 +148,7 @@ class CertificationRestControllerTest {
     when(bindingResult.hasErrors()).thenReturn(false);
 
     // when
-    ResponseEntity<CertificationDto> responseEntity = certificationRestController.update(1L, certificationRequestDto, bindingResult);
+    ResponseEntity<CertificationDto> responseEntity = certificationsRestController.update(1L, certificationRequestDto, bindingResult);
 
     // then
     assertNotNull(responseEntity);
@@ -162,7 +162,7 @@ class CertificationRestControllerTest {
     when(certificationService.delete(anyLong())).thenReturn(true);
 
     // when
-    ResponseEntity<Void> responseEntity = certificationRestController.delete(1L);
+    ResponseEntity<Void> responseEntity = certificationsRestController.delete(1L);
 
     // then
     assertNotNull(responseEntity);
@@ -175,7 +175,7 @@ class CertificationRestControllerTest {
     when(certificationService.delete(anyLong())).thenReturn(false);
 
     // when
-    ResponseEntity<Void> responseEntity = certificationRestController.delete(1L);
+    ResponseEntity<Void> responseEntity = certificationsRestController.delete(1L);
 
     // then
     assertNotNull(responseEntity);

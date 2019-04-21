@@ -30,7 +30,7 @@ public final class CollectionUtil {
     return characterSeparatedStringToList(value, DEFAULT_SEPARATOR);
   }
 
-  public static <T> T getFromListOrDefault(List<T> list, int index, T defaultValue) {
+  public static <T> T getOrDefault(List<T> list, int index, T defaultValue) {
     if (list != null && index < list.size() && index >= 0) {
       return list.get(index);
     }
@@ -38,8 +38,8 @@ public final class CollectionUtil {
     return defaultValue;
   }
 
-  public static <T> T getFromListOrDefault(List<T> list, int index) {
-    return getFromListOrDefault(list, index, null);
+  public static <T> T getOrDefault(List<T> list, int index) {
+    return getOrDefault(list, index, null);
   }
 
 }

@@ -17,12 +17,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/technology-skills")
-public class TechnologySkillRestController implements SimpleCrudRestController<TechnologySkillRequestDto, TechnologySkillDto> {
+public class TechnologySkillsRestController implements SimpleCrudRestController<TechnologySkillRequestDto, TechnologySkillDto> {
 
   private final TechnologySkillService technologySkillService;
 
   @Autowired
-  public TechnologySkillRestController(TechnologySkillService technologySkillService) {
+  public TechnologySkillsRestController(TechnologySkillService technologySkillService) {
     this.technologySkillService = technologySkillService;
   }
 

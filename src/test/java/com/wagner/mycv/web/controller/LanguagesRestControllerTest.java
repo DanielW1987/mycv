@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WorkingExperienceRestControllerTest {
+class LanguagesRestControllerTest {
 
   @BeforeEach
   void setUp() {

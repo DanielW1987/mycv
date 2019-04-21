@@ -19,12 +19,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/certifications")
-public class CertificationRestController implements SimpleCrudRestController<CertificationRequestDto, CertificationDto> {
+public class CertificationsRestController implements SimpleCrudRestController<CertificationRequestDto, CertificationDto> {
 
   private final CertificationService certificationService;
 
   @Autowired
-  public CertificationRestController(CertificationService certificationService) {
+  public CertificationsRestController(CertificationService certificationService) {
     this.certificationService = certificationService;
   }
 

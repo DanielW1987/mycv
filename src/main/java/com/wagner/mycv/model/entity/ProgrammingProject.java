@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @Entity(name = "PrivateProject")
 @Table(name = "private_project")
-public class PrivateProject extends AbstractEntity {
+public class ProgrammingProject extends AbstractEntity {
 
   @Column(nullable = false)
   private String name;

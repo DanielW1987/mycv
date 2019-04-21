@@ -20,21 +20,21 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
   private final CertificationService     certificationService;
   private final EducationService         educationService;
   private final LanguageService          languageService;
-  private final PrivateProjectService    privateProjectService;
+  private final ProgrammingProjectService programmingProjectService;
   private final TechnologySkillService   technologySkillService;
   private final WorkingExperienceService workingExperienceService;
 
   @Autowired
   public DevelopmentDbInitializer(UserService userService, UserProfileService userProfileService,
                                   CertificationService certificationService, EducationService educationService,
-                                  LanguageService languageService, PrivateProjectService privateProjectService,
+                                  LanguageService languageService, ProgrammingProjectService programmingProjectService,
                                   TechnologySkillService technologySkillService, WorkingExperienceService workingExperienceService) {
     this.userService = userService;
     this.userProfileService = userProfileService;
     this.certificationService = certificationService;
     this.educationService = educationService;
     this.languageService = languageService;
-    this.privateProjectService = privateProjectService;
+    this.programmingProjectService = programmingProjectService;
     this.technologySkillService = technologySkillService;
     this.workingExperienceService = workingExperienceService;
   }
@@ -131,21 +131,21 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
   }
 
   private void createTestPrivateProjects(String userId) {
-    PrivateProjectRequestDto myBeautifulCV = new PrivateProjectRequestDto();
+    ProgrammingProjectRequestDto myBeautifulCV = new ProgrammingProjectRequestDto();
     myBeautifulCV.setName("My Beautiful CurriculumVitae");
     myBeautifulCV.setDescription("Lorem ipsum...");
     myBeautifulCV.setTechnologiesUsed(Arrays.asList("Spring Boot", "Angular"));
     myBeautifulCV.setVcsUrl("https://www.bitbucket.com/foobar");
     myBeautifulCV.setUserId(userId);
 
-    PrivateProjectRequestDto examedy = new PrivateProjectRequestDto();
+    ProgrammingProjectRequestDto examedy = new ProgrammingProjectRequestDto();
     examedy.setName("Examedy");
     examedy.setDescription("Lorem ipsum...");
     examedy.setTechnologiesUsed(Arrays.asList("Spring Boot", "Angular"));
     examedy.setVcsUrl("https://www.github.com/foobar");
     examedy.setUserId(userId);
 
-    privateProjectService.createAll(Arrays.asList(myBeautifulCV, examedy));
+    programmingProjectService.createAll(Arrays.asList(myBeautifulCV, examedy));
   }
 
   private void createTestTechnologySkills(String userId) {

@@ -1,13 +1,8 @@
 package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.api.controller.SimpleCrudRestController;
-import com.wagner.mycv.model.exception.ErrorMessages;
-import com.wagner.mycv.model.exception.RestRequestValidationException;
 import com.wagner.mycv.service.WorkingExperienceService;
-import com.wagner.mycv.web.dto.EducationDto;
 import com.wagner.mycv.web.dto.WorkingExperienceDto;
-import com.wagner.mycv.web.dto.request.EducationRequestDto;
-import com.wagner.mycv.web.dto.request.TechnologySkillRequestDto;
 import com.wagner.mycv.web.dto.request.WorkingExperienceRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +17,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/working-experiences")
-public class WorkingExperienceRestController implements SimpleCrudRestController<WorkingExperienceRequestDto, WorkingExperienceDto> {
+public class WorkingExperiencesRestController implements SimpleCrudRestController<WorkingExperienceRequestDto, WorkingExperienceDto> {
 
   private final WorkingExperienceService workingExperienceService;
 
   @Autowired
-  public WorkingExperienceRestController(WorkingExperienceService workingExperienceService) {
+  public WorkingExperiencesRestController(WorkingExperienceService workingExperienceService) {
     this.workingExperienceService = workingExperienceService;
   }
 

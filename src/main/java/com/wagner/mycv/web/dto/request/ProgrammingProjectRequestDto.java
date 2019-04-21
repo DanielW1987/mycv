@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PrivateProjectRequestDto {
+public class ProgrammingProjectRequestDto {
 
   @NotNull
   @NotBlank

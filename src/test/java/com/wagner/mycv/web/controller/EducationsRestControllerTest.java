@@ -1,25 +1,33 @@
-package com.wagner.mycv.service.impl;
+package com.wagner.mycv.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PrivateProjectServiceImplTest {
+class EducationsRestControllerTest {
 
   @BeforeEach
   void setUp() {
   }
 
   @Test
-  void findAll() {
+  void get() {
   }
 
   @Test
-  void find() {
+  void getAll() {
   }
 
   @Test
   void create() {
+  }
+
+  @Test
+  void update() {
+  }
+
+  @Test
+  void delete() {
   }
 }

@@ -19,12 +19,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/educations")
-public class EducationRestController implements SimpleCrudRestController<EducationRequestDto, EducationDto> {
+public class EducationsRestController implements SimpleCrudRestController<EducationRequestDto, EducationDto> {
 
   private final EducationService educationService;
 
   @Autowired
-  public EducationRestController(EducationService educationService) {
+  public EducationsRestController(EducationService educationService) {
     this.educationService = educationService;
   }
 

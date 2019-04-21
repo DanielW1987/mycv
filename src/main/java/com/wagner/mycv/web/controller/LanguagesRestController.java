@@ -17,12 +17,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest/v1/languages")
-public class LanguageRestController implements SimpleCrudRestController<LanguageRequestDto, LanguageDto> {
+public class LanguagesRestController implements SimpleCrudRestController<LanguageRequestDto, LanguageDto> {
 
   private final LanguageService languageService;
 
   @Autowired
-  public LanguageRestController(LanguageService languageService) {
+  public LanguagesRestController(LanguageService languageService) {
     this.languageService = languageService;
   }
 

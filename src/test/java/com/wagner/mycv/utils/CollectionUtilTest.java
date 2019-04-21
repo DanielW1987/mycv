@@ -34,11 +34,11 @@ class CollectionUtilTest {
     assertEquals(expected, actual);
   }
 
-  @DisplayName("Test method 'getFromListOrDefault")
+  @DisplayName("Test method 'getOrDefault")
   @ParameterizedTest(name = "{index} => values are {0} | index is {1} | default value is {2} | expected is {3}")
   @MethodSource("getFromListOrDefaultProvider")
   void test_getFromListOrDefault(List<String> values, int index, String defaultValue, String expected) {
-    String actual = CollectionUtil.getFromListOrDefault(values, index, defaultValue);
+    String actual = CollectionUtil.getOrDefault(values, index, defaultValue);
     assertEquals(expected, actual);
   }
 

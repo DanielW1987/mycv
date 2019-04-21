@@ -39,9 +39,9 @@ public class WorkingExperience extends AbstractEntity {
   private String userId;
 
   public void setFocalPoints(List<String> focalPoints) {
-    focalPoint1 = CollectionUtil.getFromListOrDefault(focalPoints, 0);
-    focalPoint2 = CollectionUtil.getFromListOrDefault(focalPoints, 1);
-    focalPoint3 = CollectionUtil.getFromListOrDefault(focalPoints, 2);
-    focalPoint4 = CollectionUtil.getFromListOrDefault(focalPoints, 3);
+    focalPoint1 = CollectionUtil.getOrDefault(focalPoints, 0);
+    focalPoint2 = CollectionUtil.getOrDefault(focalPoints, 1);
+    focalPoint3 = CollectionUtil.getOrDefault(focalPoints, 2);
+    focalPoint4 = CollectionUtil.getOrDefault(focalPoints, 3);
   }
 }
