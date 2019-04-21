@@ -41,9 +41,9 @@ class CertificationServiceImplTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.initMocks(this);
-    ocaCertificationEntity     = CertificationTestUtil.createTestCertificationEntity("OCA Certification", LocalDate.of(2017, 7, 1));
-    ocpCertificationEntity     = CertificationTestUtil.createTestCertificationEntity("OCP Certification", LocalDate.of(2018, 3, 7));
-    mtaCertificationEntity     = CertificationTestUtil.createTestCertificationEntity("MTA Certification", LocalDate.of(2016, 7, 7));
+    ocaCertificationEntity     = CertificationTestUtil.createTestEntity("OCA Certification", LocalDate.of(2017, 7, 1));
+    ocpCertificationEntity     = CertificationTestUtil.createTestEntity("OCP Certification", LocalDate.of(2018, 3, 7));
+    mtaCertificationEntity     = CertificationTestUtil.createTestEntity("MTA Certification", LocalDate.of(2016, 7, 7));
     ocaCertificationRequestDto = CertificationTestUtil.createOcaCertificationRequestDto();
     ocpCertificationRequestDto = CertificationTestUtil.createOcpCertificationRequestDto();
   }

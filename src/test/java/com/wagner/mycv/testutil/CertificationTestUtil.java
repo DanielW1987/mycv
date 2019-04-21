@@ -12,20 +12,20 @@ public class CertificationTestUtil {
   private CertificationTestUtil() {
     // has only static methods
     // ToDo: Aktuell kann man für Testzwecke createDate, createdBy, lastModifiedDate und lastModifiedBy nicht setzen
-    // Vielleicht sollte man das via Reflection machen?
+    //  Vielleicht sollte man das via Reflection machen?
   }
 
   /*--------------------Certification---------------------*/
-  public static Certification createTestCertificationEntity() {
-    return createTestCertificationEntity("Very cool vertification", LocalDate.of(2018, 1, 1));
+  public static Certification createTestEntity() {
+    return createTestEntity("Very cool vertification", LocalDate.of(2018, 1, 1));
   }
 
-  public static Certification createTestCertificationEntity(String name, LocalDate dateOfAchievement) {
+  public static Certification createTestEntity(String name, LocalDate dateOfAchievement) {
     Certification certification = new Certification();
     certification.setName(name);
     certification.setDateOfAchievement(dateOfAchievement);
     certification.setCertificate("certification file");
-    certification.setUserId(UUID.randomUUID().toString());
+    certification.setUserId(UserTestUtil.USER_ID.toString());
 
     return certification;
   }
@@ -73,10 +73,6 @@ public class CertificationTestUtil {
     certificationDto.setLastModifiedDate(LocalDate.now().toString());
 
     return certificationDto;
-  }
-
-  public static CertificationDto testCertificationDto() {
-    return testCertificationDto("Very cool certification", "2018-01-01");
   }
 
   public static CertificationDto testCertificationDto(String name, String dateOfAchievement) {

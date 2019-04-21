@@ -2,6 +2,7 @@ package com.wagner.mycv.model.repository;
 
 import com.wagner.mycv.model.entity.Certification;
 import com.wagner.mycv.testutil.CertificationTestUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 class CertificationRepositoryIntegrationTest {
 
+  private final Certification certification = CertificationTestUtil.createTestEntity();
+
   @Autowired private DataSource              dataSource;
   @Autowired private JdbcTemplate            jdbcTemplate;
   @Autowired private EntityManager           entityManager;
   @Autowired private CertificationRepository certificationRepository;
+
+  @BeforeEach
+  void setup() {
+    entityManager.persist(certification);
+  }
 
   @Test
   void injectedComponentsAreNotNull(){
@@ -36,10 +44,7 @@ class CertificationRepositoryIntegrationTest {
   }
 
   @Test
-  void test_create_certification() {
-    Certification certification = CertificationTestUtil.createTestCertificationEntity();
-    certificationRepository.save(certification);
-
+  void test_find_certification() {
     Optional<Certification> result = certificationRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 
@@ -52,6 +57,5 @@ class CertificationRepositoryIntegrationTest {
     assertThat(certificationResponse.getDateOfAchievement()).isEqualTo(certification.getDateOfAchievement());
     assertThat(certificationResponse.getCertificate()).isEqualTo(certification.getCertificate());
   }
-
 
 }

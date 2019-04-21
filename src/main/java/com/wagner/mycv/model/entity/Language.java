@@ -15,6 +15,7 @@ public class Language extends AbstractEntity {
   @Column(nullable = false)
   private String name;
 
+  // ToDo DanielW: User A1, A2, B1 etc. for language level as alternative
   @Column(nullable = false)
   private byte level;
 
