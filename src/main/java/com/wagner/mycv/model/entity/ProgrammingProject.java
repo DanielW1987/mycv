@@ -15,6 +15,8 @@ import java.util.List;
 @Table(name = "private_project")
 public class ProgrammingProject extends AbstractEntity {
 
+  public static final long serialVersionUID = 1L;
+
   @Column(nullable = false)
   private String name;
 

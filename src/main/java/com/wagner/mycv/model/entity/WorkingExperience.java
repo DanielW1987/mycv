@@ -19,6 +19,8 @@ import lombok.Setter;
 @Table(name = "working_experience")
 public class WorkingExperience extends AbstractEntity {
 
+  public static final long serialVersionUID = 1L;
+
   @Column(nullable = false)
   private String company;
 

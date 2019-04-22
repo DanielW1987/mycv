@@ -13,6 +13,8 @@ import lombok.Setter;
 @Setter
 public class User extends AbstractEntity {
 
+  public static final long serialVersionUID = 1L;
+
   @Column(unique = true, nullable = false)
   private String userId;
 

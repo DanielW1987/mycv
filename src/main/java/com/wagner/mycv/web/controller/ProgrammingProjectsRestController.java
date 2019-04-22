@@ -45,7 +45,8 @@ public class ProgrammingProjectsRestController implements SimpleCrudRestControll
   @Override
   @PostMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
                consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-  public ResponseEntity<ProgrammingProjectDto> create(@Valid @RequestBody ProgrammingProjectRequestDto request, BindingResult bindingResult) {
+  public ResponseEntity<ProgrammingProjectDto> create(@Valid @RequestBody ProgrammingProjectRequestDto request,
+                                                      BindingResult bindingResult) {
     validateRequest(bindingResult);
 
     ProgrammingProjectDto programmingProjectDto = programmingProjectService.create(request);

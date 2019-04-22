@@ -58,7 +58,8 @@ public class ProgrammingProjectServiceImpl implements ProgrammingProjectService 
   @Override
   public List<ProgrammingProjectDto> createAll(@NotNull Iterable<ProgrammingProjectRequestDto> request) {
     List<ProgrammingProject> programmingProjects = new ArrayList<>();
-    request.forEach(programmingProjectRequestDto -> programmingProjects.add(modelMapper.map(programmingProjectRequestDto, ProgrammingProject.class)));
+    request.forEach(programmingProjectRequestDto ->
+            programmingProjects.add(modelMapper.map(programmingProjectRequestDto, ProgrammingProject.class)));
 
     programmingProjectRepository.saveAll(programmingProjects);
 

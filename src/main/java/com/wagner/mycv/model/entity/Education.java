@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @Table(name = "education")
 public class Education extends AbstractEntity {
 
+  public static final long serialVersionUID = 1L;
+
   @Column(nullable = false)
   private String facility;
 

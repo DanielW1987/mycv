@@ -12,6 +12,8 @@ import javax.persistence.*;
 @Table(name = "language")
 public class Language extends AbstractEntity {
 
+  public static final long serialVersionUID = 1L;
+
   @Column(nullable = false)
   private String name;
 

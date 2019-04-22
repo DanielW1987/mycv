@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @Table(name = "certification")
 public class Certification extends AbstractEntity {
 
+  public static final long serialVersionUID = 1L;
+
   @Column(nullable = false)
   private String name;
 

@@ -5,7 +5,6 @@ import com.wagner.mycv.framework.jpa.entity.AbstractEntity;
 import com.wagner.mycv.utils.CollectionUtil;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +14,8 @@ import java.util.List;
 @Entity(name = "TechnologySkill")
 @Table(name = "technology_skill")
 public class TechnologySkill extends AbstractEntity {
+
+  public static final long serialVersionUID = 1L;
 
   @Column(nullable = false)
   private String category;

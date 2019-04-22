@@ -18,8 +18,8 @@ import java.util.Objects;
 /**
  * Abstract super class for entity.
  *
- * author: Daniel Wagner
- * date: 2019-03-20
+ * @author: Daniel Wagner
+ * @date: 2019-03-20
  */
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // for hibernate
