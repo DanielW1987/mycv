@@ -13,15 +13,12 @@ import java.util.List;
 @Builder
 public class TechnologySkillRequestDto {
 
-  @NotNull
   @NotBlank
   private String category;
 
   @NotNull
-  @NotBlank
   private List<String> skillNames;
 
-  @NotNull
   @NotBlank
   private String userId;
 

@@ -24,3 +24,4 @@ public class MyBeautifulCvApplication {
 // ToDo: @NotNull und @Nullable Annotations hinzufügen und Parameter und Rückgabewerte annotieren
 
 // ToDo DanielW: Es ist doof, dass Aufzählungen wie "skillNames" oder "technologyUsed" aktuell als kommaseparierte Liste gespeichert werden.
+//  Das fliegt sofort auseinander, wenn in den einzelnen Strings das Trennzeichen (wie bspw. Komma) enthalten ist.

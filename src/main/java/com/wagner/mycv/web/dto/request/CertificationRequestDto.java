@@ -15,7 +15,6 @@ import java.util.Map;
 @Builder
 public class CertificationRequestDto {
 
-  @NotNull
   @NotBlank
   private String name;
 
@@ -24,7 +23,6 @@ public class CertificationRequestDto {
 
   private String certificate; // ToDo: should be a file
 
-  @NotNull
   @NotBlank
   private String userId;
   // ToDo: Beim Update sollte die UserId nicht aktualisiert werden können, Eine Zertifizierung gehört zu einem User.

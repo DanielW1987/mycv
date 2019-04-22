@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
 @Builder
 public class LanguageRequestDto {
 
-  @NotNull
   @NotBlank
   private String name;
 
@@ -19,8 +20,16 @@ public class LanguageRequestDto {
   @Max(value = 100)
   private byte level;
 
-  @NotNull
   @NotBlank
   private String userId;
+
+  public Map<String, String> toMap() {
+    Map<String, String> map = new HashMap<>();
+    map.put("name", name);
+    map.put("level", String.valueOf(level));
+    map.put("userId", userId);
+
+    return map;
+  }
 
 }

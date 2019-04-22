@@ -30,6 +30,7 @@ public class LanguageServiceImpl implements LanguageService {
   @NotNull
   @Override
   public List<LanguageDto> findAll() {
+    // ToDo DanielW: Sortierung anhand des Levels (stärkste Sprache zuerst)
     return languageRepository.findAll()
             .stream()
             .map(language -> modelMapper.map(language, LanguageDto.class))

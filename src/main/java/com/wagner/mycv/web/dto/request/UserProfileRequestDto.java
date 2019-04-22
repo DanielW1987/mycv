@@ -7,13 +7,14 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
 @Builder
 public class UserProfileRequestDto {
 
-  @NotNull
   @NotBlank
   private String firstName;
 
@@ -26,8 +27,21 @@ public class UserProfileRequestDto {
   private String mobilePhone;
   private String profileImage;
 
-  @NotNull
   @NotBlank
   private String userId;
+
+  public Map<String, String> toMap() {
+    Map<String, String> map = new HashMap<>();
+    map.put("firstName", firstName);
+    map.put("lastName", lastName);
+    map.put("currentJob", currentJob);
+    map.put("placeOfResidence", placeOfResidence);
+    map.put("email", email);
+    map.put("mobilePhone", mobilePhone);
+    map.put("profileImage", profileImage);
+    map.put("userId", userId);
+
+    return map;
+  }
 
 }

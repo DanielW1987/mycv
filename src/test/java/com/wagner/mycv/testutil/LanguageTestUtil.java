@@ -1,7 +1,11 @@
 package com.wagner.mycv.testutil;
 
 import com.wagner.mycv.model.entity.Language;
+import com.wagner.mycv.web.dto.EducationDto;
+import com.wagner.mycv.web.dto.LanguageDto;
 import com.wagner.mycv.web.dto.request.LanguageRequestDto;
+
+import java.time.LocalDate;
 
 public class LanguageTestUtil {
 
@@ -41,4 +45,17 @@ public class LanguageTestUtil {
   }
 
   /*-------------------LanguageDto-------------------*/
+  public static LanguageDto createGermanLanguageDto() {
+    LanguageDto germanLanguageDto = new LanguageDto();
+    germanLanguageDto.setId(1);
+    germanLanguageDto.setName("Deutsch");
+    germanLanguageDto.setLevel((byte) 100);
+    germanLanguageDto.setUserId(UserTestUtil.USER_ID.toString());
+    germanLanguageDto.setCreatedBy("Administrator");
+    germanLanguageDto.setCreatedDate(LocalDate.now().toString());
+    germanLanguageDto.setLastModifiedBy("Administrator");
+    germanLanguageDto.setLastModifiedDate(LocalDate.now().toString());
+
+    return germanLanguageDto;
+  }
 }

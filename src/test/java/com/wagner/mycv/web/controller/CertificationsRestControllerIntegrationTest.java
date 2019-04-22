@@ -77,6 +77,9 @@ class CertificationsRestControllerIntegrationTest {
             .extract()
               .as(CertificationDto.class);
 
+    // restassured tries to unmarshal LocalDate values via the default constructor of LocalDate if the requested content type is XML.
+    // LocalDate has no default constructor and so this ends in an NoSuchMethodError.
+
     assertNotNull(dto);
     assertEquals(mtaCertificationDto, dto);
   }
@@ -214,7 +217,7 @@ class CertificationsRestControllerIntegrationTest {
     assertEquals(certificationRequestDto.getName(), createdCertification.getName());
     assertEquals(certificationRequestDto.getDateOfAchievement(), createdCertification.getDateOfAchievement());
     assertEquals(certificationRequestDto.getCertificate(), createdCertification.getCertificate());
-    assertTrue(createdCertification.getId() > 0);
+    assertTrue(createdCertification.getId() != 0);
     assertEquals("Administrator", createdCertification.getCreatedBy());
     assertEquals(LocalDate.now().toString(), createdCertification.getCreatedDate());
     assertEquals("Administrator", createdCertification.getLastModifiedBy());
@@ -278,6 +281,8 @@ class CertificationsRestControllerIntegrationTest {
     assertEquals(certificationRequestDto.getDateOfAchievement(), updatedCertificationDto.getDateOfAchievement());
     assertEquals(certificationRequestDto.getName(), updatedCertificationDto.getName());
     assertEquals(certificationRequestDto.getCertificate(), updatedCertificationDto.getCertificate());
+
+    // id and user id should not be updated
     assertEquals(testCertification.getId(), updatedCertificationDto.getId());
     assertEquals(testCertification.getUserId(), updatedCertificationDto.getUserId());
 
@@ -322,7 +327,7 @@ class CertificationsRestControllerIntegrationTest {
               .as(ErrorResponse.class);
 
     assertNotNull(errorResponse);
-    assertEquals(4, errorResponse.getMessages().size());
+    assertEquals(3, errorResponse.getMessages().size());
   }
 
   @Test

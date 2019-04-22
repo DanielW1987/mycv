@@ -3,10 +3,8 @@ package com.wagner.mycv.web.controller;
 import com.wagner.mycv.service.EducationService;
 import com.wagner.mycv.testutil.EducationTestUtil;
 import com.wagner.mycv.testutil.UserTestUtil;
-import com.wagner.mycv.web.dto.CertificationDto;
 import com.wagner.mycv.web.dto.EducationDto;
 import com.wagner.mycv.web.dto.ErrorResponse;
-import com.wagner.mycv.web.dto.request.CertificationRequestDto;
 import com.wagner.mycv.web.dto.request.EducationRequestDto;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,14 +67,18 @@ class EducationsRestControllerIntegrationTest {
   void test_get_with_extract_whole_dto() {
     EducationDto dto =
             given()
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
                     .pathParam("id", RESOURCE_ID)
                     .when()
                     .get(URI + "/{id}")
                     .then()
-                    .contentType(MediaType.APPLICATION_XML_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .statusCode(HttpStatus.OK.value())
                     .extract()
                     .as(EducationDto.class);
+
+    // restassured tries to unmarshal LocalDate values via the default constructor of LocalDate if the requested content type is XML.
+    // LocalDate has no default constructor and so this ends in an NoSuchMethodError.
 
     assertNotNull(dto);
     assertEquals(bachelorEducationDto, dto);
@@ -137,161 +139,170 @@ class EducationsRestControllerIntegrationTest {
     assertArrayEquals(expected, actual);
   }
 
-//  @Test
-//  void create_with_valid_request_should_return_201() {
-//    Map<String, String> request = educationRequestDto.toMap();
-//
-//    CertificationDto createdCertification =
-//            given()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .accept(MediaType.APPLICATION_JSON_VALUE)
-//                    .body(request)
-//                    .when()
-//                    .post(URI)
-//                    .then()
-//                    .statusCode(HttpStatus.CREATED.value())
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .extract()
-//                    .as(CertificationDto.class);
-//
-//    assertNotNull(createdCertification);
-//    assertEquals(educationRequestDto.getUserId(), createdCertification.getUserId());
-//    assertEquals(educationRequestDto.getName(), createdCertification.getName());
-//    assertEquals(educationRequestDto.getDateOfAchievement().toString(), createdCertification.getDateOfAchievement());
-//    assertEquals(educationRequestDto.getCertificate(), createdCertification.getCertificate());
-//    assertTrue(createdCertification.getId() > 0);
-//    assertEquals("Administrator", createdCertification.getCreatedBy());
-//    assertEquals(LocalDate.now().toString(), createdCertification.getCreatedDate());
-//    assertEquals("Administrator", createdCertification.getLastModifiedBy());
-//    assertEquals(LocalDate.now().toString(), createdCertification.getLastModifiedDate());
-//
-//    // remove created certification
-//    educationService.delete(createdCertification.getId());
-//  }
-//
-//  @Test
-//  void create_with_invalid_request_should_return_400() {
-//    Map<String, String> request = new HashMap<>();
-//    request.put("name", "");
-//    request.put("dateOfAchievement", null);
-//    request.put("userId", "");
-//
-//    ErrorResponse errorResponse =
-//            given()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .accept(MediaType.APPLICATION_JSON_VALUE)
-//                    .body(request)
-//                    .when()
-//                    .post(URI)
-//                    .then()
-//                    .statusCode(HttpStatus.BAD_REQUEST.value())
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .extract()
-//                    .as(ErrorResponse.class);
-//
-//    assertNotNull(errorResponse);
-//    assertEquals(4, errorResponse.getMessages().size());
-//  }
-//
-//  @Test
-//  void update_an_existing_resource_should_return_200() {
-//    // create a new certification which can be updated
-//    CertificationRequestDto testCertificationRequest = CertificationRequestDto.builder()
-//            .name("Updated certification name")
-//            .dateOfAchievement(LocalDate.now())
-//            .certificate("certification file")
-//            .userId(UserTestUtil.USER_ID.toString())
-//            .build();
-//
-//    CertificationDto testCertification = educationService.create(testCertificationRequest);
-//
-//    CertificationDto updatedCertificationDto =
-//            given()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .accept(MediaType.APPLICATION_JSON_VALUE)
-//                    .body(educationRequestDto.toMap())
-//                    .when()
-//                    .pathParam("id", testCertification.getId())
-//                    .put(URI + "/{id}")
-//                    .then()
-//                    .statusCode(HttpStatus.OK.value())
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .extract()
-//                    .as(CertificationDto.class);
-//
-//    assertNotNull(updatedCertificationDto);
-//    assertEquals(educationRequestDto.getDateOfAchievement().toString(), updatedCertificationDto.getDateOfAchievement());
-//    assertEquals(educationRequestDto.getName(), updatedCertificationDto.getName());
-//    assertEquals(educationRequestDto.getCertificate(), updatedCertificationDto.getCertificate());
-//    assertEquals(testCertification.getId(), updatedCertificationDto.getId());
-//    assertEquals(testCertification.getUserId(), updatedCertificationDto.getUserId());
-//
-//    // remove created testCertification
-//    educationService.delete(testCertification.getId());
-//  }
-//
-//  @Test
-//  void update_a_not_existing_resource_should_return_404() {
-//    Map<String, String> request = educationRequestDto.toMap();
-//
-//    given()
-//            .contentType(MediaType.APPLICATION_JSON_VALUE)
-//            .accept(MediaType.APPLICATION_JSON_VALUE)
-//            .body(request)
-//            .when()
-//            .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-//            .put(URI + "/{id}")
-//            .then()
-//            .statusCode(HttpStatus.NOT_FOUND.value());
-//  }
-//
-//  @Test
-//  void update_with_invalid_request_should_return_400() {
-//    Map<String, String> request = new HashMap<>();
-//    request.put("name", "A valid name");
-//    request.put("dateOfAchievement", "");
-//    request.put("userId", null);
-//
-//    ErrorResponse errorResponse =
-//            given()
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .accept(MediaType.APPLICATION_JSON_VALUE)
-//                    .body(request)
-//                    .when()
-//                    .pathParam("id", RESOURCE_ID)
-//                    .put(URI + "/{id}")
-//                    .then()
-//                    .statusCode(HttpStatus.BAD_REQUEST.value())
-//                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-//                    .extract()
-//                    .as(ErrorResponse.class);
-//
-//    assertNotNull(errorResponse);
-//    assertEquals(4, errorResponse.getMessages().size());
-//  }
-//
-//  @Test
-//  void delete_an_existing_resource_should_return_200() {
-//    // create a new certification which can be deleted
-//    CertificationDto testCertification = educationService.create(educationRequestDto);
-//
-//    given()
-//            .when()
-//            .pathParam("id", testCertification.getId())
-//            .delete(URI + "/{id}")
-//            .then()
-//            .statusCode(HttpStatus.OK.value());
-//
-//    assertFalse(educationService.find(testCertification.getId()).isPresent());
-//  }
-//
-//  @Test
-//  void delete_on_not_existing_resource_should_return_404() {
-//    given()
-//            .when()
-//            .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-//            .delete(URI + "/{id}")
-//            .then()
-//            .statusCode(HttpStatus.NOT_FOUND.value());
-//  }
+  @Test
+  void create_with_valid_request_should_return_201() {
+    Map<String, String> request = educationRequestDto.toMap();
+
+    EducationDto createdEducation =
+            given()
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .accept(MediaType.APPLICATION_JSON_VALUE)
+              .body(request)
+            .when()
+              .post(URI)
+            .then()
+              .statusCode(HttpStatus.CREATED.value())
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .extract()
+              .as(EducationDto.class);
+
+    assertNotNull(createdEducation);
+    assertEquals(educationRequestDto.getUserId(), createdEducation.getUserId());
+    assertEquals(educationRequestDto.getFacility(), createdEducation.getFacility());
+    assertEquals(educationRequestDto.getGraduation(), createdEducation.getGraduation());
+    assertEquals(educationRequestDto.getBegin(), createdEducation.getBegin());
+    assertEquals(educationRequestDto.getEnd(), createdEducation.getEnd());
+    assertTrue(createdEducation.getId() != 0);
+    assertEquals("Administrator", createdEducation.getCreatedBy());
+    assertEquals(LocalDate.now().toString(), createdEducation.getCreatedDate());
+    assertEquals("Administrator", createdEducation.getLastModifiedBy());
+    assertEquals(LocalDate.now().toString(), createdEducation.getLastModifiedDate());
+
+    // remove created certification
+    educationService.delete(createdEducation.getId());
+  }
+
+  @Test
+  void create_with_invalid_request_should_return_400() {
+    Map<String, String> request = new HashMap<>();
+    request.put("facility", " ");
+    request.put("begin", null);
+    request.put("end", null);
+    request.put("graduation", "");
+    request.put("userId", "");
+
+    ErrorResponse errorResponse =
+            given()
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .accept(MediaType.APPLICATION_JSON_VALUE)
+              .body(request)
+            .when()
+              .post(URI)
+            .then()
+              .statusCode(HttpStatus.BAD_REQUEST.value())
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .extract()
+              .as(ErrorResponse.class);
+
+    assertNotNull(errorResponse);
+    assertEquals(6, errorResponse.getMessages().size());
+  }
+
+  @Test
+  void update_an_existing_resource_should_return_200() {
+    // create a new education which can be updated
+    EducationRequestDto testEducationRequest = EducationRequestDto.builder()
+            .facility("Update education name")
+            .graduation("grade")
+            .begin(LocalDate.now())
+            .end(LocalDate.now())
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+
+    EducationDto testEducation = educationService.create(testEducationRequest);
+
+    EducationDto updatedEducationDto =
+            given()
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .accept(MediaType.APPLICATION_JSON_VALUE)
+              .body(educationRequestDto.toMap())
+            .when()
+              .pathParam("id", testEducation.getId())
+              .put(URI + "/{id}")
+            .then()
+              .statusCode(HttpStatus.OK.value())
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .extract()
+              .as(EducationDto.class);
+
+    assertNotNull(updatedEducationDto);
+    assertEquals(educationRequestDto.getFacility(), updatedEducationDto.getFacility());
+    assertEquals(educationRequestDto.getGraduation(), updatedEducationDto.getGraduation());
+    assertEquals(educationRequestDto.getBegin(), updatedEducationDto.getBegin());
+    assertEquals(educationRequestDto.getEnd(), updatedEducationDto.getEnd());
+
+    // id and user id should not be updated
+    assertEquals(testEducation.getId(), updatedEducationDto.getId());
+    assertEquals(testEducation.getUserId(), updatedEducationDto.getUserId());
+
+    // remove created testCertification
+    educationService.delete(testEducation.getId());
+  }
+
+  @Test
+  void update_a_not_existing_resource_should_return_404() {
+    Map<String, String> request = educationRequestDto.toMap();
+
+    given()
+      .contentType(MediaType.APPLICATION_JSON_VALUE)
+      .accept(MediaType.APPLICATION_JSON_VALUE)
+      .body(request)
+    .when()
+      .pathParam("id", NOT_EXISTING_RESOURCE_ID)
+      .put(URI + "/{id}")
+    .then()
+      .statusCode(HttpStatus.NOT_FOUND.value());
+  }
+
+  @Test
+  void update_with_invalid_request_should_return_400() {
+    Map<String, String> request = new HashMap<>();
+    request.put("facility", " ");
+    request.put("begin", null);
+    request.put("end", null);
+    request.put("graduation", "");
+    request.put("userId", "");
+
+    ErrorResponse errorResponse =
+            given()
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .accept(MediaType.APPLICATION_JSON_VALUE)
+              .body(request)
+            .when()
+              .pathParam("id", RESOURCE_ID)
+              .put(URI + "/{id}")
+            .then()
+              .statusCode(HttpStatus.BAD_REQUEST.value())
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+              .extract()
+              .as(ErrorResponse.class);
+
+    assertNotNull(errorResponse);
+    assertEquals(6, errorResponse.getMessages().size());
+  }
+
+  @Test
+  void delete_an_existing_resource_should_return_200() {
+    // create a new education which can be deleted
+    EducationDto testEducation = educationService.create(educationRequestDto);
+
+    given()
+    .when()
+      .pathParam("id", testEducation.getId())
+      .delete(URI + "/{id}")
+    .then()
+      .statusCode(HttpStatus.OK.value());
+
+    assertFalse(educationService.find(testEducation.getId()).isPresent());
+  }
+
+  @Test
+  void delete_on_not_existing_resource_should_return_404() {
+    given()
+    .when()
+      .pathParam("id", NOT_EXISTING_RESOURCE_ID)
+      .delete(URI + "/{id}")
+    .then()
+      .statusCode(HttpStatus.NOT_FOUND.value());
+  }
 }

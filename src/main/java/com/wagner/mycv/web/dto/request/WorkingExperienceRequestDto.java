@@ -14,7 +14,6 @@ import java.util.List;
 @Builder
 public class WorkingExperienceRequestDto {
 
-  @NotNull
   @NotBlank
   private String company;
 
@@ -23,17 +22,14 @@ public class WorkingExperienceRequestDto {
 
   private LocalDate end;
 
-  @NotNull
   @NotBlank
   private String jobTitle;
 
-  @NotNull
   @NotBlank
   private String placeOfWork;
 
   private List<String> focalPoints;
 
-  @NotNull
   @NotBlank
   private String userId;
 
