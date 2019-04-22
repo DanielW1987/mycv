@@ -147,7 +147,6 @@ class CertificationServiceImplTest {
   @Test
   void test_update_not_existing_entity() {
     // given
-    when(certificationRepository.save(any(Certification.class))).thenReturn(ocaCertificationEntity);
     when(certificationRepository.findById(1L)).thenReturn(Optional.empty());
 
     // when

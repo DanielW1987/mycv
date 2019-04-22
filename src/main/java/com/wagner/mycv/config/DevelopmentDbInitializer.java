@@ -45,17 +45,18 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
     createTestCertifications(userId);
     createTestEducations(userId);
     createTestLanguages(userId);
-    createTestPrivateProjects(userId);
+    createTestProgrammingProjects(userId);
     createTestTechnologySkills(userId);
     createTestUserProfiles(userId);
     createTestWorkingExperience(userId);
   }
 
   private String createTestUser() {
-    UserRequestDto requestDto = new UserRequestDto();
-    String publicUserId       = "ebbddc3e-8414-4555-97ca-c247cc785cef"; // static UUID value; is OK for dev and integration tests purpose
+    String publicUserId = "ebbddc3e-8414-4555-97ca-c247cc785cef"; // static UUID value; is OK for dev and integration tests purpose
+    UserRequestDto requestDto = UserRequestDto.builder()
+            .userId(publicUserId)
+            .build();
 
-    requestDto.setUserId(publicUserId);
     userService.create(requestDto);
 
     return publicUserId;
@@ -87,164 +88,183 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
   }
 
   private void createTestEducations(String userId) {
-    EducationRequestDto highSchool = new EducationRequestDto();
-    highSchool.setFacility("Berufliche Schule des Landkreises Ludwigslust");
-    highSchool.setBegin(LocalDate.of(2014, 9, 1));
-    highSchool.setEnd(LocalDate.of(2008, 7, 31));
-    highSchool.setGraduation("Allgemeine Hochschulreife und Berufsausbildung (kfm. Assistent für Informationsverarbeitung)");
-    highSchool.setUserId(userId);
+    EducationRequestDto highSchool = EducationRequestDto.builder()
+            .facility("Berufliche Schule des Landkreises Ludwigslust")
+            .begin(LocalDate.of(2014, 9, 1))
+            .end(LocalDate.of(2008, 7, 31))
+            .graduation("Allgemeine Hochschulreife und Berufsausbildung (kfm. Assistent für Informationsverarbeitung)")
+            .userId(userId)
+            .build();
 
-    EducationRequestDto bachelor = new EducationRequestDto();
-    bachelor.setFacility("Hochschule für Technik und Wirtschaft Berlin");
-    bachelor.setBegin(LocalDate.of(2008, 10, 1));
-    bachelor.setEnd(LocalDate.of(2011, 9, 30));
-    bachelor.setGraduation("B. Sc. Wirtschaftsinformatik");
-    bachelor.setUserId(userId);
+    EducationRequestDto bachelor = EducationRequestDto.builder()
+            .facility("Hochschule für Technik und Wirtschaft Berlin")
+            .begin(LocalDate.of(2008, 10, 1))
+            .end(LocalDate.of(2011, 9, 30))
+            .graduation("B. Sc. Wirtschaftsinformatik")
+            .userId(userId)
+            .build();
 
-    EducationRequestDto master = new EducationRequestDto();
-    master.setFacility("Hochschule für Technik und Wirtschaft Berlin");
-    master.setBegin(LocalDate.of(2011, 10, 1));
-    master.setEnd(LocalDate.of(2013, 9, 30));
-    master.setGraduation("M. Sc. Wirtschaftsinformatik");
-    master.setUserId(userId);
+    EducationRequestDto master = EducationRequestDto.builder()
+            .facility("Hochschule für Technik und Wirtschaft Berlin")
+            .begin(LocalDate.of(2011, 10, 1))
+            .end(LocalDate.of(2013, 9, 30))
+            .graduation("M. Sc. Wirtschaftsinformatik")
+            .userId(userId)
+            .build();
 
     educationService.createAll(Arrays.asList(highSchool, bachelor, master));
   }
 
   private void createTestLanguages(String userId) {
-    LanguageRequestDto german = new LanguageRequestDto();
-    german.setName("Deutsch");
-    german.setLevel((byte) 100);
-    german.setUserId(userId);
+    LanguageRequestDto german = LanguageRequestDto.builder()
+            .name("Deutsch")
+            .level((byte) 100)
+            .userId(userId)
+            .build();
 
-    LanguageRequestDto english = new LanguageRequestDto();
-    english.setName("Englisch");
-    english.setLevel((byte) 60);
-    english.setUserId(userId);
+    LanguageRequestDto english = LanguageRequestDto.builder()
+            .name("Englisch")
+            .level((byte) 60)
+            .userId(userId)
+            .build();
 
-    LanguageRequestDto french = new LanguageRequestDto();
-    french.setName("Französisch");
-    french.setLevel((byte) 30);
-    french.setUserId(userId);
+    LanguageRequestDto french = LanguageRequestDto.builder()
+            .name("Französisch")
+            .level((byte) 30)
+            .userId(userId)
+            .build();
 
     languageService.createAll(Arrays.asList(german, english, french));
   }
 
-  private void createTestPrivateProjects(String userId) {
-    ProgrammingProjectRequestDto myBeautifulCV = new ProgrammingProjectRequestDto();
-    myBeautifulCV.setName("My Beautiful CurriculumVitae");
-    myBeautifulCV.setDescription("Lorem ipsum...");
-    myBeautifulCV.setTechnologiesUsed(Arrays.asList("Spring Boot", "Angular"));
-    myBeautifulCV.setVcsUrl("https://www.bitbucket.com/foobar");
-    myBeautifulCV.setUserId(userId);
+  private void createTestProgrammingProjects(String userId) {
+    ProgrammingProjectRequestDto myBeautifulCV = ProgrammingProjectRequestDto.builder()
+            .name("My Beautiful CV")
+            .technologiesUsed(Arrays.asList("Spring Boot", "Angular"))
+            .description("Lorem ipsum...")
+            .vcsUrl("https://www.bitbucket.com/foobar")
+            .userId(userId)
+            .build();
 
-    ProgrammingProjectRequestDto examedy = new ProgrammingProjectRequestDto();
-    examedy.setName("Examedy");
-    examedy.setDescription("Lorem ipsum...");
-    examedy.setTechnologiesUsed(Arrays.asList("Spring Boot", "Angular"));
-    examedy.setVcsUrl("https://www.github.com/foobar");
-    examedy.setUserId(userId);
+    ProgrammingProjectRequestDto examedy = ProgrammingProjectRequestDto.builder()
+            .name("Examedy")
+            .technologiesUsed(Arrays.asList("Spring Boot", "Angular"))
+            .description("Lorem ipsum...")
+            .vcsUrl("https://www.github.com/foobar")
+            .userId(userId)
+            .build();
 
     programmingProjectService.createAll(Arrays.asList(myBeautifulCV, examedy));
   }
 
   private void createTestTechnologySkills(String userId) {
-    TechnologySkillRequestDto programming = new TechnologySkillRequestDto();
-    programming.setCategory("Programmierung");
-    programming.setSkillNames(Arrays.asList("Java", "Spring / Spring Boot (Security, JPA, MVC, Actuator)",
-            "Design Pattners", "REST und SOAP WebServices", "Git", "Maven", "Python"));
-    programming.setUserId(userId);
+    TechnologySkillRequestDto programming = TechnologySkillRequestDto.builder()
+            .category("Programmierung")
+            .skillNames(Arrays.asList("Java", "Spring / Spring Boot",
+                    "Design Pattners", "REST und SOAP WebServices", "Git", "Maven", "Python"))
+            .userId(userId)
+            .build();
 
-    TechnologySkillRequestDto testing = new TechnologySkillRequestDto();
-    testing.setCategory("Tests");
-    testing.setSkillNames(Arrays.asList("JUnit", "Mockito", "Rest Assured"));
-    testing.setUserId(userId);
+    TechnologySkillRequestDto testing = TechnologySkillRequestDto.builder()
+            .category("Tests")
+            .skillNames(Arrays.asList("JUnit", "Mockito", "Rest Assured"))
+            .userId(userId)
+            .build();
 
-    TechnologySkillRequestDto web = new TechnologySkillRequestDto();
-    web.setCategory("Webtechnologien");
-    web.setSkillNames(Arrays.asList("HTML", "CSS", "Bootstrap", "AngularCLI", "jQuery"));
-    web.setUserId(userId);
+    TechnologySkillRequestDto web = TechnologySkillRequestDto.builder()
+            .category("Webtechnologien")
+            .skillNames(Arrays.asList("HTML", "CSS", "Bootstrap", "AngularCLI", "jQuery"))
+            .userId(userId)
+            .build();
 
-    TechnologySkillRequestDto databases = new TechnologySkillRequestDto();
-    databases.setCategory("Datenbanken");
-    databases.setSkillNames(Arrays.asList("(My)SQL", "Datenbankmodellierung", "JDBC"));
-    databases.setUserId(userId);
+    TechnologySkillRequestDto databases = TechnologySkillRequestDto.builder()
+            .category("Datenbanken")
+            .skillNames(Arrays.asList("(My)SQL", "Datenbankmodellierung", "JDBC"))
+            .userId(userId)
+            .build();
 
-    TechnologySkillRequestDto modeling = new TechnologySkillRequestDto();
-    modeling.setCategory("Modellierung");
-    modeling.setSkillNames(Arrays.asList("UML", "Domain Driven Design"));
-    modeling.setUserId(userId);
+    TechnologySkillRequestDto modeling = TechnologySkillRequestDto.builder()
+            .category("Modellierung")
+            .skillNames(Arrays.asList("UML", "Domain Driven Design"))
+            .userId(userId)
+            .build();
 
-    TechnologySkillRequestDto agileMethods = new TechnologySkillRequestDto();
-    agileMethods.setCategory("Agile Methoden");
-    agileMethods.setSkillNames(Arrays.asList("Scrum", "Kanban"));
-    agileMethods.setUserId(userId);
+    TechnologySkillRequestDto agileMethods = TechnologySkillRequestDto.builder()
+            .category("Agile Methoden")
+            .skillNames(Arrays.asList("Scrum", "Kanban"))
+            .userId(userId)
+            .build();
 
     technologySkillService.createAll(Arrays.asList(programming, testing, web, databases, modeling, agileMethods));
   }
 
   private void createTestUserProfiles(String userId) {
-    UserProfileRequestDto userProfile = new UserProfileRequestDto();
-    userProfile.setFirstName("Daniel");
-    userProfile.setLastName("Wagner");
-    userProfile.setCurrentJob("Java Developer");
-    userProfile.setEmail("wagner.daniel87@gmail.com");
-    userProfile.setMobilePhone("01520 35 36 248");
-    userProfile.setPlaceOfResidence("12439 Berlin");
-    userProfile.setProfileImage("Profile Image");
-    userProfile.setUserId(userId);
+    UserProfileRequestDto userProfile = UserProfileRequestDto.builder()
+            .firstName("John")
+            .lastName("Dow")
+            .currentJob("Java Developer")
+            .email("john.doe@example")
+            .mobilePhone("01520 12 34 567")
+            .placeOfResidence("Berlin")
+            .profileImage("Profile Image")
+            .userId(userId)
+            .build();
 
     userProfileService.create(userProfile);
   }
 
   private void createTestWorkingExperience(String userId) {
-    WorkingExperienceRequestDto freelancer = new WorkingExperienceRequestDto();
-    freelancer.setCompany("Selbstständig");
-    freelancer.setJobTitle("Webentwicklung, IT-Projekte, Beratung");
-    freelancer.setBegin(LocalDate.of(2011, 1, 1));
-    freelancer.setEnd(LocalDate.of(2013, 9, 30));
-    freelancer.setPlaceOfWork("Berlin");
-    freelancer.setFocalPoints(Arrays.asList(
-            "Realisierung von Internetauftritten und OnlineShops sowie Online-Marketing",
-            "verschiedene Entwicklungsprojekte u. a. mit PHP, Zend Framework 2, HTML, CSS, JavaScript",
-            "Dozententätigkeit (SQL Server 2010, Excel VBA)"));
-    freelancer.setUserId(userId);
+    WorkingExperienceRequestDto freelancer = WorkingExperienceRequestDto.builder()
+            .company("Selbstständig")
+            .jobTitle("Webentwicklung, IT-Projekte, Beratung")
+            .begin(LocalDate.of(2011, 1, 1))
+            .end(LocalDate.of(2013, 9, 30))
+            .placeOfWork("Berlin")
+            .focalPoints(Arrays.asList(
+                    "Realisierung von Internetauftritten und OnlineShops sowie Online-Marketing",
+                    "verschiedene Entwicklungsprojekte u. a. mit PHP, Zend Framework 2, HTML, CSS, JavaScript",
+                    "Dozententätigkeit (SQL Server 2010, Excel VBA)"))
+            .userId(userId)
+            .build();
 
-    WorkingExperienceRequestDto etlDeveloper = new WorkingExperienceRequestDto();
-    etlDeveloper.setCompany("LucaNet AG");
-    etlDeveloper.setJobTitle("Java/ETL Developer");
-    etlDeveloper.setBegin(LocalDate.of(2013, 10, 1));
-    etlDeveloper.setEnd(LocalDate.of(2015, 12, 31));
-    etlDeveloper.setPlaceOfWork("Berlin");
-    etlDeveloper.setFocalPoints(Arrays.asList(
-            "Schnittstellenentwicklung zwischen einer Vielzahl von ERP-Systemen und dem LucaNet DWH mittels Java und SQL",
-            "Qualitätssicherung, Dokumentation und Einführung der Schnittstellen beim Kunden",
-            "Konzeption und Weiterentwicklung von DWH-Lösungen sowie deren Integration in die LucaNet-Software"));
-    etlDeveloper.setUserId(userId);
+    WorkingExperienceRequestDto etlDeveloper = WorkingExperienceRequestDto.builder()
+            .company("John Doe Company")
+            .jobTitle("Java/ETL Developer")
+            .begin(LocalDate.of(2013, 10, 1))
+            .end(LocalDate.of(2015, 12, 31))
+            .placeOfWork("Berlin")
+            .focalPoints(Arrays.asList(
+                    "Schnittstellenentwicklung zwischen einer Vielzahl von ERP-Systemen und dem LucaNet DWH mittels Java und SQL",
+                    "Qualitätssicherung, Dokumentation und Einführung der Schnittstellen beim Kunden",
+                    "Konzeption und Weiterentwicklung von DWH-Lösungen sowie deren Integration in die LucaNet-Software"))
+            .userId(userId)
+            .build();
 
-    WorkingExperienceRequestDto javaConsultant = new WorkingExperienceRequestDto();
-    javaConsultant.setCompany("LucaNet AG");
-    javaConsultant.setJobTitle("Java Technical Consultant");
-    javaConsultant.setBegin(LocalDate.of(2016, 1, 1));
-    javaConsultant.setEnd(LocalDate.of(2017, 2, 28));
-    javaConsultant.setPlaceOfWork("Berlin");
-    javaConsultant.setFocalPoints(Arrays.asList(
-            "Aufbau eines agilen Entwicklungsteams am Standort Mönchengladbach",
-            "Einführung qualitätssichernder Standards (Coding Conventions, Code Reviews, Regressionstests)",
-            "Kundenindividuelle Java-Projekte"));
-    javaConsultant.setUserId(userId);
+    WorkingExperienceRequestDto javaConsultant = WorkingExperienceRequestDto.builder()
+            .company("John Doe Company")
+            .jobTitle("Java Technical Consultant")
+            .begin(LocalDate.of(2016, 1, 1))
+            .end(LocalDate.of(2017, 2, 28))
+            .placeOfWork("Berlin")
+            .focalPoints(Arrays.asList(
+                    "Aufbau eines agilen Entwicklungsteams am Standort Mönchengladbach",
+                    "Einführung qualitätssichernder Standards (Coding Conventions, Code Reviews, Regressionstests)",
+                    "Kundenindividuelle Java-Projekte"))
+            .userId(userId)
+            .build();
 
-    WorkingExperienceRequestDto javaDeveloper = new WorkingExperienceRequestDto();
-    javaDeveloper.setCompany("LucaNet AG");
-    javaDeveloper.setJobTitle("Java Developer");
-    javaDeveloper.setBegin(LocalDate.of(2017, 3, 1));
-    javaDeveloper.setPlaceOfWork("Berlin");
-    javaDeveloper.setFocalPoints(Arrays.asList(
-            "davon 1,5 Jahre Teamleiter eines 5-köpfigen Teams",
-            "Entwicklung von Anwendungen zur automatisierten Erstellung von Konzernabschlüssen (REST-Backend, Java Swing)",
-            "Software-Security (Authentifizierung, Autorisierung, Verschlüsselung, Transparenz)",
-            "Leitung von Kooperationsprojekten mit dem Masterstudiengang Wirtschaftsinformatik der HTW Berlin"));
-    javaDeveloper.setUserId(userId);
+    WorkingExperienceRequestDto javaDeveloper = WorkingExperienceRequestDto.builder()
+            .company("John Doe Company")
+            .jobTitle("Java Developer")
+            .begin(LocalDate.of(2017, 3, 1))
+            .placeOfWork("Berlin")
+            .focalPoints(Arrays.asList(
+                    "davon 1,5 Jahre Teamleiter eines 5-köpfigen Teams",
+                    "Entwicklung von Anwendungen zur automatisierten Erstellung von Konzernabschlüssen (REST-Backend, Java Swing)",
+                    "Software-Security (Authentifizierung, Autorisierung, Verschlüsselung, Transparenz)",
+                    "Leitung von Kooperationsprojekten mit dem Masterstudiengang Wirtschaftsinformatik der HTW Berlin"))
+            .userId(userId)
+            .build();
 
     workingExperienceService.createAll(Arrays.asList(freelancer, etlDeveloper, javaConsultant, javaDeveloper));
   }

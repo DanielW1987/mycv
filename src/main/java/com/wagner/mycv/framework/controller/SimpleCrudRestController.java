@@ -1,4 +1,4 @@
-package com.wagner.mycv.api.controller;
+package com.wagner.mycv.framework.controller;
 
 import com.wagner.mycv.model.exception.ErrorMessages;
 import com.wagner.mycv.model.exception.RestRequestValidationException;

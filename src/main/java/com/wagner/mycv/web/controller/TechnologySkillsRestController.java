@@ -1,6 +1,6 @@
 package com.wagner.mycv.web.controller;
 
-import com.wagner.mycv.api.controller.SimpleCrudRestController;
+import com.wagner.mycv.framework.controller.SimpleCrudRestController;
 import com.wagner.mycv.service.TechnologySkillService;
 import com.wagner.mycv.web.dto.TechnologySkillDto;
 import com.wagner.mycv.web.dto.request.TechnologySkillRequestDto;

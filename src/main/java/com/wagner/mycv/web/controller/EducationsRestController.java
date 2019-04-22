@@ -1,8 +1,6 @@
 package com.wagner.mycv.web.controller;
 
-import com.wagner.mycv.api.controller.SimpleCrudRestController;
-import com.wagner.mycv.model.exception.ErrorMessages;
-import com.wagner.mycv.model.exception.RestRequestValidationException;
+import com.wagner.mycv.framework.controller.SimpleCrudRestController;
 import com.wagner.mycv.service.EducationService;
 import com.wagner.mycv.web.dto.EducationDto;
 import com.wagner.mycv.web.dto.request.EducationRequestDto;

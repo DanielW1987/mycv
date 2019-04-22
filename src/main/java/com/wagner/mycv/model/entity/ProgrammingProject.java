@@ -1,6 +1,8 @@
 package com.wagner.mycv.model.entity;
 
-import com.wagner.mycv.api.entity.AbstractEntity;
+import com.google.common.collect.Lists;
+import com.wagner.mycv.framework.jpa.entity.AbstractEntity;
+import com.wagner.mycv.utils.CollectionUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +29,10 @@ public class ProgrammingProject extends AbstractEntity {
 
   public void setTechnologiesUsed(List<String> technologiesUsed) {
     this.technologiesUsed = String.join(", ", technologiesUsed);
+  }
+
+  public List<String> getTechnologiesUsed() {
+    return Lists.newArrayList(CollectionUtil.characterSeparatedStringToList(technologiesUsed));
   }
 
 }

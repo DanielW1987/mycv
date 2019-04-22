@@ -1,6 +1,6 @@
 package com.wagner.mycv.model.entity;
 
-import com.wagner.mycv.api.entity.AbstractEntity;
+import com.wagner.mycv.framework.jpa.entity.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
 

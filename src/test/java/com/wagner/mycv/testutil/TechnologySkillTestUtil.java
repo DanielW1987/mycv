@@ -1,6 +1,7 @@
 package com.wagner.mycv.testutil;
 
 import com.wagner.mycv.model.entity.TechnologySkill;
+import com.wagner.mycv.web.dto.request.TechnologySkillRequestDto;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,23 @@ public class TechnologySkillTestUtil {
   }
 
   /*---------------TechnologySkillRequestDto----------------*/
+  public static TechnologySkillRequestDto createProgrammingSkillRequestDto() {
+    return TechnologySkillRequestDto.builder()
+            .category("Programmierung")
+            .skillNames(Arrays.asList("Java", "Spring / Spring Boot",
+                    "Design Pattners", "REST und SOAP WebServices", "Git", "Maven", "Python"))
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
 
+  }
+
+  public static TechnologySkillRequestDto createTestsSkillRequestDto() {
+    return TechnologySkillRequestDto.builder()
+            .category("Tests")
+            .skillNames(Arrays.asList("JUnit", "Mockito", "Rest Assured"))
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+  }
 
   /*-------------------TechnologySkillDto-------------------*/
 }

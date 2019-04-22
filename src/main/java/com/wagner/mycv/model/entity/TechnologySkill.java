@@ -1,8 +1,11 @@
 package com.wagner.mycv.model.entity;
 
-import com.wagner.mycv.api.entity.AbstractEntity;
+import com.google.common.collect.Lists;
+import com.wagner.mycv.framework.jpa.entity.AbstractEntity;
+import com.wagner.mycv.utils.CollectionUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,5 +27,9 @@ public class TechnologySkill extends AbstractEntity {
 
   public void setSkillNames(List<String> skillNames) {
     this.skillNames = String.join(", ", skillNames);
+  }
+
+  public List<String> getSkillNames() {
+    return Lists.newArrayList(CollectionUtil.characterSeparatedStringToList(skillNames));
   }
 }

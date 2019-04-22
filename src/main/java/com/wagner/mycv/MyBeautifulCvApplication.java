@@ -13,12 +13,14 @@ public class MyBeautifulCvApplication {
 }
 
 // ToDo UserId ist bisher nur provisorisch mit den Daten verknüpft. Aktuell ist es noch nicht wirklich möglich, CVs je Benutzer zu verwalten
-// Hierbei muss man auch hinsichtlich Sicherheits prüfen, dass nicht die Daten anderer geändert oder gelesen werden können.
-// Also einfach nur die UserId zum Server mitsenden ist wahrscheinlich alleine zu wenig.
+//  Hierbei muss man auch hinsichtlich Sicherheits prüfen, dass nicht die Daten anderer geändert oder gelesen werden können.
+//  Also einfach nur die UserId zum Server mitsenden ist wahrscheinlich alleine zu wenig.
 
 // ToDo: Wenn im Request ein Datum nicht zu LocalDate geparst werden kann, werden dem Client noch Fehlermeldungen mit Stacktrace gesendet.
-// Hier muss noch eine grundsätzliche Lösung gefunden werden, wie der Client auch bei nicht explizit behandelten Fehlern keinen Stacktrace
-// zu Gesicht bekommt.
-// Mögliche Lösung: Überall nur primitive Datentypen oder Strings verwenden und eigene Validator und Converter schreiben.
+//  Hier muss noch eine grundsätzliche Lösung gefunden werden, wie der Client auch bei nicht explizit behandelten Fehlern keinen Stacktrace
+//  zu Gesicht bekommt.
+//  Mögliche Lösung: Überall nur primitive Datentypen oder Strings verwenden und eigene Validator und Converter schreiben.
 
 // ToDo: @NotNull und @Nullable Annotations hinzufügen und Parameter und Rückgabewerte annotieren
+
+// ToDo DanielW: Es ist doof, dass Aufzählungen wie "skillNames" oder "technologyUsed" aktuell als kommaseparierte Liste gespeichert werden.

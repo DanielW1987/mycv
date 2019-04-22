@@ -1,6 +1,7 @@
 package com.wagner.mycv.testutil;
 
 import com.wagner.mycv.model.entity.Language;
+import com.wagner.mycv.web.dto.request.LanguageRequestDto;
 
 public class LanguageTestUtil {
 
@@ -10,7 +11,7 @@ public class LanguageTestUtil {
 
   /*--------------------Language---------------------*/
   public static Language createTestEntity() {
-    return createTestEntity("German", (byte) 80);
+    return createTestEntity("Deutsch", (byte) 80);
   }
 
   public static Language createTestEntity(String name, byte level) {
@@ -23,7 +24,21 @@ public class LanguageTestUtil {
   }
 
   /*---------------LanguageRequestDto----------------*/
+  public static LanguageRequestDto createGermanLanguageRequestDto() {
+    return LanguageRequestDto.builder()
+            .name("Deutsch")
+            .level((byte) 100)
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+  }
 
+  public static LanguageRequestDto createEnglishLanguageRequestDto() {
+    return LanguageRequestDto.builder()
+            .name("Englisch")
+            .level((byte) 60)
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+  }
 
   /*-------------------LanguageDto-------------------*/
 }

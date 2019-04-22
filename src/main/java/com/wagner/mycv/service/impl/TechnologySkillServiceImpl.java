@@ -31,9 +31,7 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
   @NotNull
   @Override
   public List<TechnologySkillDto> findAll() {
-    Sort sort = new Sort(Sort.Direction.DESC, "end");
-
-    return technologySkillRepository.findAll(sort)
+    return technologySkillRepository.findAll()
             .stream()
             .map(technologySkill -> modelMapper.map(technologySkill, TechnologySkillDto.class))
             .collect(Collectors.toList());

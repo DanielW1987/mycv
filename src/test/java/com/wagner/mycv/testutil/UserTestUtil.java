@@ -1,6 +1,7 @@
 package com.wagner.mycv.testutil;
 
 import com.wagner.mycv.model.entity.User;
+import com.wagner.mycv.web.dto.request.UserRequestDto;
 
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ public class UserTestUtil {
 
   /*--------------------User---------------------*/
   public static User createTestEntity() {
-    return createTestEntity(UUID.randomUUID().toString());
+    return createTestEntity(USER_ID.toString());
   }
 
   public static User createTestEntity(String uuid) {
@@ -25,7 +26,11 @@ public class UserTestUtil {
   }
 
   /*---------------UserRequestDto----------------*/
-
+  public static UserRequestDto createUserRequestDto() {
+    return UserRequestDto.builder()
+            .userId(USER_ID.toString())
+            .build();
+  }
 
   /*-------------------UserDto-------------------*/
 }

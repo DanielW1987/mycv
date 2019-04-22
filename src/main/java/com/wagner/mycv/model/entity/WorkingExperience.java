@@ -1,9 +1,12 @@
 package com.wagner.mycv.model.entity;
 
-import com.wagner.mycv.api.entity.AbstractEntity;
+import com.wagner.mycv.framework.jpa.entity.AbstractEntity;
 import com.wagner.mycv.utils.CollectionUtil;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -43,5 +46,11 @@ public class WorkingExperience extends AbstractEntity {
     focalPoint2 = CollectionUtil.getOrDefault(focalPoints, 1);
     focalPoint3 = CollectionUtil.getOrDefault(focalPoints, 2);
     focalPoint4 = CollectionUtil.getOrDefault(focalPoints, 3);
+  }
+
+  public List<String> getFocalPoints() {
+    return Stream.of(focalPoint1, focalPoint2, focalPoint3, focalPoint4)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
   }
 }

@@ -1,4 +1,4 @@
-package com.wagner.mycv;
+package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.CertificationService;
 import com.wagner.mycv.testutil.CertificationTestUtil;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -31,12 +32,15 @@ import static org.springframework.boot.test.context.SpringBootTest.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class CertificationRestApiIntegrationTest {
+class CertificationsRestControllerIntegrationTest {
 
   private static       String URI;
   private static final String RESOURCE_PATH              = "/rest/v1/certifications";
   private static final String RESOURCE_ID                = "1";
   private static final String NOT_EXISTING_RESOURCE_ID   = "99999";
+
+  @Value("${server.address}")
+  private String serverAddress;
 
   @LocalServerPort
   private int port;
@@ -49,7 +53,7 @@ class CertificationRestApiIntegrationTest {
 
   @PostConstruct
   void init() {
-    URI = "http://localhost:" + port + RESOURCE_PATH;
+    URI = "http://" + serverAddress + ":" + port + RESOURCE_PATH;
   }
 
   @BeforeEach
@@ -164,6 +168,7 @@ class CertificationRestApiIntegrationTest {
 
     // assert that all fields have a value
     Stream.of(certificationDtos).forEach(certificationDto -> {
+      assertTrue(certificationDto.getId() != 0);
       assertNotNull(certificationDto.getName());
       assertNotNull(certificationDto.getDateOfAchievement());
       assertNotNull(certificationDto.getCertificate());
@@ -175,8 +180,8 @@ class CertificationRestApiIntegrationTest {
     });
 
     // the ordering is from newest to oldest date of achievement
-    LocalDate[] expected = new LocalDate[3];
-    LocalDate[] actual   = new LocalDate[3];
+    LocalDate[] expected = new LocalDate[certificationDtos.length];
+    LocalDate[] actual   = new LocalDate[certificationDtos.length];
     for (int index = 0; index < certificationDtos.length; index++) {
       actual[index] = LocalDate.parse(certificationDtos[index].getDateOfAchievement());
       expected[index] = actual[index];

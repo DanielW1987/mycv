@@ -1,4 +1,4 @@
-package com.wagner.mycv.api.service;
+package com.wagner.mycv.framework.service;
 
 import org.jetbrains.annotations.NotNull;
 

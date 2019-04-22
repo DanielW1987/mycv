@@ -1,6 +1,7 @@
 package com.wagner.mycv.testutil;
 
 import com.wagner.mycv.model.entity.ProgrammingProject;
+import com.wagner.mycv.web.dto.request.ProgrammingProjectRequestDto;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,25 @@ public class ProgrammingProjectTestUtil {
   }
 
   /*---------------ProgrammingProjectRequestDto----------------*/
+  public static ProgrammingProjectRequestDto createMyCvProjectRequestDto() {
+    return ProgrammingProjectRequestDto.builder()
+            .name("My Beautiful CurriculumVitae")
+            .technologiesUsed(Arrays.asList("Spring Boot", "Angular"))
+            .description("Lorem ipsum...")
+            .vcsUrl("https://www.bitbucket.com/foobar")
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+  }
 
+  public static ProgrammingProjectRequestDto createExamedyProjectRequestDto() {
+    return ProgrammingProjectRequestDto.builder()
+            .name("Examedy")
+            .technologiesUsed(Arrays.asList("Spring Boot", "Angular"))
+            .description("Lorem ipsum...")
+            .vcsUrl("https://www.github.com/foobar")
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+  }
 
   /*-------------------ProgrammingProjectDto-------------------*/
 }

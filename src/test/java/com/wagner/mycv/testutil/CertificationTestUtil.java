@@ -5,7 +5,6 @@ import com.wagner.mycv.web.dto.CertificationDto;
 import com.wagner.mycv.web.dto.request.CertificationRequestDto;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class CertificationTestUtil {
 

@@ -1,6 +1,9 @@
 package com.wagner.mycv.testutil;
 
 import com.wagner.mycv.model.entity.Education;
+import com.wagner.mycv.web.dto.CertificationDto;
+import com.wagner.mycv.web.dto.EducationDto;
+import com.wagner.mycv.web.dto.request.EducationRequestDto;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -28,8 +31,40 @@ public class EducationTestUtil {
   }
 
   /*---------------EducationRequestDto----------------*/
+  public static EducationRequestDto createBachelorEducationRequestDto() {
+    return EducationRequestDto.builder()
+            .facility("Hochschule für Technik und Wirtschaft Berlin")
+            .begin(LocalDate.of(2008, 10, 1))
+            .end(LocalDate.of(2011, 9, 30))
+            .graduation("B. Sc. Wirtschaftsinformatik")
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+  }
 
+  public static EducationRequestDto createMasterEducationRequestDto() {
+    return EducationRequestDto.builder()
+            .facility("Hochschule für Technik und Wirtschaft Berlin")
+            .begin(LocalDate.of(2011, 10, 1))
+            .end(LocalDate.of(2013, 9, 30))
+            .graduation("M. Sc. Wirtschaftsinformatik")
+            .userId(UserTestUtil.USER_ID.toString())
+            .build();
+  }
 
   /*-------------------EducationDto-------------------*/
+  public static EducationDto createBachelorEducationDto() {
+    EducationDto bachelorDto = new EducationDto();
+    bachelorDto.setId(1);
+    bachelorDto.setFacility("Hochschule für Technik und Wirtschaft Berlin\"");
+    bachelorDto.setGraduation("B. Sc. Wirtschaftsinformatik");
+    bachelorDto.setBegin(LocalDate.of(2008, 10, 1));
+    bachelorDto.setEnd(LocalDate.of(2011, 9, 30));
+    bachelorDto.setUserId(UserTestUtil.USER_ID.toString());
+    bachelorDto.setCreatedBy("Administrator");
+    bachelorDto.setCreatedDate(LocalDate.now().toString());
+    bachelorDto.setLastModifiedBy("Administrator");
+    bachelorDto.setLastModifiedDate(LocalDate.now().toString());
 
+    return bachelorDto;
+  }
 }

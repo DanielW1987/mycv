@@ -1,4 +1,4 @@
-package com.wagner.mycv.api.entity;
+package com.wagner.mycv.framework.jpa.entity;
 
 import java.time.LocalDate;
 
