@@ -183,14 +183,14 @@ class CertificationServiceImplTest {
 
   private void assertThatDtoAndEntityAreEqual(Certification entity, CertificationDto dto) {
     assertEquals(entity.getName(), dto.getName());
-    assertEquals(entity.getDateOfAchievement(), LocalDate.parse(dto.getDateOfAchievement()));
+    assertEquals(entity.getDateOfAchievement(), dto.getDateOfAchievement());
     assertEquals(entity.getCertificate(), dto.getCertificate());
     assertEquals(entity.getUserId(), dto.getUserId());
   }
 
   private void assertThatRequestDtoAndDtoAreEqual(CertificationRequestDto requestDto, CertificationDto dto) {
     assertEquals(requestDto.getName(), dto.getName());
-    assertEquals(requestDto.getDateOfAchievement(), LocalDate.parse(dto.getDateOfAchievement()));
+    assertEquals(requestDto.getDateOfAchievement(), dto.getDateOfAchievement());
     assertEquals(requestDto.getCertificate(), dto.getCertificate());
     assertEquals(requestDto.getUserId(), dto.getUserId());
   }

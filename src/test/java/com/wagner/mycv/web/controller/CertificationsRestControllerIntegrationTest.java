@@ -67,11 +67,12 @@ class CertificationsRestControllerIntegrationTest {
     // Entweder Response auf das DTO mappen und dann das DTO prüfen
     CertificationDto dto =
             given()
+              .accept(MediaType.APPLICATION_JSON_VALUE)
               .pathParam("id", RESOURCE_ID)
             .when()
               .get(URI + "/{id}")
             .then()
-              .contentType(MediaType.APPLICATION_XML_VALUE)
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
               .statusCode(HttpStatus.OK.value())
             .extract()
               .as(CertificationDto.class);
@@ -92,7 +93,7 @@ class CertificationsRestControllerIntegrationTest {
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .statusCode(HttpStatus.OK.value())
         .body("name", equalTo(mtaCertificationDto.getName()))
-        .body("dateOfAchievement", equalTo(mtaCertificationDto.getDateOfAchievement()))
+        .body("dateOfAchievement", equalTo(mtaCertificationDto.getDateOfAchievement().toString()))
         .body("certificate", equalTo(mtaCertificationDto.getCertificate()))
         .body("id", equalTo(1)) // doesn't work with mtaCertificationDto.getId()!
         .body("userId", equalTo(mtaCertificationDto.getUserId()));
@@ -183,7 +184,7 @@ class CertificationsRestControllerIntegrationTest {
     LocalDate[] expected = new LocalDate[certificationDtos.length];
     LocalDate[] actual   = new LocalDate[certificationDtos.length];
     for (int index = 0; index < certificationDtos.length; index++) {
-      actual[index] = LocalDate.parse(certificationDtos[index].getDateOfAchievement());
+      actual[index] = certificationDtos[index].getDateOfAchievement();
       expected[index] = actual[index];
     }
 
@@ -211,7 +212,7 @@ class CertificationsRestControllerIntegrationTest {
     assertNotNull(createdCertification);
     assertEquals(certificationRequestDto.getUserId(), createdCertification.getUserId());
     assertEquals(certificationRequestDto.getName(), createdCertification.getName());
-    assertEquals(certificationRequestDto.getDateOfAchievement().toString(), createdCertification.getDateOfAchievement());
+    assertEquals(certificationRequestDto.getDateOfAchievement(), createdCertification.getDateOfAchievement());
     assertEquals(certificationRequestDto.getCertificate(), createdCertification.getCertificate());
     assertTrue(createdCertification.getId() > 0);
     assertEquals("Administrator", createdCertification.getCreatedBy());
@@ -274,7 +275,7 @@ class CertificationsRestControllerIntegrationTest {
               .as(CertificationDto.class);
 
     assertNotNull(updatedCertificationDto);
-    assertEquals(certificationRequestDto.getDateOfAchievement().toString(), updatedCertificationDto.getDateOfAchievement());
+    assertEquals(certificationRequestDto.getDateOfAchievement(), updatedCertificationDto.getDateOfAchievement());
     assertEquals(certificationRequestDto.getName(), updatedCertificationDto.getName());
     assertEquals(certificationRequestDto.getCertificate(), updatedCertificationDto.getCertificate());
     assertEquals(testCertification.getId(), updatedCertificationDto.getId());

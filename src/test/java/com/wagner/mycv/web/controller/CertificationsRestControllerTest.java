@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +41,8 @@ class CertificationsRestControllerTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.initMocks(this);
-    ocaCertificationDto     = CertificationTestUtil.testCertificationDto("OCA Certification","2017-07-01");
-    ocpCertificationDto     = CertificationTestUtil.testCertificationDto("OCP Certification","2018-03-08");
+    ocaCertificationDto     = CertificationTestUtil.testCertificationDto("OCA Certification", LocalDate.of(2017, 7, 1));
+    ocpCertificationDto     = CertificationTestUtil.testCertificationDto("OCP Certification", LocalDate.of(2018, 3, 8));
     certificationRequestDto = CertificationTestUtil.createOcaCertificationRequestDto();
   }
 

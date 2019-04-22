@@ -63,7 +63,7 @@ public class CertificationTestUtil {
     CertificationDto certificationDto = new CertificationDto();
     certificationDto.setId(1);
     certificationDto.setName("Microsoft Technology Associate: Database Fundamentals");
-    certificationDto.setDateOfAchievement("2014-10-01");
+    certificationDto.setDateOfAchievement(LocalDate.of(2014, 10, 1));
     certificationDto.setCertificate("certification file");
     certificationDto.setUserId(UserTestUtil.USER_ID.toString());
     certificationDto.setCreatedBy("Administrator");
@@ -74,7 +74,7 @@ public class CertificationTestUtil {
     return certificationDto;
   }
 
-  public static CertificationDto testCertificationDto(String name, String dateOfAchievement) {
+  public static CertificationDto testCertificationDto(String name, LocalDate dateOfAchievement) {
     CertificationDto certificationDto = new CertificationDto();
     certificationDto.setId(1);
     certificationDto.setName(name);
