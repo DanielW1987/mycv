@@ -60,10 +60,10 @@ class LanguagesRestControllerIntegrationTest {
 
   @Test
   void test_get() {
-    ValidatableResponse response = requestHandler.doGet(ContentType.XML, RESOURCE_ID);
+    ValidatableResponse response = requestHandler.doGet(ContentType.JSON, RESOURCE_ID);
 
     // assert
-    response.contentType(ContentType.XML)
+    response.contentType(ContentType.JSON)
             .statusCode(HttpStatus.OK.value());
 
     LanguageDto responseDto = response.extract().as(LanguageDto.class);
@@ -85,10 +85,10 @@ class LanguagesRestControllerIntegrationTest {
 
   @Test
   void getAll() {
-    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.XML);
+    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.JSON);
 
     // assert
-    validatableResponse.contentType(ContentType.XML)
+    validatableResponse.contentType(ContentType.JSON)
                        .statusCode(HttpStatus.OK.value());
 
     Response response = validatableResponse.extract().response();

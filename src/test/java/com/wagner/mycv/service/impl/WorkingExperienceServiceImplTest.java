@@ -51,14 +51,14 @@ class WorkingExperienceServiceImplTest {
   void test_findAll() {
     // given
     List<WorkingExperience> workingExperiences = Arrays.asList(javaConsultantWorkingExperienceEntity, javaDeveloperWorkingExperienceEntity);
-    when(workingExperienceRepository.findAll(any(Sort.class))).thenReturn(workingExperiences);
+    when(workingExperienceRepository.findAll()).thenReturn(workingExperiences);
 
     // when
     List<WorkingExperienceDto> actualWorkingExperienceList = workingExperienceService.findAll();
 
     // then
     assertEquals(2, actualWorkingExperienceList.size());
-    verify(workingExperienceRepository, times(1)).findAll(any(Sort.class));
+    verify(workingExperienceRepository, times(1)).findAll();
 
     List<WorkingExperienceDto> expectedWorkingExperienceList = workingExperiences.stream()
             .map(entity -> new ModelMapper().map(entity, WorkingExperienceDto.class))

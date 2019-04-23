@@ -62,10 +62,10 @@ class ProgrammingProjectsRestControllerIntegrationTest {
 
   @Test
   void test_get() {
-    ValidatableResponse response = requestHandler.doGet(ContentType.XML, RESOURCE_ID);
+    ValidatableResponse response = requestHandler.doGet(ContentType.JSON, RESOURCE_ID);
 
     // assert
-    response.contentType(ContentType.XML)
+    response.contentType(ContentType.JSON)
             .statusCode(HttpStatus.OK.value());
 
     ProgrammingProjectDto responseDto = response.extract().as(ProgrammingProjectDto.class);
@@ -81,7 +81,7 @@ class ProgrammingProjectsRestControllerIntegrationTest {
 
   @Test
   void get_on_not_existing_resource_should_return_404() {
-    ValidatableResponse validatableResponse = requestHandler.doGet(ContentType.XML, NOT_EXISTING_RESOURCE_ID);
+    ValidatableResponse validatableResponse = requestHandler.doGet(ContentType.JSON, NOT_EXISTING_RESOURCE_ID);
 
     // assert
     validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
@@ -89,10 +89,10 @@ class ProgrammingProjectsRestControllerIntegrationTest {
 
   @Test
   void getAll() {
-    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.XML);
+    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.JSON);
 
     // assert
-    validatableResponse.contentType(ContentType.XML)
+    validatableResponse.contentType(ContentType.JSON)
                        .statusCode(HttpStatus.OK.value());
 
     Response response = validatableResponse.extract().response();
@@ -122,12 +122,12 @@ class ProgrammingProjectsRestControllerIntegrationTest {
   @Test
   void create_with_valid_request_should_return_201() {
     Map<String, Object>   request             = programmingProjectRequestDto.toMap();
-    ValidatableResponse   validatableResponse = requestHandler.doPost(ContentType.XML, request);
+    ValidatableResponse   validatableResponse = requestHandler.doPost(ContentType.JSON, request);
     ProgrammingProjectDto createdProject      = validatableResponse.extract().as(ProgrammingProjectDto.class);
 
     // assert
     validatableResponse.statusCode(HttpStatus.CREATED.value())
-                       .contentType(ContentType.XML);
+                       .contentType(ContentType.JSON);
 
     assertNotNull(createdProject);
     assertNotNull(createdProject.getUserId());
@@ -175,12 +175,12 @@ class ProgrammingProjectsRestControllerIntegrationTest {
 
     Map<String, ?>        request                      = programmingProjectRequestDto.toMap();
     String                resourceId                   = Long.toString(testProject.getId());
-    ValidatableResponse   validatableResponse          = requestHandler.doPut(ContentType.XML, request, resourceId);
+    ValidatableResponse   validatableResponse          = requestHandler.doPut(ContentType.JSON, request, resourceId);
     ProgrammingProjectDto updatedProgrammingProjectDto = validatableResponse.extract().as(ProgrammingProjectDto.class);
 
     // assert
     validatableResponse.statusCode(HttpStatus.OK.value())
-                       .contentType(ContentType.XML);
+                       .contentType(ContentType.JSON);
 
     assertNotNull(updatedProgrammingProjectDto);
     assertEquals(programmingProjectRequestDto.getName(), updatedProgrammingProjectDto.getName());
