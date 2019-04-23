@@ -9,7 +9,6 @@ import java.util.List;
 @Setter
 public class ProgrammingProjectDto extends AbstractEntityDto {
 
-  private long         id;
   private String       name;
   private String       description;
   private List<String> technologiesUsed;

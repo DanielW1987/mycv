@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Setter
 public class CertificationDto extends AbstractEntityDto {
 
-  private long      id;
   private String    name;
   private LocalDate dateOfAchievement;
   private String    certificate; // ToDo: should be a file

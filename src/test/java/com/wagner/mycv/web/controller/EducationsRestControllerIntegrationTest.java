@@ -5,6 +5,7 @@ import com.wagner.mycv.testutil.EducationTestUtil;
 import com.wagner.mycv.utils.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.EducationDto;
 import com.wagner.mycv.web.dto.ErrorResponse;
+import com.wagner.mycv.web.dto.WorkingExperienceDto;
 import com.wagner.mycv.web.dto.request.EducationRequestDto;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -22,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -117,16 +119,12 @@ class EducationsRestControllerIntegrationTest {
       assertNotNull(educationDto.getLastModifiedBy());
     });
 
-    // the ordering is from newest to oldest date of end
-    LocalDate[] expected = new LocalDate[educationDtos.length];
-    LocalDate[] actual   = new LocalDate[educationDtos.length];
-    for (int index = 0; index < educationDtos.length; index++) {
-      actual[index] = educationDtos[index].getEnd();
-      expected[index] = actual[index];
-    }
+    // the ordering is from newest to oldest date of 'end'
+    List<LocalDate> actual   = Stream.of(educationDtos).map(EducationDto::getEnd).collect(Collectors.toList());
+    List<LocalDate> expected = new ArrayList<>(actual);
+    expected.sort(Comparator.reverseOrder());
 
-    Arrays.sort(expected, Comparator.reverseOrder());
-    assertArrayEquals(expected, actual);
+    assertEquals(expected, actual);
   }
 
   @Test

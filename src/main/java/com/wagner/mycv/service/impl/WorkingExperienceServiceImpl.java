@@ -9,10 +9,10 @@ import com.wagner.mycv.web.dto.WorkingExperienceDto;
 import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,11 +32,13 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
   @NotNull
   @Override
   public List<WorkingExperienceDto> findAll() {
-    Sort sort = new Sort(Sort.Direction.DESC, "end");
-
-    return workingExperienceRepository.findAll(sort)
+    // the order mechanism of spring data doesn't provide a reliable possibility to consider null value, so that's why we do it on our own.
+    // Note: LocaDate uses compareTo() of ChronoLocalDate that isn't null-safe.
+    Comparator<WorkingExperienceDto> sorting = Comparator.nullsFirst(new WorkingExperienceDto.UISequenceComparator()).reversed();
+    return workingExperienceRepository.findAll()
             .stream()
             .map(workingExperience -> modelMapper.map(workingExperience, WorkingExperienceDto.class))
+            .sorted(sorting)
             .collect(Collectors.toList());
   }
 

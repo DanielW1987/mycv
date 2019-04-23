@@ -9,6 +9,7 @@ import java.util.Objects;
 @Setter
 public class AbstractEntityDto {
 
+  protected long   id;
   protected String createdDate;
   protected String createdBy;
   protected String lastModifiedDate;
@@ -24,7 +25,7 @@ public class AbstractEntityDto {
       return false;
     }
     AbstractEntityDto that = (AbstractEntityDto) o;
-    return userId.equals(that.userId);
+    return id == that.id;
   }
 
   @Override

@@ -61,16 +61,13 @@ class ProgrammingProjectsRestControllerIntegrationTest {
   }
 
   @Test
-  void test_get_with_extract_whole_dto() {
-    ValidatableResponse response = requestHandler.doGet(ContentType.JSON, RESOURCE_ID);
+  void test_get() {
+    ValidatableResponse response = requestHandler.doGet(ContentType.XML, RESOURCE_ID);
 
     // assert
-    response.contentType(ContentType.JSON)
+    response.contentType(ContentType.XML)
             .statusCode(HttpStatus.OK.value());
 
-    // restassured tries to unmarshal LocalDate values via the default constructor of LocalDate if the requested content type is XML.
-    // LocalDate has no default constructor and so this ends in an NoSuchMethodError.
-    // That's why the extract as DTO method only works if content typ of request was JSON.
     ProgrammingProjectDto responseDto = response.extract().as(ProgrammingProjectDto.class);
 
     assertNotNull(responseDto);
@@ -84,7 +81,7 @@ class ProgrammingProjectsRestControllerIntegrationTest {
 
   @Test
   void get_on_not_existing_resource_should_return_404() {
-    ValidatableResponse validatableResponse = requestHandler.doGet(ContentType.JSON, NOT_EXISTING_RESOURCE_ID);
+    ValidatableResponse validatableResponse = requestHandler.doGet(ContentType.XML, NOT_EXISTING_RESOURCE_ID);
 
     // assert
     validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
@@ -92,10 +89,10 @@ class ProgrammingProjectsRestControllerIntegrationTest {
 
   @Test
   void getAll() {
-    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.JSON);
+    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.XML);
 
     // assert
-    validatableResponse.contentType(ContentType.JSON)
+    validatableResponse.contentType(ContentType.XML)
                        .statusCode(HttpStatus.OK.value());
 
     Response response = validatableResponse.extract().response();
@@ -125,12 +122,12 @@ class ProgrammingProjectsRestControllerIntegrationTest {
   @Test
   void create_with_valid_request_should_return_201() {
     Map<String, Object>   request             = programmingProjectRequestDto.toMap();
-    ValidatableResponse   validatableResponse = requestHandler.doPost(ContentType.JSON, request);
+    ValidatableResponse   validatableResponse = requestHandler.doPost(ContentType.XML, request);
     ProgrammingProjectDto createdProject      = validatableResponse.extract().as(ProgrammingProjectDto.class);
 
     // assert
     validatableResponse.statusCode(HttpStatus.CREATED.value())
-                       .contentType(ContentType.JSON);
+                       .contentType(ContentType.XML);
 
     assertNotNull(createdProject);
     assertNotNull(createdProject.getUserId());
@@ -178,12 +175,12 @@ class ProgrammingProjectsRestControllerIntegrationTest {
 
     Map<String, ?>        request                      = programmingProjectRequestDto.toMap();
     String                resourceId                   = Long.toString(testProject.getId());
-    ValidatableResponse   validatableResponse          = requestHandler.doPut(ContentType.JSON, request, resourceId);
+    ValidatableResponse   validatableResponse          = requestHandler.doPut(ContentType.XML, request, resourceId);
     ProgrammingProjectDto updatedProgrammingProjectDto = validatableResponse.extract().as(ProgrammingProjectDto.class);
 
     // assert
     validatableResponse.statusCode(HttpStatus.OK.value())
-                       .contentType(ContentType.JSON);
+                       .contentType(ContentType.XML);
 
     assertNotNull(updatedProgrammingProjectDto);
     assertEquals(programmingProjectRequestDto.getName(), updatedProgrammingProjectDto.getName());

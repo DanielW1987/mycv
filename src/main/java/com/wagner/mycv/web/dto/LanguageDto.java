@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class LanguageDto extends AbstractEntityDto {
 
-  private long   id;
   private String name;
   private byte   level;
 }

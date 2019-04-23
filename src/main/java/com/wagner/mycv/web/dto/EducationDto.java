@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Setter
 public class EducationDto extends AbstractEntityDto {
 
-  private long      id;
   private String    facility;
   private LocalDate begin;
   private LocalDate end;

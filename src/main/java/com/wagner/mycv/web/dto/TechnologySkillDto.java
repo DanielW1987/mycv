@@ -9,7 +9,6 @@ import java.util.List;
 @Setter
 public class TechnologySkillDto extends AbstractEntityDto {
 
-  private long         id;
   private String       category;
   private List<String> skillNames;
 

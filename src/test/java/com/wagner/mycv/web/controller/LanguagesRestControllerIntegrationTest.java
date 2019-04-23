@@ -59,16 +59,13 @@ class LanguagesRestControllerIntegrationTest {
   }
 
   @Test
-  void test_get_with_extract_whole_dto() {
-    ValidatableResponse response = requestHandler.doGet(ContentType.JSON, RESOURCE_ID);
+  void test_get() {
+    ValidatableResponse response = requestHandler.doGet(ContentType.XML, RESOURCE_ID);
 
     // assert
-    response.contentType(ContentType.JSON)
+    response.contentType(ContentType.XML)
             .statusCode(HttpStatus.OK.value());
 
-    // restassured tries to unmarshal LocalDate values via the default constructor of LocalDate if the requested content type is XML.
-    // LocalDate has no default constructor and so this ends in an NoSuchMethodError.
-    // That's why the extract as DTO method only works if content typ of request was JSON.
     LanguageDto responseDto = response.extract().as(LanguageDto.class);
 
     assertNotNull(responseDto);
@@ -88,10 +85,10 @@ class LanguagesRestControllerIntegrationTest {
 
   @Test
   void getAll() {
-    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.JSON);
+    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.XML);
 
     // assert
-    validatableResponse.contentType(ContentType.JSON)
+    validatableResponse.contentType(ContentType.XML)
                        .statusCode(HttpStatus.OK.value());
 
     Response response = validatableResponse.extract().response();

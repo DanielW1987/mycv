@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
@@ -43,16 +44,18 @@ public class WorkingExperience extends AbstractEntity {
   @Column(nullable = false)
   private String userId;
 
-  public void setFocalPoints(List<String> focalPoints) {
+  public void setFocalPoints(@NotNull List<String> focalPoints) {
     focalPoint1 = CollectionUtil.getOrDefault(focalPoints, 0);
     focalPoint2 = CollectionUtil.getOrDefault(focalPoints, 1);
     focalPoint3 = CollectionUtil.getOrDefault(focalPoints, 2);
     focalPoint4 = CollectionUtil.getOrDefault(focalPoints, 3);
   }
 
+  @NotNull
   public List<String> getFocalPoints() {
     return Stream.of(focalPoint1, focalPoint2, focalPoint3, focalPoint4)
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
   }
+
 }

@@ -1,8 +1,10 @@
 package com.wagner.mycv.testutil;
 
 import com.wagner.mycv.model.entity.TechnologySkill;
+import com.wagner.mycv.web.dto.TechnologySkillDto;
 import com.wagner.mycv.web.dto.request.TechnologySkillRequestDto;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,4 +46,18 @@ public class TechnologySkillTestUtil {
   }
 
   /*-------------------TechnologySkillDto-------------------*/
+  public static TechnologySkillDto createProgrammingTechnologySkillDto() {
+    TechnologySkillDto dto = new TechnologySkillDto();
+    dto.setId(1);
+    dto.setCategory("Programmierung");
+    dto.setSkillNames(Arrays.asList("Java", "Spring / Spring Boot",
+            "Design Pattners", "REST und SOAP WebServices", "Git", "Maven", "Python"));
+    dto.setUserId(UserTestUtil.USER_ID);
+    dto.setCreatedBy("Administrator");
+    dto.setCreatedDate(LocalDate.now().toString());
+    dto.setLastModifiedBy("Administrator");
+    dto.setLastModifiedDate(LocalDate.now().toString());
+
+    return dto;
+  }
 }
