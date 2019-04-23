@@ -34,7 +34,7 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
   public List<WorkingExperienceDto> findAll() {
     // the order mechanism of spring data doesn't provide a reliable possibility to consider null value, so that's why we do it on our own.
     // Note: LocaDate uses compareTo() of ChronoLocalDate that isn't null-safe.
-    Comparator<WorkingExperienceDto> sorting = Comparator.nullsFirst(new WorkingExperienceDto.UISequenceComparator()).reversed();
+    Comparator<WorkingExperienceDto> sorting = Comparator.nullsFirst(new WorkingExperienceDto.UiSequenceComparator()).reversed();
     return workingExperienceRepository.findAll()
             .stream()
             .map(workingExperience -> modelMapper.map(workingExperience, WorkingExperienceDto.class))

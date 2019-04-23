@@ -3,6 +3,7 @@ package com.wagner.mycv.web.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -18,7 +19,9 @@ public class WorkingExperienceDto extends AbstractEntityDto {
   private String       placeOfWork;
   private List<String> focalPoints;
 
-  public static class UISequenceComparator implements Comparator<WorkingExperienceDto> {
+  public static class UiSequenceComparator implements Comparator<WorkingExperienceDto>, Serializable {
+
+    public static final long serialVersionUID = 1L;
 
     @Override
     public int compare(WorkingExperienceDto w1, WorkingExperienceDto w2) {

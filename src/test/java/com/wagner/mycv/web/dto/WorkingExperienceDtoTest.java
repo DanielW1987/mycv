@@ -16,7 +16,7 @@ class WorkingExperienceDtoTest {
   @Test
   void test_ui_sequence_comparator() {
     // given
-    Comparator<WorkingExperienceDto> comparator = new WorkingExperienceDto.UISequenceComparator();
+    Comparator<WorkingExperienceDto> comparator = new WorkingExperienceDto.UiSequenceComparator();
     WorkingExperienceDto w1 = WorkingExperienceTestUtil.createDummyDto(1, LocalDate.of(2018, 1, 1), null);
     WorkingExperienceDto w2 = WorkingExperienceTestUtil.createDummyDto(2, LocalDate.of(2018, 6, 1), null);
     WorkingExperienceDto w3 = WorkingExperienceTestUtil.createDummyDto(3, LocalDate.of(2019, 1, 1), null);
