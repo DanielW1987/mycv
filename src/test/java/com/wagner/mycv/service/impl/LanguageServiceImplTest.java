@@ -189,6 +189,5 @@ class LanguageServiceImplTest {
   private void assertThatRequestDtoAndDtoAreEqual(LanguageRequestDto requestDto, LanguageDto dto) {
     assertEquals(requestDto.getName(), dto.getName());
     assertEquals(requestDto.getLevel(), dto.getLevel());
-    assertEquals(requestDto.getUserId(), dto.getUserId());
   }
 }

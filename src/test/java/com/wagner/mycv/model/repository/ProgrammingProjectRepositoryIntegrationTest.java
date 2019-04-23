@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class ProgrammingProjectRepositoryTest {
+class ProgrammingProjectRepositoryIntegrationTest {
 
   private final ProgrammingProject programmingProject = ProgrammingProjectTestUtil.createTestEntity();
 

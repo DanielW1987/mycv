@@ -191,6 +191,5 @@ class TechnologySkillServiceImplTest {
   private void assertThatRequestDtoAndDtoAreEqual(TechnologySkillRequestDto requestDto, TechnologySkillDto dto) {
     assertEquals(requestDto.getCategory(), dto.getCategory());
     assertEquals(requestDto.getSkillNames(), dto.getSkillNames());
-    assertEquals(requestDto.getUserId(), dto.getUserId());
   }
 }

@@ -21,7 +21,7 @@ public class TechnologySkillTestUtil {
     TechnologySkill technologySkill = new TechnologySkill();
     technologySkill.setCategory(category);
     technologySkill.setSkillNames(skillNames);
-    technologySkill.setUserId(UserTestUtil.USER_ID.toString());
+    technologySkill.setUserId(UserTestUtil.USER_ID);
 
     return technologySkill;
   }
@@ -32,7 +32,6 @@ public class TechnologySkillTestUtil {
             .category("Programmierung")
             .skillNames(Arrays.asList("Java", "Spring / Spring Boot",
                     "Design Pattners", "REST und SOAP WebServices", "Git", "Maven", "Python"))
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
 
   }
@@ -41,7 +40,6 @@ public class TechnologySkillTestUtil {
     return TechnologySkillRequestDto.builder()
             .category("Tests")
             .skillNames(Arrays.asList("JUnit", "Mockito", "Rest Assured"))
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
   }
 

@@ -1,5 +1,6 @@
 package com.wagner.mycv.service.impl;
 
+import com.wagner.mycv.config.ApplicationConstants;
 import com.wagner.mycv.model.entity.ProgrammingProject;
 import com.wagner.mycv.model.repository.ProgrammingProjectRepository;
 import com.wagner.mycv.service.ProgrammingProjectService;
@@ -48,7 +49,7 @@ public class ProgrammingProjectServiceImpl implements ProgrammingProjectService 
   @Override
   public ProgrammingProjectDto create(@NotNull ProgrammingProjectRequestDto request) {
     ProgrammingProject programmingProject = modelMapper.map(request, ProgrammingProject.class);
-
+    programmingProject.setUserId(ApplicationConstants.PUBLIC_USER_ID);
     programmingProjectRepository.save(programmingProject);
 
     return modelMapper.map(programmingProject, ProgrammingProjectDto.class);
@@ -58,8 +59,11 @@ public class ProgrammingProjectServiceImpl implements ProgrammingProjectService 
   @Override
   public List<ProgrammingProjectDto> createAll(@NotNull Iterable<ProgrammingProjectRequestDto> request) {
     List<ProgrammingProject> programmingProjects = new ArrayList<>();
-    request.forEach(programmingProjectRequestDto ->
-            programmingProjects.add(modelMapper.map(programmingProjectRequestDto, ProgrammingProject.class)));
+    request.forEach(programmingProjectRequestDto -> {
+      ProgrammingProject programmingProject = modelMapper.map(programmingProjectRequestDto, ProgrammingProject.class);
+      programmingProject.setUserId(ApplicationConstants.PUBLIC_USER_ID);
+      programmingProjects.add(programmingProject);
+    });
 
     programmingProjectRepository.saveAll(programmingProjects);
 

@@ -41,59 +41,52 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
 
   @Override
   public void run(ApplicationArguments applicationArguments) {
-    String userId = createTestUser();
-    createTestCertifications(userId);
-    createTestEducations(userId);
-    createTestLanguages(userId);
-    createTestProgrammingProjects(userId);
-    createTestTechnologySkills(userId);
-    createTestUserProfiles(userId);
-    createTestWorkingExperience(userId);
+    createTestUser();
+    createTestCertifications();
+    createTestEducations();
+    createTestLanguages();
+    createTestProgrammingProjects();
+    createTestTechnologySkills();
+    createTestUserProfiles();
+    createTestWorkingExperience();
   }
 
-  private String createTestUser() {
-    String publicUserId = "ebbddc3e-8414-4555-97ca-c247cc785cef"; // static UUID value; is OK for dev and integration tests purpose
+  private void createTestUser() {
     UserRequestDto requestDto = UserRequestDto.builder()
-            .userId(publicUserId)
+            .userId(ApplicationConstants.PUBLIC_USER_ID) // static UUID value; is OK for dev and integration tests purpose
             .build();
 
     userService.create(requestDto);
-
-    return publicUserId;
   }
 
-  private void createTestCertifications(String userId) {
+  private void createTestCertifications() {
     CertificationRequestDto mta = CertificationRequestDto.builder()
             .name("Microsoft Technology Associate: Database Fundamentals")
             .dateOfAchievement(LocalDate.of(2014, 10, 1))
             .certificate("certification file")
-            .userId(userId)
             .build();
 
     CertificationRequestDto oca = CertificationRequestDto.builder()
             .name("Oracle Certified Associate, Java SE 8 Programmer I")
             .dateOfAchievement(LocalDate.of(2017, 7, 1))
             .certificate("certification file")
-            .userId(userId)
             .build();
 
     CertificationRequestDto ocp = CertificationRequestDto.builder()
             .name("Oracle Certified Professional, Java SE 8 Programmer II")
             .dateOfAchievement(LocalDate.of(2018, 3, 1))
             .certificate("certification file")
-            .userId(userId)
             .build();
 
     certificationService.createAll(Arrays.asList(mta, oca, ocp));
   }
 
-  private void createTestEducations(String userId) {
+  private void createTestEducations() {
     EducationRequestDto highSchool = EducationRequestDto.builder()
             .facility("Berufliche Schule des Landkreises Ludwigslust")
             .begin(LocalDate.of(2014, 9, 1))
             .end(LocalDate.of(2008, 7, 31))
             .graduation("Allgemeine Hochschulreife und Berufsausbildung (kfm. Assistent für Informationsverarbeitung)")
-            .userId(userId)
             .build();
 
     EducationRequestDto bachelor = EducationRequestDto.builder()
@@ -101,7 +94,6 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
             .begin(LocalDate.of(2008, 10, 1))
             .end(LocalDate.of(2011, 9, 30))
             .graduation("B. Sc. Wirtschaftsinformatik")
-            .userId(userId)
             .build();
 
     EducationRequestDto master = EducationRequestDto.builder()
@@ -109,41 +101,36 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
             .begin(LocalDate.of(2011, 10, 1))
             .end(LocalDate.of(2013, 9, 30))
             .graduation("M. Sc. Wirtschaftsinformatik")
-            .userId(userId)
             .build();
 
     educationService.createAll(Arrays.asList(highSchool, bachelor, master));
   }
 
-  private void createTestLanguages(String userId) {
+  private void createTestLanguages() {
     LanguageRequestDto german = LanguageRequestDto.builder()
             .name("Deutsch")
             .level((byte) 100)
-            .userId(userId)
             .build();
 
     LanguageRequestDto english = LanguageRequestDto.builder()
             .name("Englisch")
             .level((byte) 60)
-            .userId(userId)
             .build();
 
     LanguageRequestDto french = LanguageRequestDto.builder()
             .name("Französisch")
             .level((byte) 30)
-            .userId(userId)
             .build();
 
     languageService.createAll(Arrays.asList(german, english, french));
   }
 
-  private void createTestProgrammingProjects(String userId) {
+  private void createTestProgrammingProjects() {
     ProgrammingProjectRequestDto myBeautifulCV = ProgrammingProjectRequestDto.builder()
             .name("My Beautiful CV")
             .technologiesUsed(Arrays.asList("Spring Boot", "Angular"))
             .description("Lorem ipsum...")
             .vcsUrl("https://www.bitbucket.com/foobar")
-            .userId(userId)
             .build();
 
     ProgrammingProjectRequestDto examedy = ProgrammingProjectRequestDto.builder()
@@ -151,54 +138,47 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
             .technologiesUsed(Arrays.asList("Spring Boot", "Angular"))
             .description("Lorem ipsum...")
             .vcsUrl("https://www.github.com/foobar")
-            .userId(userId)
             .build();
 
     programmingProjectService.createAll(Arrays.asList(myBeautifulCV, examedy));
   }
 
-  private void createTestTechnologySkills(String userId) {
+  private void createTestTechnologySkills() {
     TechnologySkillRequestDto programming = TechnologySkillRequestDto.builder()
             .category("Programmierung")
             .skillNames(Arrays.asList("Java", "Spring / Spring Boot",
                     "Design Pattners", "REST und SOAP WebServices", "Git", "Maven", "Python"))
-            .userId(userId)
             .build();
 
     TechnologySkillRequestDto testing = TechnologySkillRequestDto.builder()
             .category("Tests")
             .skillNames(Arrays.asList("JUnit", "Mockito", "Rest Assured"))
-            .userId(userId)
             .build();
 
     TechnologySkillRequestDto web = TechnologySkillRequestDto.builder()
             .category("Webtechnologien")
             .skillNames(Arrays.asList("HTML", "CSS", "Bootstrap", "AngularCLI", "jQuery"))
-            .userId(userId)
             .build();
 
     TechnologySkillRequestDto databases = TechnologySkillRequestDto.builder()
             .category("Datenbanken")
             .skillNames(Arrays.asList("(My)SQL", "Datenbankmodellierung", "JDBC"))
-            .userId(userId)
             .build();
 
     TechnologySkillRequestDto modeling = TechnologySkillRequestDto.builder()
             .category("Modellierung")
             .skillNames(Arrays.asList("UML", "Domain Driven Design"))
-            .userId(userId)
             .build();
 
     TechnologySkillRequestDto agileMethods = TechnologySkillRequestDto.builder()
             .category("Agile Methoden")
             .skillNames(Arrays.asList("Scrum", "Kanban"))
-            .userId(userId)
             .build();
 
     technologySkillService.createAll(Arrays.asList(programming, testing, web, databases, modeling, agileMethods));
   }
 
-  private void createTestUserProfiles(String userId) {
+  private void createTestUserProfiles() {
     UserProfileRequestDto userProfile = UserProfileRequestDto.builder()
             .firstName("John")
             .lastName("Dow")
@@ -207,13 +187,12 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
             .mobilePhone("01520 12 34 567")
             .placeOfResidence("Berlin")
             .profileImage("Profile Image")
-            .userId(userId)
             .build();
 
     userProfileService.create(userProfile);
   }
 
-  private void createTestWorkingExperience(String userId) {
+  private void createTestWorkingExperience() {
     WorkingExperienceRequestDto freelancer = WorkingExperienceRequestDto.builder()
             .company("Selbstständig")
             .jobTitle("Webentwicklung, IT-Projekte, Beratung")
@@ -224,7 +203,6 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
                     "Realisierung von Internetauftritten und OnlineShops sowie Online-Marketing",
                     "verschiedene Entwicklungsprojekte u. a. mit PHP, Zend Framework 2, HTML, CSS, JavaScript",
                     "Dozententätigkeit (SQL Server 2010, Excel VBA)"))
-            .userId(userId)
             .build();
 
     WorkingExperienceRequestDto etlDeveloper = WorkingExperienceRequestDto.builder()
@@ -237,7 +215,6 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
                     "Schnittstellenentwicklung zwischen einer Vielzahl von ERP-Systemen und dem LucaNet DWH mittels Java und SQL",
                     "Qualitätssicherung, Dokumentation und Einführung der Schnittstellen beim Kunden",
                     "Konzeption und Weiterentwicklung von DWH-Lösungen sowie deren Integration in die LucaNet-Software"))
-            .userId(userId)
             .build();
 
     WorkingExperienceRequestDto javaConsultant = WorkingExperienceRequestDto.builder()
@@ -250,7 +227,6 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
                     "Aufbau eines agilen Entwicklungsteams am Standort Mönchengladbach",
                     "Einführung qualitätssichernder Standards (Coding Conventions, Code Reviews, Regressionstests)",
                     "Kundenindividuelle Java-Projekte"))
-            .userId(userId)
             .build();
 
     WorkingExperienceRequestDto javaDeveloper = WorkingExperienceRequestDto.builder()
@@ -263,7 +239,6 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
                     "Entwicklung von Anwendungen zur automatisierten Erstellung von Konzernabschlüssen (REST-Backend, Java Swing)",
                     "Software-Security (Authentifizierung, Autorisierung, Verschlüsselung, Transparenz)",
                     "Leitung von Kooperationsprojekten mit dem Masterstudiengang Wirtschaftsinformatik der HTW Berlin"))
-            .userId(userId)
             .build();
 
     workingExperienceService.createAll(Arrays.asList(freelancer, etlDeveloper, javaConsultant, javaDeveloper));

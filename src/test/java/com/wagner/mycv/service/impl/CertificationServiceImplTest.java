@@ -192,6 +192,5 @@ class CertificationServiceImplTest {
     assertEquals(requestDto.getName(), dto.getName());
     assertEquals(requestDto.getDateOfAchievement(), dto.getDateOfAchievement());
     assertEquals(requestDto.getCertificate(), dto.getCertificate());
-    assertEquals(requestDto.getUserId(), dto.getUserId());
   }
 }

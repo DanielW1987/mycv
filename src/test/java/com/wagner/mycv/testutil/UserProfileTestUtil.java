@@ -23,7 +23,7 @@ public class UserProfileTestUtil {
     userProfile.setCurrentJob("Java Developer");
     userProfile.setPlaceOfResidence("Berlin");
     userProfile.setProfileImage("profile photo");
-    userProfile.setUserId(UserTestUtil.USER_ID.toString());
+    userProfile.setUserId(UserTestUtil.USER_ID);
 
     return userProfile;
   }
@@ -38,7 +38,6 @@ public class UserProfileTestUtil {
             .mobilePhone("01520 12 34 567")
             .placeOfResidence("Berlin")
             .profileImage("Profile Image")
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
   }
 

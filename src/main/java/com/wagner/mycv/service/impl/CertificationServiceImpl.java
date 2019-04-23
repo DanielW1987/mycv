@@ -1,5 +1,6 @@
 package com.wagner.mycv.service.impl;
 
+import com.wagner.mycv.config.ApplicationConstants;
 import com.wagner.mycv.model.entity.Certification;
 import com.wagner.mycv.model.repository.CertificationRepository;
 import com.wagner.mycv.service.CertificationService;
@@ -51,6 +52,7 @@ public class CertificationServiceImpl implements CertificationService {
   @Override
   public CertificationDto create(@NotNull CertificationRequestDto request) {
     Certification certification = modelMapper.map(request, Certification.class);
+    certification.setUserId(ApplicationConstants.PUBLIC_USER_ID);
     certificationRepository.save(certification);
 
     return modelMapper.map(certification, CertificationDto.class);
@@ -60,7 +62,11 @@ public class CertificationServiceImpl implements CertificationService {
   @Override
   public List<CertificationDto> createAll(@NotNull Iterable<CertificationRequestDto> request) {
     List<Certification> certifications = new ArrayList<>();
-    request.forEach(certificationRequestDto -> certifications.add(modelMapper.map(certificationRequestDto, Certification.class)));
+    request.forEach(certificationRequestDto -> {
+      Certification certification = modelMapper.map(certificationRequestDto, Certification.class);
+      certification.setUserId(ApplicationConstants.PUBLIC_USER_ID);
+      certifications.add(certification);
+    });
 
     certificationRepository.saveAll(certifications);
 

@@ -26,9 +26,6 @@ public class UserProfileRequestDto {
   private String mobilePhone;
   private String profileImage;
 
-  @NotBlank
-  private String userId;
-
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
     map.put("firstName", firstName);
@@ -38,7 +35,6 @@ public class UserProfileRequestDto {
     map.put("email", email);
     map.put("mobilePhone", mobilePhone);
     map.put("profileImage", profileImage);
-    map.put("userId", userId);
 
     return map;
   }

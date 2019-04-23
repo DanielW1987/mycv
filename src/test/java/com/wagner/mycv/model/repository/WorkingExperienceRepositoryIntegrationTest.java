@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class WorkingExperienceRepositoryTest {
+class WorkingExperienceRepositoryIntegrationTest {
 
   private final WorkingExperience workingExperience = WorkingExperienceTestUtil.createTestEntity();
 

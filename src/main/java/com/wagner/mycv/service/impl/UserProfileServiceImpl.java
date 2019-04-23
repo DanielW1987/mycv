@@ -1,5 +1,6 @@
 package com.wagner.mycv.service.impl;
 
+import com.wagner.mycv.config.ApplicationConstants;
 import com.wagner.mycv.model.entity.UserProfile;
 import com.wagner.mycv.model.repository.UserProfileRepository;
 import com.wagner.mycv.service.UserProfileService;
@@ -23,6 +24,7 @@ public class UserProfileServiceImpl implements UserProfileService {
   @Override
   public void create(UserProfileRequestDto request) {
     UserProfile userProfile = modelMapper.map(request, UserProfile.class);
+    userProfile.setUserId(ApplicationConstants.PUBLIC_USER_ID);
     userProfileRepository.save(userProfile);
   }
 }

@@ -1,5 +1,6 @@
 package com.wagner.mycv.service.impl;
 
+import com.wagner.mycv.config.ApplicationConstants;
 import com.wagner.mycv.model.entity.TechnologySkill;
 import com.wagner.mycv.model.repository.TechnologySkillRepository;
 import com.wagner.mycv.service.TechnologySkillService;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.applet.Applet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +50,7 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
   @Override
   public TechnologySkillDto create(@NotNull TechnologySkillRequestDto request) {
     TechnologySkill technologySkill = modelMapper.map(request, TechnologySkill.class);
+    technologySkill.setUserId(ApplicationConstants.PUBLIC_USER_ID);
     technologySkillRepository.save(technologySkill);
 
     return modelMapper.map(technologySkill, TechnologySkillDto.class);
@@ -57,7 +60,11 @@ public class TechnologySkillServiceImpl implements TechnologySkillService {
   @Override
   public List<TechnologySkillDto> createAll(@NotNull Iterable<TechnologySkillRequestDto> request) {
     List<TechnologySkill> technologySkills = new ArrayList<>();
-    request.forEach(technologySkillRequestDto -> technologySkills.add(modelMapper.map(technologySkillRequestDto, TechnologySkill.class)));
+    request.forEach(technologySkillRequestDto -> {
+      TechnologySkill technologySkill = modelMapper.map(technologySkillRequestDto, TechnologySkill.class);
+      technologySkill.setUserId(ApplicationConstants.PUBLIC_USER_ID);
+      technologySkills.add(technologySkill);
+    });
 
     technologySkillRepository.saveAll(technologySkills);
 

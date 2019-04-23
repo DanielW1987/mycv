@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class EducationRepositoryTest {
+class EducationRepositoryIntegrationTest {
 
   private final Education education = EducationTestUtil.createTestEntity();
 

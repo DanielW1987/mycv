@@ -1,5 +1,6 @@
 package com.wagner.mycv.service.impl;
 
+import com.wagner.mycv.config.ApplicationConstants;
 import com.wagner.mycv.model.entity.Education;
 import com.wagner.mycv.model.repository.EducationRepository;
 import com.wagner.mycv.service.EducationService;
@@ -51,6 +52,7 @@ public class EducationServiceImpl implements EducationService {
   @Override
   public EducationDto create(@NotNull EducationRequestDto request) {
     Education education = modelMapper.map(request, Education.class);
+    education.setUserId(ApplicationConstants.PUBLIC_USER_ID);
     educationRepository.save(education);
 
     return modelMapper.map(education, EducationDto.class);
@@ -60,7 +62,11 @@ public class EducationServiceImpl implements EducationService {
   @Override
   public List<EducationDto> createAll(@NotNull Iterable<EducationRequestDto> request) {
     List<Education> educations = new ArrayList<>();
-    request.forEach(educationRequestDto -> educations.add(modelMapper.map(educationRequestDto, Education.class)));
+    request.forEach(educationRequestDto -> {
+      Education education = modelMapper.map(educationRequestDto, Education.class);
+      education.setUserId(ApplicationConstants.PUBLIC_USER_ID);
+      educations.add(education);
+    });
 
     educationRepository.saveAll(educations);
 

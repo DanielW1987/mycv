@@ -27,16 +27,12 @@ public class EducationRequestDto {
   @NotBlank
   private String graduation;
 
-  @NotBlank
-  private String userId;
-
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
     map.put("facility", facility);
     map.put("begin", begin.toString());
     map.put("end", end.toString());
     map.put("graduation", graduation);
-    map.put("userId", userId);
 
     return map;
   }

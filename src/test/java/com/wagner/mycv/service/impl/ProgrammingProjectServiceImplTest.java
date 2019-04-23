@@ -194,6 +194,5 @@ class ProgrammingProjectServiceImplTest {
     assertEquals(requestDto.getTechnologiesUsed(), dto.getTechnologiesUsed());
     assertEquals(requestDto.getDescription(), dto.getDescription());
     assertEquals(requestDto.getVcsUrl(), dto.getVcsUrl());
-    assertEquals(requestDto.getUserId(), dto.getUserId());
   }
 }

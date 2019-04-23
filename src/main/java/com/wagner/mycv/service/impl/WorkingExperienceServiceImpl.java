@@ -1,5 +1,6 @@
 package com.wagner.mycv.service.impl;
 
+import com.wagner.mycv.config.ApplicationConstants;
 import com.wagner.mycv.model.entity.WorkingExperience;
 import com.wagner.mycv.model.repository.WorkingExperienceRepository;
 import com.wagner.mycv.service.WorkingExperienceService;
@@ -51,7 +52,7 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
   @Override
   public WorkingExperienceDto create(@NotNull WorkingExperienceRequestDto request) {
     WorkingExperience workingExperience = modelMapper.map(request, WorkingExperience.class);
-    workingExperience.setFocalPoints(request.getFocalPoints());
+    workingExperience.setUserId(ApplicationConstants.PUBLIC_USER_ID);
 
     workingExperienceRepository.save(workingExperience);
     return modelMapper.map(workingExperience, WorkingExperienceDto.class);
@@ -61,8 +62,11 @@ public class WorkingExperienceServiceImpl implements WorkingExperienceService {
   @Override
   public List<WorkingExperienceDto> createAll(@NotNull Iterable<WorkingExperienceRequestDto> request) {
     List<WorkingExperience> workingExperiences = new ArrayList<>();
-    request.forEach(workingExperienceRequestDto ->
-            workingExperiences.add(modelMapper.map(workingExperienceRequestDto, WorkingExperience.class)));
+    request.forEach(workingExperienceRequestDto -> {
+      WorkingExperience workingExperience = modelMapper.map(workingExperienceRequestDto, WorkingExperience.class);
+      workingExperience.setUserId(ApplicationConstants.PUBLIC_USER_ID);
+      workingExperiences.add(workingExperience);
+    });
 
     workingExperienceRepository.saveAll(workingExperiences);
 

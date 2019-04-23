@@ -1,7 +1,7 @@
 package com.wagner.mycv.model.repository;
 
-import com.wagner.mycv.model.entity.TechnologySkill;
-import com.wagner.mycv.testutil.TechnologySkillTestUtil;
+import com.wagner.mycv.model.entity.Language;
+import com.wagner.mycv.testutil.LanguageTestUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,18 +21,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class TechnologySkillRepositoryTest {
+class LanguageRepositoryIntegrationTest {
 
-  private final TechnologySkill technologySkill = TechnologySkillTestUtil.createTestEntity();
+  private final Language language = LanguageTestUtil.createTestEntity();
 
   @Autowired private DataSource dataSource;
   @Autowired private JdbcTemplate jdbcTemplate;
   @Autowired private EntityManager entityManager;
-  @Autowired private TechnologySkillRepository technologySkillRepository;
+  @Autowired private LanguageRepository languageRepository;
 
   @BeforeEach
   void setup() {
-    entityManager.persist(technologySkill);
+    entityManager.persist(language);
   }
 
   @Test
@@ -40,21 +40,22 @@ class TechnologySkillRepositoryTest {
     assertThat(dataSource).isNotNull();
     assertThat(jdbcTemplate).isNotNull();
     assertThat(entityManager).isNotNull();
-    assertThat(technologySkillRepository).isNotNull();
+    assertThat(languageRepository).isNotNull();
   }
 
   @Test
-  void test_find_technology_skill() {
-    Optional<TechnologySkill> result = technologySkillRepository.findById(1L);
+  void test_find_language() {
+    Optional<Language> result = languageRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 
     //noinspection OptionalGetWithoutIsPresent
-    TechnologySkill tehnologySkillResponse = result.get();
+    Language languageResponse = result.get();
 
-    assertThat(tehnologySkillResponse).isNotNull();
-    assertThat(tehnologySkillResponse.getId()).isEqualTo(1L);
-    assertThat(tehnologySkillResponse.getCategory()).isEqualTo(technologySkill.getCategory());
-    assertThat(tehnologySkillResponse.getSkillNames()).isEqualTo(technologySkill.getSkillNames());
-    assertThat(tehnologySkillResponse.getUserId()).isEqualTo(technologySkill.getUserId());
+    assertThat(languageResponse).isNotNull();
+    assertThat(languageResponse.getId()).isEqualTo(1L);
+    assertThat(languageResponse.getLevel()).isEqualTo(language.getLevel());
+    assertThat(languageResponse.getName()).isEqualTo(language.getName());
+    assertThat(languageResponse.getUserId()).isEqualTo(language.getUserId());
   }
+
 }

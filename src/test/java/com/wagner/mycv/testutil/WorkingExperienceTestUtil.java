@@ -25,7 +25,7 @@ public class WorkingExperienceTestUtil {
     workingExperience.setFocalPoints(Arrays.asList("Working item description 1", "Working item description 2", "Working item description 3"));
     workingExperience.setJobTitle(jobTitle);
     workingExperience.setPlaceOfWork("Berlin");
-    workingExperience.setUserId(UserTestUtil.USER_ID.toString());
+    workingExperience.setUserId(UserTestUtil.USER_ID);
 
     return workingExperience;
   }
@@ -42,7 +42,6 @@ public class WorkingExperienceTestUtil {
                     "Aufbau eines agilen Entwicklungsteams am Standort Mönchengladbach",
                     "Einführung qualitätssichernder Standards (Coding Conventions, Code Reviews, Regressionstests)",
                     "Kundenindividuelle Java-Projekte"))
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
   }
 
@@ -57,7 +56,6 @@ public class WorkingExperienceTestUtil {
                     "Entwicklung von Anwendungen zur automatisierten Erstellung von Konzernabschlüssen (REST-Backend, Java Swing)",
                     "Software-Security (Authentifizierung, Autorisierung, Verschlüsselung, Transparenz)",
                     "Leitung von Kooperationsprojekten mit dem Masterstudiengang Wirtschaftsinformatik der HTW Berlin"))
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
   }
 

@@ -22,7 +22,7 @@ public class LanguageTestUtil {
     Language language = new Language();
     language.setName(name);
     language.setLevel(level);
-    language.setUserId(UserTestUtil.USER_ID.toString());
+    language.setUserId(UserTestUtil.USER_ID);
 
     return language;
   }
@@ -32,7 +32,6 @@ public class LanguageTestUtil {
     return LanguageRequestDto.builder()
             .name("Deutsch")
             .level((byte) 100)
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
   }
 
@@ -40,7 +39,6 @@ public class LanguageTestUtil {
     return LanguageRequestDto.builder()
             .name("Englisch")
             .level((byte) 60)
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
   }
 
@@ -50,7 +48,7 @@ public class LanguageTestUtil {
     germanLanguageDto.setId(1);
     germanLanguageDto.setName("Deutsch");
     germanLanguageDto.setLevel((byte) 100);
-    germanLanguageDto.setUserId(UserTestUtil.USER_ID.toString());
+    germanLanguageDto.setUserId(UserTestUtil.USER_ID);
     germanLanguageDto.setCreatedBy("Administrator");
     germanLanguageDto.setCreatedDate(LocalDate.now().toString());
     germanLanguageDto.setLastModifiedBy("Administrator");

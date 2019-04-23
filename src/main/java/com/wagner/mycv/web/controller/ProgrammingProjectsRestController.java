@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/rest/v1/private-projects")
+@RequestMapping("/rest/v1/programming-projects")
 public class ProgrammingProjectsRestController implements SimpleCrudRestController<ProgrammingProjectRequestDto, ProgrammingProjectDto> {
 
   private final ProgrammingProjectService programmingProjectService;

@@ -23,17 +23,11 @@ public class CertificationRequestDto {
 
   private String certificate; // ToDo: should be a file
 
-  @NotBlank
-  private String userId;
-  // ToDo: Beim Update sollte die UserId nicht aktualisiert werden können, Eine Zertifizierung gehört zu einem User.
-  //  Das kann nachträglich nicht verändert werden.
-
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
     map.put("name", name);
     map.put("dateOfAchievement", dateOfAchievement.toString());
     map.put("certificate", certificate);
-    map.put("userId", userId);
 
     return map;
   }

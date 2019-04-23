@@ -194,6 +194,5 @@ class EducationServiceImplTest {
     assertEquals(requestDto.getGraduation(), dto.getGraduation());
     assertEquals(requestDto.getBegin(), dto.getBegin());
     assertEquals(requestDto.getEnd(), dto.getEnd());
-    assertEquals(requestDto.getUserId(), dto.getUserId());
   }
 }

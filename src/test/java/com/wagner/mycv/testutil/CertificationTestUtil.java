@@ -24,7 +24,7 @@ public class CertificationTestUtil {
     certification.setName(name);
     certification.setDateOfAchievement(dateOfAchievement);
     certification.setCertificate("certification file");
-    certification.setUserId(UserTestUtil.USER_ID.toString());
+    certification.setUserId(UserTestUtil.USER_ID);
 
     return certification;
   }
@@ -54,7 +54,6 @@ public class CertificationTestUtil {
             .name(name)
             .dateOfAchievement(dateOfAchievement)
             .certificate("certification file")
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
   }
 
@@ -65,7 +64,7 @@ public class CertificationTestUtil {
     certificationDto.setName("Microsoft Technology Associate: Database Fundamentals");
     certificationDto.setDateOfAchievement(LocalDate.of(2014, 10, 1));
     certificationDto.setCertificate("certification file");
-    certificationDto.setUserId(UserTestUtil.USER_ID.toString());
+    certificationDto.setUserId(UserTestUtil.USER_ID);
     certificationDto.setCreatedBy("Administrator");
     certificationDto.setCreatedDate(LocalDate.now().toString());
     certificationDto.setLastModifiedBy("Administrator");
@@ -80,7 +79,7 @@ public class CertificationTestUtil {
     certificationDto.setName(name);
     certificationDto.setDateOfAchievement(dateOfAchievement);
     certificationDto.setCertificate("certification file");
-    certificationDto.setUserId(UserTestUtil.USER_ID.toString());
+    certificationDto.setUserId(UserTestUtil.USER_ID);
     certificationDto.setCreatedBy("Administrator");
     certificationDto.setCreatedDate("2018-01-01");
     certificationDto.setLastModifiedBy("Administrator");

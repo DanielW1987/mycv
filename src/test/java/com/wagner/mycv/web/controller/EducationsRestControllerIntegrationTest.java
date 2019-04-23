@@ -2,11 +2,13 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.EducationService;
 import com.wagner.mycv.testutil.EducationTestUtil;
-import com.wagner.mycv.testutil.UserTestUtil;
+import com.wagner.mycv.utils.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.EducationDto;
 import com.wagner.mycv.web.dto.ErrorResponse;
 import com.wagner.mycv.web.dto.request.EducationRequestDto;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -15,19 +17,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -35,10 +31,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 class EducationsRestControllerIntegrationTest {
 
-  private static       String URI;
-  private static final String RESOURCE_PATH              = "/rest/v1/educations";
-  private static final String RESOURCE_ID                = "1";
-  private static final String NOT_EXISTING_RESOURCE_ID   = "99999";
+  private static final String RESOURCE_PATH            = "/rest/v1/educations";
+  private static final String RESOURCE_ID              = "1";
+  private static final String NOT_EXISTING_RESOURCE_ID = "99999";
 
   @Value("${server.address}")
   private String serverAddress;
@@ -46,66 +41,61 @@ class EducationsRestControllerIntegrationTest {
   @LocalServerPort
   private int port;
 
-  private EducationDto bachelorEducationDto;
+  private EducationDto        bachelorEducationDto;
   private EducationRequestDto educationRequestDto;
 
   @Autowired
   private EducationService educationService;
 
-  @PostConstruct
-  void init() {
-    URI = "http://" + serverAddress + ":" + port + RESOURCE_PATH;
-  }
+  private RestAssuredRequestHandler requestHandler;
 
   @BeforeEach
   void setUp() {
-    bachelorEducationDto = EducationTestUtil.createBachelorEducationDto();
+    String requestUri    = "http://" + serverAddress + ":" + port + RESOURCE_PATH;
+    requestHandler       = new RestAssuredRequestHandler(requestUri);
+    bachelorEducationDto = EducationTestUtil.createHighschoolEducationDto();
     educationRequestDto  = EducationTestUtil.createBachelorEducationRequestDto();
   }
 
   @Test
-  void test_get_with_extract_whole_dto() {
-    EducationDto dto =
-            given()
-                    .accept(MediaType.APPLICATION_JSON_VALUE)
-                    .pathParam("id", RESOURCE_ID)
-                    .when()
-                    .get(URI + "/{id}")
-                    .then()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .statusCode(HttpStatus.OK.value())
-                    .extract()
-                    .as(EducationDto.class);
+  void test_get() {
+    ValidatableResponse response = requestHandler.doGet(ContentType.JSON, RESOURCE_ID);
+
+    // assert
+    response.contentType(ContentType.JSON)
+            .statusCode(HttpStatus.OK.value());
 
     // restassured tries to unmarshal LocalDate values via the default constructor of LocalDate if the requested content type is XML.
     // LocalDate has no default constructor and so this ends in an NoSuchMethodError.
+    // That's why the extract as DTO method only works if content typ of request was JSON.
+    EducationDto responseDto = response.extract().as(EducationDto.class);
 
-    assertNotNull(dto);
-    assertEquals(bachelorEducationDto, dto);
+    assertNotNull(responseDto);
+    assertEquals(bachelorEducationDto.getId(), responseDto.getId());
+    assertEquals(bachelorEducationDto.getFacility(), responseDto.getFacility());
+    assertEquals(bachelorEducationDto.getGraduation(), responseDto.getGraduation());
+    assertEquals(bachelorEducationDto.getBegin(), responseDto.getBegin());
+    assertEquals(bachelorEducationDto.getEnd(), responseDto.getEnd());
+    assertEquals(bachelorEducationDto.getUserId(), responseDto.getUserId());
   }
 
   @Test
   void get_on_not_existing_resource_should_return_404() {
-    given()
-            .when()
-            .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-            .get(URI + "/{id}")
-            .then()
-            .statusCode(HttpStatus.NOT_FOUND.value());
+    ValidatableResponse validatableResponse = requestHandler.doGet(ContentType.JSON, NOT_EXISTING_RESOURCE_ID);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
   }
 
   @Test
   void getAll() {
-    Response response =
-            given()
-                    .accept(MediaType.APPLICATION_JSON_VALUE)
-                    .when()
-                    .get(URI)
-                    .then()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .statusCode(HttpStatus.OK.value())
-                    .extract()
-                    .response();
+    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.JSON);
+
+    // assert
+    validatableResponse.contentType(ContentType.JSON)
+                       .statusCode(HttpStatus.OK.value());
+
+    Response response = validatableResponse.extract().response();
 
     assertNotNull(response);
     assertNotNull(response.getBody());
@@ -141,23 +131,16 @@ class EducationsRestControllerIntegrationTest {
 
   @Test
   void create_with_valid_request_should_return_201() {
-    Map<String, String> request = educationRequestDto.toMap();
+    Map<String, String> request             = educationRequestDto.toMap();
+    ValidatableResponse validatableResponse = requestHandler.doPost(ContentType.JSON, request);
+    EducationDto        createdEducation    = validatableResponse.extract().as(EducationDto.class);
 
-    EducationDto createdEducation =
-            given()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .body(request)
-            .when()
-              .post(URI)
-            .then()
-              .statusCode(HttpStatus.CREATED.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .extract()
-              .as(EducationDto.class);
+    // assert
+    validatableResponse.statusCode(HttpStatus.CREATED.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(createdEducation);
-    assertEquals(educationRequestDto.getUserId(), createdEducation.getUserId());
+    assertNotNull(createdEducation.getUserId());
     assertEquals(educationRequestDto.getFacility(), createdEducation.getFacility());
     assertEquals(educationRequestDto.getGraduation(), createdEducation.getGraduation());
     assertEquals(educationRequestDto.getBegin(), createdEducation.getBegin());
@@ -168,7 +151,7 @@ class EducationsRestControllerIntegrationTest {
     assertEquals("Administrator", createdEducation.getLastModifiedBy());
     assertEquals(LocalDate.now().toString(), createdEducation.getLastModifiedDate());
 
-    // remove created certification
+    // remove created education
     educationService.delete(createdEducation.getId());
   }
 
@@ -179,23 +162,16 @@ class EducationsRestControllerIntegrationTest {
     request.put("begin", null);
     request.put("end", null);
     request.put("graduation", "");
-    request.put("userId", "");
 
-    ErrorResponse errorResponse =
-            given()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .body(request)
-            .when()
-              .post(URI)
-            .then()
-              .statusCode(HttpStatus.BAD_REQUEST.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .extract()
-              .as(ErrorResponse.class);
+    ValidatableResponse validatableResponse = requestHandler.doPost(ContentType.JSON, request);
+    ErrorResponse       errorResponse       = validatableResponse.extract().as(ErrorResponse.class);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.BAD_REQUEST.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(errorResponse);
-    assertEquals(6, errorResponse.getMessages().size());
+    assertEquals(5, errorResponse.getMessages().size());
   }
 
   @Test
@@ -206,24 +182,16 @@ class EducationsRestControllerIntegrationTest {
             .graduation("grade")
             .begin(LocalDate.now())
             .end(LocalDate.now())
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
 
     EducationDto testEducation = educationService.create(testEducationRequest);
 
-    EducationDto updatedEducationDto =
-            given()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .body(educationRequestDto.toMap())
-            .when()
-              .pathParam("id", testEducation.getId())
-              .put(URI + "/{id}")
-            .then()
-              .statusCode(HttpStatus.OK.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .extract()
-              .as(EducationDto.class);
+    ValidatableResponse validatableResponse = requestHandler.doPut(ContentType.JSON, educationRequestDto.toMap(), Long.toString(testEducation.getId()));
+    EducationDto        updatedEducationDto = validatableResponse.extract().as(EducationDto.class);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.OK.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(updatedEducationDto);
     assertEquals(educationRequestDto.getFacility(), updatedEducationDto.getFacility());
@@ -235,23 +203,16 @@ class EducationsRestControllerIntegrationTest {
     assertEquals(testEducation.getId(), updatedEducationDto.getId());
     assertEquals(testEducation.getUserId(), updatedEducationDto.getUserId());
 
-    // remove created testCertification
+    // remove created education
     educationService.delete(testEducation.getId());
   }
 
   @Test
   void update_a_not_existing_resource_should_return_404() {
-    Map<String, String> request = educationRequestDto.toMap();
+    ValidatableResponse validatableResponse = requestHandler.doPut(ContentType.JSON, educationRequestDto.toMap(), NOT_EXISTING_RESOURCE_ID);
 
-    given()
-      .contentType(MediaType.APPLICATION_JSON_VALUE)
-      .accept(MediaType.APPLICATION_JSON_VALUE)
-      .body(request)
-    .when()
-      .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-      .put(URI + "/{id}")
-    .then()
-      .statusCode(HttpStatus.NOT_FOUND.value());
+    // assert
+    validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
   }
 
   @Test
@@ -261,24 +222,16 @@ class EducationsRestControllerIntegrationTest {
     request.put("begin", null);
     request.put("end", null);
     request.put("graduation", "");
-    request.put("userId", "");
 
-    ErrorResponse errorResponse =
-            given()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .body(request)
-            .when()
-              .pathParam("id", RESOURCE_ID)
-              .put(URI + "/{id}")
-            .then()
-              .statusCode(HttpStatus.BAD_REQUEST.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .extract()
-              .as(ErrorResponse.class);
+    ValidatableResponse validatableResponse = requestHandler.doPut(ContentType.JSON, request, RESOURCE_ID);
+    ErrorResponse       errorResponse       = validatableResponse.extract().as(ErrorResponse.class);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.BAD_REQUEST.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(errorResponse);
-    assertEquals(6, errorResponse.getMessages().size());
+    assertEquals(5, errorResponse.getMessages().size());
   }
 
   @Test
@@ -286,23 +239,18 @@ class EducationsRestControllerIntegrationTest {
     // create a new education which can be deleted
     EducationDto testEducation = educationService.create(educationRequestDto);
 
-    given()
-    .when()
-      .pathParam("id", testEducation.getId())
-      .delete(URI + "/{id}")
-    .then()
-      .statusCode(HttpStatus.OK.value());
+    ValidatableResponse validatableResponse = requestHandler.doDelete(Long.toString(testEducation.getId()));
 
+    // assert
+    validatableResponse.statusCode(HttpStatus.OK.value());
     assertFalse(educationService.find(testEducation.getId()).isPresent());
   }
 
   @Test
   void delete_on_not_existing_resource_should_return_404() {
-    given()
-    .when()
-      .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-      .delete(URI + "/{id}")
-    .then()
-      .statusCode(HttpStatus.NOT_FOUND.value());
+    ValidatableResponse validatableResponse = requestHandler.doDelete(NOT_EXISTING_RESOURCE_ID);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
   }
 }

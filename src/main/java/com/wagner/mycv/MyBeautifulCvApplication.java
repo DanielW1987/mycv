@@ -25,3 +25,14 @@ public class MyBeautifulCvApplication {
 
 // ToDo DanielW: Es ist doof, dass Aufzählungen wie "skillNames" oder "technologyUsed" aktuell als kommaseparierte Liste gespeichert werden.
 //  Das fliegt sofort auseinander, wenn in den einzelnen Strings das Trennzeichen (wie bspw. Komma) enthalten ist.
+
+// ToDo DanielW: Aktuell wird die ID der Datenbank noch nach draußen gegeben. Das ist auch unschön. Hier sollte es eine
+//  alphanumerische public id geben.
+
+// ToDo DanielW: Aktuell werden die PublicUserIds noch statisch in den create- und createAll-Methoden der Services gesetzt. Das muss
+//  natürlich noch anders gelöst werden. Fraglich ist, ob diese Info in das jeweilige RequestDto gehört, da sich der Wert eigentlich mehr
+//  aus dem Kontext der Anfrage heraus ergibt. Die Anfrage eines Clients erfolgt bspw. aus einer Session und diese gehört genau einem User
+//  oder der User tätigt seine Anfrage über einen anderen Authentifizierungs-/Autorisierungsweg.
+
+// ToDo DanielW: die Zeiten createdAt und lastModifiedAt sind aktuell LocalDates? Das müsste mal geprüft werden. Es sollte auf jeden Fall
+//  Serverzeit gespeichert werden und nicht die Zeit des Clients

@@ -1,5 +1,6 @@
 package com.wagner.mycv.service.impl;
 
+import com.wagner.mycv.config.ApplicationConstants;
 import com.wagner.mycv.model.entity.Language;
 import com.wagner.mycv.model.repository.LanguageRepository;
 import com.wagner.mycv.service.LanguageService;
@@ -49,6 +50,7 @@ public class LanguageServiceImpl implements LanguageService {
   @Override
   public LanguageDto create(@NotNull LanguageRequestDto request) {
     Language language = modelMapper.map(request, Language.class);
+    language.setUserId(ApplicationConstants.PUBLIC_USER_ID);
     languageRepository.save(language);
 
     return modelMapper.map(language, LanguageDto.class);
@@ -58,7 +60,11 @@ public class LanguageServiceImpl implements LanguageService {
   @Override
   public List<LanguageDto> createAll(@NotNull Iterable<LanguageRequestDto> request) {
     List<Language> languages = new ArrayList<>();
-    request.forEach(languageRequestDto -> languages.add(modelMapper.map(languageRequestDto, Language.class)));
+    request.forEach(languageRequestDto -> {
+      Language language = modelMapper.map(languageRequestDto, Language.class);
+      language.setUserId(ApplicationConstants.PUBLIC_USER_ID);
+      languages.add(language);
+    });
 
     languageRepository.saveAll(languages);
 

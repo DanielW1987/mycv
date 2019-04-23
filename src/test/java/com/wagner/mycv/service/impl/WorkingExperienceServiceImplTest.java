@@ -198,6 +198,5 @@ class WorkingExperienceServiceImplTest {
     assertEquals(requestDto.getBegin(), dto.getBegin());
     assertEquals(requestDto.getEnd(), dto.getEnd());
     assertEquals(requestDto.getFocalPoints(), dto.getFocalPoints());
-    assertEquals(requestDto.getUserId(), dto.getUserId());
   }
 }

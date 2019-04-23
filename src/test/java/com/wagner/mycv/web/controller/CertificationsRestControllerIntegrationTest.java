@@ -2,11 +2,13 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.CertificationService;
 import com.wagner.mycv.testutil.CertificationTestUtil;
-import com.wagner.mycv.testutil.UserTestUtil;
+import com.wagner.mycv.utils.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.CertificationDto;
 import com.wagner.mycv.web.dto.ErrorResponse;
 import com.wagner.mycv.web.dto.request.CertificationRequestDto;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -15,26 +17,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.*;
 
-// ToDo Rest-Assured-Tests in ein separates Lern-Projekt ausgliedern
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 class CertificationsRestControllerIntegrationTest {
 
-  private static       String URI;
   private static final String RESOURCE_PATH              = "/rest/v1/certifications";
   private static final String RESOURCE_ID                = "1";
   private static final String NOT_EXISTING_RESOURCE_ID   = "99999";
@@ -51,118 +47,54 @@ class CertificationsRestControllerIntegrationTest {
   @Autowired
   private CertificationService certificationService;
 
-  @PostConstruct
-  void init() {
-    URI = "http://" + serverAddress + ":" + port + RESOURCE_PATH;
-  }
+  private RestAssuredRequestHandler requestHandler;
 
   @BeforeEach
   void setUp() {
+    String requestUri       = "http://" + serverAddress + ":" + port + RESOURCE_PATH;
+    requestHandler          = new RestAssuredRequestHandler(requestUri);
     mtaCertificationDto     = CertificationTestUtil.createMtaCertificationDto();
     certificationRequestDto = CertificationTestUtil.createTestCertificationRequestDto();
   }
 
   @Test
-  void test_get_with_extract_whole_dto() {
-    // Entweder Response auf das DTO mappen und dann das DTO prüfen
-    CertificationDto dto =
-            given()
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .pathParam("id", RESOURCE_ID)
-            .when()
-              .get(URI + "/{id}")
-            .then()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .statusCode(HttpStatus.OK.value())
-            .extract()
-              .as(CertificationDto.class);
+  void test_get() {
+    ValidatableResponse response = requestHandler.doGet(ContentType.JSON, RESOURCE_ID);
+
+    // assert
+    response.contentType(ContentType.JSON)
+            .statusCode(HttpStatus.OK.value());
 
     // restassured tries to unmarshal LocalDate values via the default constructor of LocalDate if the requested content type is XML.
     // LocalDate has no default constructor and so this ends in an NoSuchMethodError.
+    // That's why the extract as DTO method only works if content typ of request was JSON.
+    CertificationDto responseDto = response.extract().as(CertificationDto.class);
 
-    assertNotNull(dto);
-    assertEquals(mtaCertificationDto, dto);
-  }
-
-  @Test
-  void test_get_with_extract_values_directly_from_body_by_field_name() {
-    // Alternativ können mit Hilfe der Feldnamen die Werte auch direkt aus dem Body gelesen werden
-    given()
-        .accept(MediaType.APPLICATION_JSON_VALUE)
-      .when()
-        .pathParam("id", RESOURCE_ID)
-        .get(URI + "/{id}")
-      .then()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .statusCode(HttpStatus.OK.value())
-        .body("name", equalTo(mtaCertificationDto.getName()))
-        .body("dateOfAchievement", equalTo(mtaCertificationDto.getDateOfAchievement().toString()))
-        .body("certificate", equalTo(mtaCertificationDto.getCertificate()))
-        .body("id", equalTo(1)) // doesn't work with mtaCertificationDto.getId()!
-        .body("userId", equalTo(mtaCertificationDto.getUserId()));
-  }
-
-  @Test
-  void test_get_with_extract_json_string() {
-    // Der ganze Response kann auch als JSON-String extrahiert werden
-    String responseAsString =
-            given()
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-            .when()
-              .pathParam("id", RESOURCE_ID)
-              .get(URI + "/{id}")
-            .then()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .statusCode(HttpStatus.OK.value())
-            .extract()
-              .asString();
-
-    assertNotNull(responseAsString);
-    assertFalse(responseAsString.isEmpty());
-  }
-
-  @Test
-  void test_get_with_extract_single_json_field() {
-    // Es ist auch möglich, nur ein einzelnes Feld zu extrahieren
-    String userId =
-            given()
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-            .when()
-              .pathParam("id", RESOURCE_ID)
-              .get(URI + "/{id}")
-            .then()
-              .statusCode(HttpStatus.OK.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
-              .path("userId");
-
-    assertNotNull(userId);
-    assertFalse(userId.isEmpty());
-    assertEquals(mtaCertificationDto.getUserId(), userId);
+    assertNotNull(responseDto);
+    assertEquals(mtaCertificationDto.getId(), responseDto.getId());
+    assertEquals(mtaCertificationDto.getName(), responseDto.getName());
+    assertEquals(mtaCertificationDto.getDateOfAchievement(), responseDto.getDateOfAchievement());
+    assertEquals(mtaCertificationDto.getCertificate(), responseDto.getCertificate());
+    assertEquals(mtaCertificationDto.getUserId(), responseDto.getUserId());
   }
 
   @Test
   void get_on_not_existing_resource_should_return_404() {
-    given()
-    .when()
-      .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-      .get(URI + "/{id}")
-    .then()
-      .statusCode(HttpStatus.NOT_FOUND.value());
+    ValidatableResponse validatableResponse = requestHandler.doGet(ContentType.JSON, NOT_EXISTING_RESOURCE_ID);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
   }
 
   @Test
   void getAll() {
-    Response response =
-            given()
-             .accept(MediaType.APPLICATION_JSON_VALUE)
-            .when()
-              .get(URI)
-            .then()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .statusCode(HttpStatus.OK.value())
-            .extract()
-              .response();
+    ValidatableResponse validatableResponse = requestHandler.doGetAll(ContentType.JSON);
+
+    // assert
+    validatableResponse.contentType(ContentType.JSON)
+                       .statusCode(HttpStatus.OK.value());
+
+    Response response = validatableResponse.extract().response();
 
     assertNotNull(response);
     assertNotNull(response.getBody());
@@ -197,23 +129,16 @@ class CertificationsRestControllerIntegrationTest {
 
   @Test
   void create_with_valid_request_should_return_201() {
-    Map<String, String> request = certificationRequestDto.toMap();
+    Map<String, String> request              = certificationRequestDto.toMap();
+    ValidatableResponse validatableResponse  = requestHandler.doPost(ContentType.JSON, request);
+    CertificationDto    createdCertification = validatableResponse.extract().as(CertificationDto.class);
 
-    CertificationDto createdCertification =
-            given()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .body(request)
-            .when()
-              .post(URI)
-            .then()
-              .statusCode(HttpStatus.CREATED.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
-              .as(CertificationDto.class);
+    // assert
+    validatableResponse.statusCode(HttpStatus.CREATED.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(createdCertification);
-    assertEquals(certificationRequestDto.getUserId(), createdCertification.getUserId());
+    assertNotNull(createdCertification.getUserId());
     assertEquals(certificationRequestDto.getName(), createdCertification.getName());
     assertEquals(certificationRequestDto.getDateOfAchievement(), createdCertification.getDateOfAchievement());
     assertEquals(certificationRequestDto.getCertificate(), createdCertification.getCertificate());
@@ -232,23 +157,16 @@ class CertificationsRestControllerIntegrationTest {
     Map<String, String> request = new HashMap<>();
     request.put("name", "");
     request.put("dateOfAchievement", null);
-    request.put("userId", "");
 
-    ErrorResponse errorResponse =
-      given()
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .accept(MediaType.APPLICATION_JSON_VALUE)
-        .body(request)
-      .when()
-        .post(URI)
-      .then()
-        .statusCode(HttpStatus.BAD_REQUEST.value())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-      .extract()
-        .as(ErrorResponse.class);
+    ValidatableResponse validatableResponse = requestHandler.doPost(ContentType.JSON, request);
+    ErrorResponse       errorResponse       = validatableResponse.extract().as(ErrorResponse.class);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.BAD_REQUEST.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(errorResponse);
-    assertEquals(4, errorResponse.getMessages().size());
+    assertEquals(3, errorResponse.getMessages().size());
   }
 
   @Test
@@ -258,24 +176,17 @@ class CertificationsRestControllerIntegrationTest {
             .name("Updated certification name")
             .dateOfAchievement(LocalDate.now())
             .certificate("certification file")
-            .userId(UserTestUtil.USER_ID.toString())
             .build();
 
     CertificationDto testCertification = certificationService.create(testCertificationRequest);
 
-    CertificationDto updatedCertificationDto =
-            given()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .body(certificationRequestDto.toMap())
-            .when()
-              .pathParam("id", testCertification.getId())
-              .put(URI + "/{id}")
-            .then()
-              .statusCode(HttpStatus.OK.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
-              .as(CertificationDto.class);
+    String idForUpdate = Long.toString(testCertification.getId());
+    ValidatableResponse validatableResponse     = requestHandler.doPut(ContentType.JSON, certificationRequestDto.toMap(), idForUpdate);
+    CertificationDto    updatedCertificationDto = validatableResponse.extract().as(CertificationDto.class);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.OK.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(updatedCertificationDto);
     assertEquals(certificationRequestDto.getDateOfAchievement(), updatedCertificationDto.getDateOfAchievement());
@@ -293,16 +204,10 @@ class CertificationsRestControllerIntegrationTest {
   @Test
   void update_a_not_existing_resource_should_return_404() {
     Map<String, String> request = certificationRequestDto.toMap();
+    ValidatableResponse validatableResponse = requestHandler.doPut(ContentType.JSON, request, NOT_EXISTING_RESOURCE_ID);
 
-    given()
-      .contentType(MediaType.APPLICATION_JSON_VALUE)
-      .accept(MediaType.APPLICATION_JSON_VALUE)
-      .body(request)
-    .when()
-      .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-      .put(URI + "/{id}")
-    .then()
-      .statusCode(HttpStatus.NOT_FOUND.value());
+    // assert
+    validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
   }
 
   @Test
@@ -310,24 +215,16 @@ class CertificationsRestControllerIntegrationTest {
     Map<String, String> request = new HashMap<>();
     request.put("name", "A valid name");
     request.put("dateOfAchievement", "");
-    request.put("userId", null);
 
-    ErrorResponse errorResponse =
-            given()
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-              .accept(MediaType.APPLICATION_JSON_VALUE)
-              .body(request)
-            .when()
-              .pathParam("id", RESOURCE_ID)
-              .put(URI + "/{id}")
-            .then()
-              .statusCode(HttpStatus.BAD_REQUEST.value())
-              .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .extract()
-              .as(ErrorResponse.class);
+    ValidatableResponse validatableResponse = requestHandler.doPut(ContentType.JSON, request, RESOURCE_ID);
+    ErrorResponse       errorResponse       = validatableResponse.extract().as(ErrorResponse.class);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.BAD_REQUEST.value())
+                       .contentType(ContentType.JSON);
 
     assertNotNull(errorResponse);
-    assertEquals(3, errorResponse.getMessages().size());
+    assertEquals(2, errorResponse.getMessages().size());
   }
 
   @Test
@@ -335,23 +232,19 @@ class CertificationsRestControllerIntegrationTest {
     // create a new certification which can be deleted
     CertificationDto testCertification = certificationService.create(certificationRequestDto);
 
-    given()
-    .when()
-      .pathParam("id", testCertification.getId())
-      .delete(URI + "/{id}")
-    .then()
-      .statusCode(HttpStatus.OK.value());
+    ValidatableResponse validatableResponse = requestHandler.doDelete(Long.toString(testCertification.getId()));
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.OK.value());
 
     assertFalse(certificationService.find(testCertification.getId()).isPresent());
   }
 
   @Test
   void delete_on_not_existing_resource_should_return_404() {
-    given()
-    .when()
-      .pathParam("id", NOT_EXISTING_RESOURCE_ID)
-      .delete(URI + "/{id}")
-    .then()
-      .statusCode(HttpStatus.NOT_FOUND.value());
+    ValidatableResponse validatableResponse = requestHandler.doDelete(NOT_EXISTING_RESOURCE_ID);
+
+    // assert
+    validatableResponse.statusCode(HttpStatus.NOT_FOUND.value());
   }
 }
