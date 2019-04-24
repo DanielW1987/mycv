@@ -2,7 +2,7 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.LanguageService;
 import com.wagner.mycv.testutil.LanguageTestUtil;
-import com.wagner.mycv.utils.RestAssuredRequestHandler;
+import com.wagner.mycv.testutil.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.ErrorResponse;
 import com.wagner.mycv.web.dto.LanguageDto;
 import com.wagner.mycv.web.dto.request.LanguageRequestDto;
@@ -128,9 +128,9 @@ class LanguagesRestControllerIntegrationTest {
     assertEquals(languageRequestDto.getLevel(), createdLanguage.getLevel());
     assertTrue(createdLanguage.getId() != 0);
     assertEquals("Administrator", createdLanguage.getCreatedBy());
-    assertEquals(LocalDate.now().toString(), createdLanguage.getCreatedDate());
+    assertEquals(LocalDate.now(), createdLanguage.getCreatedDate());
     assertEquals("Administrator", createdLanguage.getLastModifiedBy());
-    assertEquals(LocalDate.now().toString(), createdLanguage.getLastModifiedDate());
+    assertEquals(LocalDate.now(), createdLanguage.getLastModifiedDate());
 
     // remove created language
     languageService.delete(createdLanguage.getId());

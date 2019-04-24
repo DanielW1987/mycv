@@ -2,7 +2,6 @@ package com.wagner.mycv.model.repository;
 
 import com.wagner.mycv.model.entity.TechnologySkill;
 import com.wagner.mycv.testutil.TechnologySkillTestUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,6 @@ class TechnologySkillRepositoryIntegrationTest {
   @Autowired private EntityManager entityManager;
   @Autowired private TechnologySkillRepository technologySkillRepository;
 
-  @BeforeEach
-  void setup() {
-    entityManager.persist(technologySkill);
-  }
-
   @Test
   void injectedComponentsAreNotNull(){
     assertThat(dataSource).isNotNull();
@@ -45,6 +39,7 @@ class TechnologySkillRepositoryIntegrationTest {
 
   @Test
   void test_find_technology_skill() {
+    entityManager.persist(technologySkill);
     Optional<TechnologySkill> result = technologySkillRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 

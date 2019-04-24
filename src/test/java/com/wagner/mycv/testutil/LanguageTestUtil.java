@@ -50,9 +50,9 @@ public class LanguageTestUtil {
     germanLanguageDto.setLevel((byte) 100);
     germanLanguageDto.setUserId(UserTestUtil.USER_ID);
     germanLanguageDto.setCreatedBy("Administrator");
-    germanLanguageDto.setCreatedDate(LocalDate.now().toString());
+    germanLanguageDto.setCreatedDate(LocalDate.now());
     germanLanguageDto.setLastModifiedBy("Administrator");
-    germanLanguageDto.setLastModifiedDate(LocalDate.now().toString());
+    germanLanguageDto.setLastModifiedDate(LocalDate.now());
 
     return germanLanguageDto;
   }

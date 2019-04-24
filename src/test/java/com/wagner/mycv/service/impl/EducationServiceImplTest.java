@@ -65,7 +65,13 @@ class EducationServiceImplTest {
             .collect(Collectors.toList());
 
     for (int index = 0; index < expectedEducationList.size(); index++) {
-      assertEquals(expectedEducationList.get(index), actualEducationList.get(index));
+      EducationDto actual   = actualEducationList.get(index);
+      EducationDto expected = expectedEducationList.get(index);
+      assertEquals(expected.getFacility(), actual.getFacility());
+      assertEquals(expected.getGraduation(), actual.getGraduation());
+      assertEquals(expected.getBegin(), actual.getBegin());
+      assertEquals(expected.getEnd(), actual.getEnd());
+      assertEquals(expected.getUserId(), actual.getUserId());
     }
   }
 

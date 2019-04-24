@@ -2,7 +2,7 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.ProgrammingProjectService;
 import com.wagner.mycv.testutil.ProgrammingProjectTestUtil;
-import com.wagner.mycv.utils.RestAssuredRequestHandler;
+import com.wagner.mycv.testutil.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.ErrorResponse;
 import com.wagner.mycv.web.dto.ProgrammingProjectDto;
 import com.wagner.mycv.web.dto.request.ProgrammingProjectRequestDto;
@@ -137,9 +137,9 @@ class ProgrammingProjectsRestControllerIntegrationTest {
     assertEquals(programmingProjectRequestDto.getVcsUrl(), createdProject.getVcsUrl());
     assertTrue(createdProject.getId() != 0);
     assertEquals("Administrator", createdProject.getCreatedBy());
-    assertEquals(LocalDate.now().toString(), createdProject.getCreatedDate());
+    assertEquals(LocalDate.now(), createdProject.getCreatedDate());
     assertEquals("Administrator", createdProject.getLastModifiedBy());
-    assertEquals(LocalDate.now().toString(), createdProject.getLastModifiedDate());
+    assertEquals(LocalDate.now(), createdProject.getLastModifiedDate());
 
     // remove created project
     programmingProjectService.delete(createdProject.getId());

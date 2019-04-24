@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +64,15 @@ class WorkingExperienceServiceImplTest {
             .collect(Collectors.toList());
 
     for (int index = 0; index < expectedWorkingExperienceList.size(); index++) {
-      assertEquals(expectedWorkingExperienceList.get(index), actualWorkingExperienceList.get(index));
+      WorkingExperienceDto actual   = actualWorkingExperienceList.get(index);
+      WorkingExperienceDto expected = expectedWorkingExperienceList.get(index);
+      assertEquals(expected.getCompany(), actual.getCompany());
+      assertEquals(expected.getJobTitle(), actual.getJobTitle());
+      assertEquals(expected.getPlaceOfWork(), actual.getPlaceOfWork());
+      assertEquals(expected.getFocalPoints(), actual.getFocalPoints());
+      assertEquals(expected.getBegin(), actual.getBegin());
+      assertEquals(expected.getEnd(), actual.getEnd());
+      assertEquals(expected.getUserId(), actual.getUserId());
     }
   }
 

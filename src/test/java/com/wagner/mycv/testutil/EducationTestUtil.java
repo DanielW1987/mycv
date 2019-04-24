@@ -59,9 +59,9 @@ public class EducationTestUtil {
     bachelorDto.setEnd(LocalDate.of(2008, 7, 31));
     bachelorDto.setUserId(UserTestUtil.USER_ID);
     bachelorDto.setCreatedBy("Administrator");
-    bachelorDto.setCreatedDate(LocalDate.now().toString());
+    bachelorDto.setCreatedDate(LocalDate.now());
     bachelorDto.setLastModifiedBy("Administrator");
-    bachelorDto.setLastModifiedDate(LocalDate.now().toString());
+    bachelorDto.setLastModifiedDate(LocalDate.now());
 
     return bachelorDto;
   }

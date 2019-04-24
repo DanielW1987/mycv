@@ -25,6 +25,7 @@ public class AppExceptionHandler {
     messages.add(exception.getMessage());
     exception.getFieldErrors().forEach(error -> {
       String errorMessage = error.getField() + ": " + error.getDefaultMessage() + " (bad value was: " + error.getRejectedValue() + ")";
+      log.warn(errorMessage);
       messages.add(errorMessage);
     });
 

@@ -2,7 +2,6 @@ package com.wagner.mycv.model.repository;
 
 import com.wagner.mycv.model.entity.Certification;
 import com.wagner.mycv.testutil.CertificationTestUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,6 @@ class CertificationRepositoryIntegrationTest {
   @Autowired private EntityManager           entityManager;
   @Autowired private CertificationRepository certificationRepository;
 
-  @BeforeEach
-  void setup() {
-    entityManager.persist(certification);
-  }
-
   @Test
   void injectedComponentsAreNotNull(){
     assertThat(dataSource).isNotNull();
@@ -45,6 +39,7 @@ class CertificationRepositoryIntegrationTest {
 
   @Test
   void test_find_certification() {
+    entityManager.persist(certification);
     Optional<Certification> result = certificationRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 

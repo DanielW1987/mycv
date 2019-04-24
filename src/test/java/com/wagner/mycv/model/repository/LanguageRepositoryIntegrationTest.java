@@ -2,7 +2,6 @@ package com.wagner.mycv.model.repository;
 
 import com.wagner.mycv.model.entity.Language;
 import com.wagner.mycv.testutil.LanguageTestUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,6 @@ class LanguageRepositoryIntegrationTest {
   @Autowired private EntityManager entityManager;
   @Autowired private LanguageRepository languageRepository;
 
-  @BeforeEach
-  void setup() {
-    entityManager.persist(language);
-  }
-
   @Test
   void injectedComponentsAreNotNull(){
     assertThat(dataSource).isNotNull();
@@ -45,6 +39,7 @@ class LanguageRepositoryIntegrationTest {
 
   @Test
   void test_find_language() {
+    entityManager.persist(language);
     Optional<Language> result = languageRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 

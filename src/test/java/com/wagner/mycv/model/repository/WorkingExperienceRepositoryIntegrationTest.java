@@ -2,7 +2,6 @@ package com.wagner.mycv.model.repository;
 
 import com.wagner.mycv.model.entity.WorkingExperience;
 import com.wagner.mycv.testutil.WorkingExperienceTestUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,6 @@ class WorkingExperienceRepositoryIntegrationTest {
   @Autowired private EntityManager entityManager;
   @Autowired private WorkingExperienceRepository workingExperienceRepository;
 
-  @BeforeEach
-  void setup() {
-    entityManager.persist(workingExperience);
-  }
-
   @Test
   void injectedComponentsAreNotNull(){
     assertThat(dataSource).isNotNull();
@@ -45,6 +39,7 @@ class WorkingExperienceRepositoryIntegrationTest {
 
   @Test
   void test_find_working_experience() {
+    entityManager.persist(workingExperience);
     Optional<WorkingExperience> result = workingExperienceRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 

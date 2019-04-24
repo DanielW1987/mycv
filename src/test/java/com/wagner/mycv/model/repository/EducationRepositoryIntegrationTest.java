@@ -2,7 +2,6 @@ package com.wagner.mycv.model.repository;
 
 import com.wagner.mycv.model.entity.Education;
 import com.wagner.mycv.testutil.EducationTestUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +28,6 @@ class EducationRepositoryIntegrationTest {
   @Autowired private EntityManager entityManager;
   @Autowired private EducationRepository educationRepository;
 
-  @BeforeEach
-  void setup() {
-    entityManager.persist(education);
-  }
-
   @Test
   void injectedComponentsAreNotNull(){
     assertThat(dataSource).isNotNull();
@@ -44,6 +38,7 @@ class EducationRepositoryIntegrationTest {
 
   @Test
   void test_find_education() {
+    entityManager.persist(education);
     Optional<Education> result = educationRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 

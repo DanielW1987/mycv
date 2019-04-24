@@ -2,9 +2,8 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.CertificationService;
 import com.wagner.mycv.testutil.CertificationTestUtil;
-import com.wagner.mycv.utils.RestAssuredRequestHandler;
+import com.wagner.mycv.testutil.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.CertificationDto;
-import com.wagner.mycv.web.dto.EducationDto;
 import com.wagner.mycv.web.dto.ErrorResponse;
 import com.wagner.mycv.web.dto.request.CertificationRequestDto;
 import io.restassured.http.ContentType;
@@ -142,9 +141,9 @@ class CertificationsRestControllerIntegrationTest {
     assertEquals(certificationRequestDto.getCertificate(), createdCertification.getCertificate());
     assertTrue(createdCertification.getId() != 0);
     assertEquals("Administrator", createdCertification.getCreatedBy());
-    assertEquals(LocalDate.now().toString(), createdCertification.getCreatedDate());
+    assertEquals(LocalDate.now(), createdCertification.getCreatedDate());
     assertEquals("Administrator", createdCertification.getLastModifiedBy());
-    assertEquals(LocalDate.now().toString(), createdCertification.getLastModifiedDate());
+    assertEquals(LocalDate.now(), createdCertification.getLastModifiedDate());
 
     // remove created certification
     certificationService.delete(createdCertification.getId());

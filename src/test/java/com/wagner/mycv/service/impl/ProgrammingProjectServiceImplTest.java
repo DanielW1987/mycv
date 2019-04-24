@@ -3,7 +3,6 @@ package com.wagner.mycv.service.impl;
 import com.wagner.mycv.model.entity.ProgrammingProject;
 import com.wagner.mycv.model.repository.ProgrammingProjectRepository;
 import com.wagner.mycv.testutil.ProgrammingProjectTestUtil;
-import com.wagner.mycv.utils.CollectionUtil;
 import com.wagner.mycv.web.dto.ProgrammingProjectDto;
 import com.wagner.mycv.web.dto.request.ProgrammingProjectRequestDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +64,13 @@ class ProgrammingProjectServiceImplTest {
             .collect(Collectors.toList());
 
     for (int index = 0; index < expectedProgrammingProjectList.size(); index++) {
-      assertEquals(expectedProgrammingProjectList.get(index), actualProgrammingProjectList.get(index));
+      ProgrammingProjectDto actual   = actualProgrammingProjectList.get(index);
+      ProgrammingProjectDto expected = expectedProgrammingProjectList.get(index);
+      assertEquals(expected.getName(), actual.getName());
+      assertEquals(expected.getDescription(), actual.getDescription());
+      assertEquals(expected.getTechnologiesUsed(), actual.getTechnologiesUsed());
+      assertEquals(expected.getVcsUrl(), actual.getVcsUrl());
+      assertEquals(expected.getUserId(), actual.getUserId());
     }
   }
 

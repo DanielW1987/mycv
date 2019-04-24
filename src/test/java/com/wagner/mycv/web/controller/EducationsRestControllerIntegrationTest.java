@@ -2,10 +2,9 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.EducationService;
 import com.wagner.mycv.testutil.EducationTestUtil;
-import com.wagner.mycv.utils.RestAssuredRequestHandler;
+import com.wagner.mycv.testutil.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.EducationDto;
 import com.wagner.mycv.web.dto.ErrorResponse;
-import com.wagner.mycv.web.dto.WorkingExperienceDto;
 import com.wagner.mycv.web.dto.request.EducationRequestDto;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -145,9 +144,9 @@ class EducationsRestControllerIntegrationTest {
     assertEquals(educationRequestDto.getEnd(), createdEducation.getEnd());
     assertTrue(createdEducation.getId() != 0);
     assertEquals("Administrator", createdEducation.getCreatedBy());
-    assertEquals(LocalDate.now().toString(), createdEducation.getCreatedDate());
+    assertEquals(LocalDate.now(), createdEducation.getCreatedDate());
     assertEquals("Administrator", createdEducation.getLastModifiedBy());
-    assertEquals(LocalDate.now().toString(), createdEducation.getLastModifiedDate());
+    assertEquals(LocalDate.now(), createdEducation.getLastModifiedDate());
 
     // remove created education
     educationService.delete(createdEducation.getId());

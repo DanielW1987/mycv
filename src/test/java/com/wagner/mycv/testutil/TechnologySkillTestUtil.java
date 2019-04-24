@@ -54,9 +54,9 @@ public class TechnologySkillTestUtil {
             "Design Pattners", "REST und SOAP WebServices", "Git", "Maven", "Python"));
     dto.setUserId(UserTestUtil.USER_ID);
     dto.setCreatedBy("Administrator");
-    dto.setCreatedDate(LocalDate.now().toString());
+    dto.setCreatedDate(LocalDate.now());
     dto.setLastModifiedBy("Administrator");
-    dto.setLastModifiedDate(LocalDate.now().toString());
+    dto.setLastModifiedDate(LocalDate.now());
 
     return dto;
   }

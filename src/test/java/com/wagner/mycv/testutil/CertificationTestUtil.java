@@ -66,9 +66,9 @@ public class CertificationTestUtil {
     certificationDto.setCertificate("certification file");
     certificationDto.setUserId(UserTestUtil.USER_ID);
     certificationDto.setCreatedBy("Administrator");
-    certificationDto.setCreatedDate(LocalDate.now().toString());
+    certificationDto.setCreatedDate(LocalDate.now());
     certificationDto.setLastModifiedBy("Administrator");
-    certificationDto.setLastModifiedDate(LocalDate.now().toString());
+    certificationDto.setLastModifiedDate(LocalDate.now());
 
     return certificationDto;
   }
@@ -81,9 +81,9 @@ public class CertificationTestUtil {
     certificationDto.setCertificate("certification file");
     certificationDto.setUserId(UserTestUtil.USER_ID);
     certificationDto.setCreatedBy("Administrator");
-    certificationDto.setCreatedDate("2018-01-01");
+    certificationDto.setCreatedDate(LocalDate.of(2018, 1, 1));
     certificationDto.setLastModifiedBy("Administrator");
-    certificationDto.setLastModifiedDate("2018-01-01");
+    certificationDto.setLastModifiedDate(LocalDate.of(2018, 1, 1));
 
     return certificationDto;
   }

@@ -66,7 +66,11 @@ class TechnologySkillServiceImplTest {
             .collect(Collectors.toList());
 
     for (int index = 0; index < expectedTechnologySkillList.size(); index++) {
-      assertEquals(expectedTechnologySkillList.get(index), actualTechnologySkillList.get(index));
+      TechnologySkillDto actual   = actualTechnologySkillList.get(index);
+      TechnologySkillDto expected = expectedTechnologySkillList.get(index);
+      assertEquals(expected.getCategory(), actual.getCategory());
+      assertEquals(expected.getSkillNames(), actual.getSkillNames());
+      assertEquals(expected.getUserId(), actual.getUserId());
     }
   }
 

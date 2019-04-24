@@ -2,7 +2,7 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.TechnologySkillService;
 import com.wagner.mycv.testutil.TechnologySkillTestUtil;
-import com.wagner.mycv.utils.RestAssuredRequestHandler;
+import com.wagner.mycv.testutil.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.ErrorResponse;
 import com.wagner.mycv.web.dto.TechnologySkillDto;
 import com.wagner.mycv.web.dto.request.TechnologySkillRequestDto;
@@ -129,9 +129,9 @@ class TechnologySkillsRestControllerIntegrationTest {
     assertEquals(technologySkillRequestDto.getSkillNames(), createdSkill.getSkillNames());
     assertTrue(createdSkill.getId() != 0);
     assertEquals("Administrator", createdSkill.getCreatedBy());
-    assertEquals(LocalDate.now().toString(), createdSkill.getCreatedDate());
+    assertEquals(LocalDate.now(), createdSkill.getCreatedDate());
     assertEquals("Administrator", createdSkill.getLastModifiedBy());
-    assertEquals(LocalDate.now().toString(), createdSkill.getLastModifiedDate());
+    assertEquals(LocalDate.now(), createdSkill.getLastModifiedDate());
 
     // remove created skill
     technologySkillService.delete(createdSkill.getId());

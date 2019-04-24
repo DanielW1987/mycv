@@ -2,7 +2,7 @@ package com.wagner.mycv.web.controller;
 
 import com.wagner.mycv.service.WorkingExperienceService;
 import com.wagner.mycv.testutil.WorkingExperienceTestUtil;
-import com.wagner.mycv.utils.RestAssuredRequestHandler;
+import com.wagner.mycv.testutil.RestAssuredRequestHandler;
 import com.wagner.mycv.web.dto.ErrorResponse;
 import com.wagner.mycv.web.dto.WorkingExperienceDto;
 import com.wagner.mycv.web.dto.request.WorkingExperienceRequestDto;
@@ -151,9 +151,9 @@ class WorkingExperiencesRestControllerIntegrationTest {
     assertEquals(workingExperienceRequestDto.getFocalPoints(), createdWorkingExperience.getFocalPoints());
     assertTrue(createdWorkingExperience.getId() != 0);
     assertEquals("Administrator", createdWorkingExperience.getCreatedBy());
-    assertEquals(LocalDate.now().toString(), createdWorkingExperience.getCreatedDate());
+    assertEquals(LocalDate.now(), createdWorkingExperience.getCreatedDate());
     assertEquals("Administrator", createdWorkingExperience.getLastModifiedBy());
-    assertEquals(LocalDate.now().toString(), createdWorkingExperience.getLastModifiedDate());
+    assertEquals(LocalDate.now(), createdWorkingExperience.getLastModifiedDate());
 
     // remove created project
     workingExperienceService.delete(createdWorkingExperience.getId());

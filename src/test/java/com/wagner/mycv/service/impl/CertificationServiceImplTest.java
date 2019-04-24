@@ -66,7 +66,12 @@ class CertificationServiceImplTest {
             .collect(Collectors.toList());
 
     for (int index = 0; index < expectedCertificationList.size(); index++) {
-      assertEquals(expectedCertificationList.get(index), actualCertificationList.get(index));
+      CertificationDto actual = actualCertificationList.get(index);
+      CertificationDto expected = expectedCertificationList.get(index);
+      assertEquals(expected.getName(), actual.getName());
+      assertEquals(expected.getDateOfAchievement(), actual.getDateOfAchievement());
+      assertEquals(expected.getCertificate(), actual.getCertificate());
+      assertEquals(expected.getUserId(), actual.getUserId());
     }
   }
 

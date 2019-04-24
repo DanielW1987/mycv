@@ -64,7 +64,11 @@ class LanguageServiceImplTest {
             .collect(Collectors.toList());
 
     for (int index = 0; index < expectedLanguageList.size(); index++) {
-      assertEquals(expectedLanguageList.get(index), actualLanguageList.get(index));
+      LanguageDto actual   = actualLanguageList.get(index);
+      LanguageDto expected = expectedLanguageList.get(index);
+      assertEquals(expected.getName(), actual.getName());
+      assertEquals(expected.getLevel(), actual.getLevel());
+      assertEquals(expected.getUserId(), actual.getUserId());
     }
   }
 

@@ -2,7 +2,6 @@ package com.wagner.mycv.model.repository;
 
 import com.wagner.mycv.model.entity.UserProfile;
 import com.wagner.mycv.testutil.UserProfileTestUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,6 @@ class UserProfileRepositoryIntegrationTest {
   @Autowired private EntityManager entityManager;
   @Autowired private UserProfileRepository userProfileRepository;
 
-  @BeforeEach
-  void setup() {
-    entityManager.persist(userProfile);
-  }
-
   @Test
   void injectedComponentsAreNotNull(){
     assertThat(dataSource).isNotNull();
@@ -45,6 +39,7 @@ class UserProfileRepositoryIntegrationTest {
 
   @Test
   void test_find_user_profile() {
+    entityManager.persist(userProfile);
     Optional<UserProfile> result = userProfileRepository.findById(1L);
     assertThat(result.isPresent()).isTrue();
 

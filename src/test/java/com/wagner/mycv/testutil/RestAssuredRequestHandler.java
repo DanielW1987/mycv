@@ -1,4 +1,4 @@
-package com.wagner.mycv.utils;
+package com.wagner.mycv.testutil;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
