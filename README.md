@@ -8,4 +8,6 @@ A Spring Boot REST Backend to manage CV data like:
 - programming projects
 - certifications
 
+To run the application you only have to configure the mysql connection in mycv/src/main/resources/application.properties.
+
 Next step is to add an Angular frontend.
