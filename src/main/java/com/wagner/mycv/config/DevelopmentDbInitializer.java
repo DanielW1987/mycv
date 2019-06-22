@@ -181,7 +181,7 @@ public class DevelopmentDbInitializer implements ApplicationRunner {
   private void createTestUserProfiles() {
     UserProfileRequestDto userProfile = UserProfileRequestDto.builder()
             .firstName("John")
-            .lastName("Dow")
+            .lastName("Doe")
             .currentJob("Java Developer")
             .email("john.doe@example")
             .mobilePhone("01520 12 34 567")
