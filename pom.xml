@@ -8,7 +8,7 @@
         <rest-assured.version>3.3.0</rest-assured.version>
         <model-mapper.version>2.3.0</model-mapper.version>
         <jetbrains-annotations.version>17.0.0</jetbrains-annotations.version>
-        <guava.version>27.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <findbugs.version>3.0.5</findbugs.version>
         <pmd.version>3.8</pmd.version>
         <checkstyle.version>3.0.0</checkstyle.version>
